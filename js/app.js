@@ -8,6 +8,7 @@ Router.register('camera',         () => renderCameraPage());
 Router.register('scan',           () => renderScanPage());
 Router.register('scan-complete',  () => renderScanCompletePage());
 Router.register('subscription',   () => renderSubscriptionPage());
+Router.register('direct-input',   () => renderDirectInputPage());
 
 // 페이지 렌더 후 공통 초기화
 document.addEventListener('pageRendered', ({ detail }) => {

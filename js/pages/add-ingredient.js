@@ -196,28 +196,9 @@ function openCameraInput() {
   Router.navigate('camera');
 }
 
-/* ── 직접 입력 바텀시트 ── */
+/* ── 직접 입력 → 전용 페이지로 이동 ── */
 function openManualInput() {
-  BottomSheet.open(`
-    <div style="padding: 0 16px 40px">
-      <p style="font-size: 18px; font-weight: 700; color: var(--text-main); margin-bottom: 20px">직접 입력</p>
-      <div style="display: flex; flex-direction: column; gap: 12px">
-        <select id="manual-category"
-          style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:8px;font-size:14px;font-family:var(--font-family);color:var(--text-main);background:#fff">
-          <option value="">카테고리 선택</option>
-          <option>채소</option><option>과일</option><option>육류</option>
-          <option>해산물</option><option>유제품</option><option>곡류</option><option>기타</option>
-        </select>
-        <input id="manual-name" class="input-field" placeholder="식재료 이름">
-        <input id="manual-expiry" type="date" class="input-field">
-        <input id="manual-qty" type="number" class="input-field" placeholder="수량" min="1" value="1">
-        <button
-          style="width:100%;height:52px;background:var(--primary);color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;font-family:var(--font-family)"
-          onclick="submitManualIngredient()"
-        >추가하기</button>
-      </div>
-    </div>
-  `);
+  Router.navigate('direct-input');
 }
 
 function submitManualIngredient() {

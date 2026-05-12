@@ -215,7 +215,7 @@ const SCAN_RESULT_DATA = [
   { name: '청양고추',          icon: 'Img_Wrapper-4', expiry: '14일',  qty: 5,   unit: ''  },
   { name: '등심',              icon: 'Img_Wrapper-5', expiry: '3일',   qty: 250, unit: 'g' },
   { name: '달걀(유정란)',      icon: 'Img_Wrapper-6', expiry: '1개월', qty: 15,  unit: ''  },
-  { name: '라면(오징어짬뽕)', icon: 'Img_Wrapper-7', expiry: '6개월', qty: 5,   unit: ''  },
+  { name: '라면(오짬)', icon: 'Img_Wrapper-7', expiry: '6개월', qty: 5,   unit: ''  },
 ];
 
 let _scanItems = [];

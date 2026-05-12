@@ -420,7 +420,7 @@
   flex: 1;
   overflow-y: auto;
   max-height: 460px;
-  padding: 0 10px;
+  padding: 0 20px;
 }
 
 /* 재료 아이템 행 */
@@ -447,9 +447,10 @@
 
 .sr-item__info {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 4px;
   margin-left: 10px;
+  align-items: center;
 }
 
 .sr-item__name {
@@ -484,7 +485,7 @@
 .sr-qty-btn {
   width: 38px;
   height: 38px;
-  border-radius: 50%;
+  border-radius: 11px;
   border: 1.5px solid #e0e0e0;
   background: #fff;
   font-size: 20px;
