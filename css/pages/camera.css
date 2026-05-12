@@ -1,0 +1,539 @@
+/* 자동인식 카메라 화면 */
+
+.camera-page {
+  min-height: 100%;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── 상태바 ── */
+.camera-statusbar {
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  flex-shrink: 0;
+}
+
+.camera-statusbar__time {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1;
+}
+
+.camera-statusbar__icons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* SVG는 이미 white fill → 검정 배경이라 그대로 사용 */
+.camera-statusbar__icons img {
+  display: block;
+}
+
+/* ── 헤더 ── */
+.camera-header {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  flex-shrink: 0;
+}
+
+.camera-header__btn {
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* 뒤로가기: 흰색 처리 */
+.camera-header__back-icon {
+  filter: brightness(0) invert(1);
+}
+
+.camera-header__title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: -0.4px;
+}
+
+/* ── 카메라 뷰 영역 ── */
+.camera-view {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 53px;
+}
+
+/* 뷰파인더 프레임 */
+.camera-frame {
+  position: relative;
+  width: 100%;
+  /* 53px 패딩 × 2 제외한 너비 기준으로 비율 유지 */
+  aspect-ratio: 324 / 546;
+  max-width: 324px;
+  max-height: 546px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 모서리 브라켓 공통 */
+.camera-frame__corner {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  border-color: #FF8C66;
+  border-style: solid;
+  border-width: 3.5px;
+}
+
+.camera-frame__corner--tl {
+  top: 0; left: 0;
+  border-right: none;
+  border-bottom: none;
+}
+
+.camera-frame__corner--tr {
+  top: 0; right: 0;
+  border-left: none;
+  border-bottom: none;
+}
+
+.camera-frame__corner--bl {
+  bottom: 0; left: 0;
+  border-right: none;
+  border-top: none;
+}
+
+.camera-frame__corner--br {
+  bottom: 0; right: 0;
+  border-left: none;
+  border-top: none;
+}
+
+/* ── 안내 텍스트 ── */
+.camera-guide {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.5;
+  letter-spacing: -0.32px;
+}
+
+/* ── 촬영 버튼 ── */
+.camera-bottom {
+  flex-shrink: 0;
+  padding: 20px 20px 28px;
+}
+
+.camera-capture-btn {
+  width: 100%;
+  padding: 18px 0;
+  background: #fff;
+  color: #2a2018;
+  border: none;
+  border-radius: 17px;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.36px;
+  font-family: var(--font-family);
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.camera-capture-btn:active {
+  opacity: 0.85;
+}
+
+/* ══════════════════════════════
+   스캔 화면 (자동인식 중)
+══════════════════════════════ */
+
+.scan-page {
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  background: #000;
+}
+
+/* 영수증 배경 이미지 — Figma: left:-90px, width:699px
+   height: 100% 대신 top:0/bottom:0 으로 확실하게 채움 */
+.scan-receipt {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -90px;
+  width: 699px;
+  object-fit: cover;
+  object-position: center top;
+  z-index: 0;
+  pointer-events: none;
+  display: block;
+}
+
+/* 어두운 그라디언트 마스크 (scan-frame box-shadow로 대체됨) */
+.scan-mask {
+  display: none;
+}
+
+/* 상태바·헤더를 절대 레이어 위로 */
+.scan-layer {
+  position: relative;
+  z-index: 3;
+}
+
+/* 카메라 프레임 코너 브라켓 — Figma: left:53, top:166, 324×546
+   box-shadow로 프레임 바깥을 어둡게 처리 (스포트라이트 효과) */
+.scan-frame {
+  position: absolute;
+  left: 53px;
+  top: 166px;
+  width: 324px;
+  height: 546px;
+  z-index: 3;
+  pointer-events: none;
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.6);
+}
+
+/* 스캔 라인 컨테이너 — 프레임과 같은 위치, 전체 가로폭 */
+.scan-line-wrap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 166px;
+  height: 546px;
+  z-index: 4;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* 스캔 라인 — 위→아래 반복 이동 */
+.scan-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(
+    to right,
+    rgba(255, 140, 102, 0) 0%,
+    #FF8C66 50%,
+    rgba(255, 140, 102, 0) 100%
+  );
+  box-shadow: 0 0 15px 6px rgba(255, 140, 102, 0.6);
+  opacity: 0.85;
+  animation: scanDown 2.2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+@keyframes scanDown {
+  0%   { top: 0;    opacity: 0;    }
+  6%   { opacity: 0.85; }
+  88%  { opacity: 0.85; }
+  100% { top: calc(100% - 4px); opacity: 0; }
+}
+
+/* 안내 텍스트 — Figma: top:734px */
+.scan-guide-text {
+  position: absolute;
+  top: 734px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.32px;
+  line-height: 1.5;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* 하단 스캔중 버튼 — Figma: top:832px / 반투명 흰색 */
+.scan-bottom-bar {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 390px;
+  padding: 18px 0;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 17px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.36px;
+  color: #2a2018;
+  z-index: 3;
+  backdrop-filter: blur(4px);
+}
+
+/* ══════════════════════════════
+   스캔 완료 화면
+══════════════════════════════ */
+
+.scan-complete-page {
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  background: #000;
+}
+
+/* 전체 어두운 마스크 */
+.scan-complete-mask {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* scan-complete 내부의 scan-frame은 spotlight 불필요 */
+.scan-complete-page .scan-frame {
+  box-shadow: none;
+  z-index: 3;
+}
+
+/* 인식된 식재료 태그 — scan-frame(z-index:3)의 box-shadow 위에 표시 */
+.detected-tag {
+  position: absolute;
+  height: 25px;
+  background: rgba(255, 140, 102, 0.7);
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.24px;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
+  z-index: 4;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* 안내 텍스트 */
+.scan-complete-guide {
+  position: absolute;
+  top: 734px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.32px;
+  line-height: 1.5;
+  z-index: 3;
+  pointer-events: none;
+  margin: 0;
+}
+
+.scan-complete-guide__count {
+  color: #FF8C66;
+}
+
+/* 하단 스캔완료 버튼 */
+.scan-complete-bottom {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 40px);
+  max-width: 350px;
+  z-index: 3;
+}
+
+.scan-complete-btn {
+  width: 100%;
+  padding: 18px 0;
+  background: #fff;
+  color: #2a2018;
+  border: none;
+  border-radius: 17px;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.36px;
+  font-family: var(--font-family);
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.scan-complete-btn:active {
+  opacity: 0.85;
+}
+
+/* ══════════════════════════════
+   스캔 결과 바텀시트
+══════════════════════════════ */
+
+.sr-sheet {
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 20px;
+}
+
+.sr-sheet__title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #2a2018;
+  letter-spacing: -0.48px;
+  margin: 0 0 8px;
+  padding: 0 20px;
+}
+
+.sr-sheet__sub {
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(42, 32, 24, 0.5);
+  letter-spacing: -0.32px;
+  margin: 0 0 20px;
+  padding: 0 20px;
+}
+
+.sr-sheet__count {
+  font-weight: 600;
+  color: #3a4d7a;
+}
+
+/* 스크롤 가능한 재료 목록 */
+.sr-list {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 460px;
+  padding: 0 10px;
+}
+
+/* 재료 아이템 행 */
+.sr-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #f3f3f3;
+}
+
+.sr-item__left {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.sr-item__img {
+  width: 60px;
+  height: 47px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.sr-item__info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-left: 10px;
+}
+
+.sr-item__name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2a2018;
+  white-space: nowrap;
+}
+
+.sr-item__expiry {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.sr-item__expiry span {
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(42, 32, 24, 0.5);
+  letter-spacing: -0.24px;
+  white-space: nowrap;
+}
+
+.sr-item__right {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  flex-shrink: 0;
+}
+
+/* 수량 −/+ 버튼 — Figma: 38×38px 원형 테두리 */
+.sr-qty-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1.5px solid #e0e0e0;
+  background: #fff;
+  font-size: 20px;
+  font-weight: 400;
+  color: #2a2018;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-family);
+  transition: background 0.1s;
+  flex-shrink: 0;
+}
+
+.sr-qty-btn:active {
+  background: #f5f5f5;
+}
+
+.sr-qty-val {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2a2018;
+  letter-spacing: -0.4px;
+  min-width: 36px;
+  text-align: center;
+}
+
+/* CTA 버튼 — Figma: #3a4d7a, radius 17px */
+.sr-cta {
+  margin: 20px 20px 0;
+  width: calc(100% - 40px);
+  padding: 18px 0;
+  background: #3a4d7a;
+  color: #fff;
+  border: none;
+  border-radius: 17px;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.36px;
+  font-family: var(--font-family);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: opacity 0.15s ease;
+  flex-shrink: 0;
+}
+
+.sr-cta:active {
+  opacity: 0.85;
+}

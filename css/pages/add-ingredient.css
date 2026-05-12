@@ -1,0 +1,335 @@
+/* ===========================
+   식재료 추가 화면 — Figma 실측 기반
+   =========================== */
+
+/* ── 상태바 ── */
+.add-ing-statusbar {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: #fffaf5;
+  position: sticky;
+  top: 0;
+  z-index: 101;
+}
+
+.add-ing-statusbar__time {
+  font-size: 15px;
+  font-weight: 600;
+  color: #2a2018;
+  line-height: 1;
+}
+
+.add-ing-statusbar__icons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.add-ing-statusbar__icons img {
+  /* white SVG → dark color (light 배경용) */
+  filter: brightness(0) opacity(0.87);
+}
+
+/* ── 흰색 서브 헤더 ── */
+.add-ing-header {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  position: sticky;
+  top: 44px;
+  z-index: 100;
+  background: #fffaf5;
+}
+
+.add-ing-header__btn {
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  flex-shrink: 0;
+}
+
+.add-ing-header__title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #2a2018;
+  letter-spacing: -0.4px;
+}
+
+/* ── 스크롤 콘텐츠 영역 ── */
+.add-ing-content {
+  padding: 39px 20px 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ── 입력 방법 선택 카드 ── */
+.add-method-section {
+  display: flex;
+  gap: 16px;
+}
+
+/* Figma: 187×233px, radius-22, shadow 0px 0px 10px 3px rgba(0,0,0,0.05) */
+.add-method-card {
+  flex: 1;
+  height: 233px;
+  background: #fff;
+  border-radius: 22px;
+  border: none;
+  box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: var(--font-family);
+  transition: transform 0.1s ease;
+  margin-bottom: 20px;
+}
+
+.add-method-card:active {
+  transform: scale(0.97);
+}
+
+/* camera_icon/pen_icon 은 fill=white → 오렌지 원 배경 위에 표시 */
+.add-method-card__icon-wrap {
+  width: 86px;
+  height: 86px;
+  background: var(--primary);     /* #FF8C66 */
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-bottom: 20px;
+}
+
+.add-method-card__icon-wrap--manual {
+  background: var(--dark-navy);
+  border-radius: 24px;
+}
+
+.add-method-card__icon-wrap img {
+  object-fit: contain;
+}
+
+/* Figma: 24px SemiBold #2A2018 */
+.add-method-card__title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #2a2018;
+  letter-spacing: -0.48px;
+  line-height: 1.2;
+}
+
+/* Figma: 16px rgba(42,32,24,0.7) */
+.add-method-card__subtitle {
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(42, 32, 24, 0.7);
+  letter-spacing: -0.32px;
+  text-align: center;
+  line-height: 1.3;
+}
+
+/* ── 섹션 아코디언 카드 ── */
+/* Figma: white, shadow 0px 0px 5px 3px rgba(0,0,0,0.05), padding 10px 30px */
+.add-section {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+/* Figma: height 115px (collapsed) */
+.add-section__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  min-height: 115px;
+  cursor: pointer;
+  gap: 12px;
+}
+
+.add-section__text {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+/* Figma: 22px SemiBold #2A2018 */
+.add-section__title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #2a2018;
+  letter-spacing: -0.44px;
+  margin: 0;
+}
+
+/* Figma: 16px #929292 */
+.add-section__subtitle {
+  font-size: 16px;
+  font-weight: 400;
+  color: #929292;
+  letter-spacing: -0.32px;
+  margin: 0;
+}
+
+/* btn_open.svg 실제 방향: 아래(∨), 17×10px, fill #2A2018
+   열릴 때 180deg 회전 → 위(∧) */
+.add-section__chevron {
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.add-section__chevron--open {
+  transform: rotate(180deg);
+}
+
+/* 텍스트 폴백 (onerror로 삽입될 때) */
+.add-section__chevron-fallback {
+  font-size: 22px;
+  color: var(--gray-400);
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+/* 아코디언 펼쳐진 영역 */
+.add-section__body {
+  border-top: 1px solid var(--gray-200);
+  padding: 12px 16px 16px;
+}
+
+.add-section__empty {
+  text-align: center;
+  color: var(--text-sub);
+  font-size: 14px;
+  padding: 12px 0;
+  margin: 0;
+}
+
+/* ── 즐겨찾기 재료 그리드 (5열) ── */
+.add-favorites-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.add-fav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  padding: 8px 4px;
+  border-radius: 8px;
+  transition: background 0.1s;
+}
+
+.add-fav-item:active {
+  background: var(--primary-bg);
+}
+
+.add-fav-item__emoji {
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+.add-fav-item__name {
+  font-size: 11px;
+  text-align: center;
+  color: var(--text-main);
+}
+
+/* ── 담은 재료 아이템 ── */
+.add-cart-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.add-cart-item:last-child {
+  border-bottom: none;
+}
+
+.add-cart-item__emoji {
+  font-size: 28px;
+  flex-shrink: 0;
+}
+
+.add-cart-item__name {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-main);
+}
+
+.add-cart-item__remove {
+  background: none;
+  border: none;
+  color: var(--gray-400);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px 8px;
+  flex-shrink: 0;
+}
+
+/* ── 하단 CTA 버튼 ── */
+/* Figma: bottom-0, width 390px, #FF8C66, radius 17px, padding 18px 0 */
+.add-cta {
+  position: fixed;
+  bottom: 34px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: var(--max-width);
+  padding: 0 20px;
+  background: var(--bg-base);
+  z-index: 50;
+}
+
+.add-cta__btn {
+  width: 100%;
+  padding: 18px 0;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 17px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font-family);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  letter-spacing: -0.36px;
+  transition: transform 0.1s ease;
+}
+
+.add-cta__btn:active {
+  transform: scale(0.97);
+}
+
+/* Figma: 13px rgba(255,255,255,0.5) */
+.add-cta__point {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0;
+}

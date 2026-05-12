@@ -1,0 +1,302 @@
+/* ===========================
+   냉장고 화면 — Figma 실측 기반
+   =========================== */
+
+/* ── 빈 냉장고 상태 ── */
+.fridge-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* 헤더(104px) + 하단 탭(84px) 제외한 콘텐츠 영역 */
+  height: calc(100vh - 104px - 84px);
+  padding: 0 16px;
+}
+
+/* 일러스트 컨테이너 (말풍선 + 햄스터 그리드 스택) */
+.fridge-empty__illustration {
+  position: relative;
+  /* Figma: 말풍선 129px 기준, 햄스터는 ml-13 mt-73 → 전체 w=224, h=235 */
+  width: 224px;
+  height: 235px;
+  flex-shrink: 0;
+  margin-bottom: 15px;
+}
+
+/* 말풍선 (deco) — Figma: 129×99px, mt-0 ml-0 */
+.fridge-empty__speech-bubble {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 129px;
+  height: 99px;
+  object-fit: contain;
+}
+
+/* 슬픈 햄스터+냉장고 (main_img) — Figma: 211×162px, mt-73 ml-13 */
+.fridge-empty__hamster {
+  position: absolute;
+  top: 73px;
+  left: 13px;
+  width: 211px;
+  height: 162px;
+  object-fit: contain;
+}
+
+/* 제목 — Figma: 20px Bold #2A2018, 상대 위치 mt-250 → 일러스트(235) + 15px gap */
+.fridge-empty__title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2a2018;
+  text-align: center;
+  line-height: 28px;
+  margin: 0 0 2px;
+  letter-spacing: -0.2px;
+}
+
+/* 서브 텍스트 — Figma: 10px Medium #FF8C66 */
+.fridge-empty__subtitle {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--primary);
+  text-align: center;
+  line-height: 28px;
+  margin: 0;
+}
+
+/* ── FAB 컨테이너 (툴팁 앵커) ── */
+.fab-container {
+  position: fixed;
+  /* Figma: bottom-104px = 하단 탭(84px) + 20px 여백 */
+  bottom: 104px;
+  right: 16px;
+  z-index: 50;
+}
+
+/* FAB 버튼 — Figma: 64×64px, #FF8C66, radius-50px */
+.fab-btn {
+  width: 64px;
+  height: 64px;
+  border-radius: 50px;
+  background: var(--primary);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0px 4px 2px rgba(0, 0, 0, 0.25));
+  box-shadow: 0px 25px 50px -12px rgba(119, 99, 0, 0.4);
+  transition: transform 0.1s ease;
+  color: #fff;
+}
+
+.fab-btn:active {
+  transform: scale(0.92);
+}
+
+.fab-btn svg {
+  width: 18.7px;
+  height: 18.7px;
+}
+
+/* ── FAB 툴팁 — Figma: 231×38px, #3A4D7A ── */
+.fab-tooltip {
+  position: absolute;
+  /* FAB 위에 렌더링 */
+  bottom: calc(100% + 8px);
+  right: 0;
+  width: 231px;
+}
+
+.fab-tooltip__body {
+  background: #3a4d7a;
+  border-radius: 8px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 11px;
+  position: relative;
+}
+
+.fab-tooltip__text {
+  font-size: 12px;
+  font-weight: 500;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.fab-tooltip__close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+/* 툴팁 화살표 — Tooltip_Arrow.svg 실제 파일 사용 */
+.fab-tooltip__arrow-wrap {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 20px;              /* FAB 중심 위치 정렬 */
+  margin-top: -1px;
+}
+
+/* ── 재료 있는 냉장고 상태 ── */
+
+/* 유통기한 경고 배너 */
+.expiry-banner {
+  background: var(--primary-bg);
+  overflow: hidden;
+}
+
+.expiry-banner__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--primary);
+  cursor: pointer;
+}
+
+.expiry-banner__toggle {
+  font-size: 14px;
+  color: var(--primary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.expiry-banner--open .expiry-banner__toggle {
+  transform: rotate(180deg);
+}
+
+.expiry-banner__grid {
+  display: none;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  padding: 8px 16px 12px;
+  border-top: 1px solid var(--primary-light);
+}
+
+.expiry-banner--open .expiry-banner__grid {
+  display: grid;
+}
+
+/* 마스코트 영역 (재료 있을 때) */
+.fridge-mascot-area {
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  position: relative;
+}
+
+.fridge-mascot-area__img {
+  height: 150px;
+  object-fit: contain;
+}
+
+/* 카테고리 탭 */
+.fridge-category-tabs {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+/* 유통기한 안내 */
+.fridge-expiry-guide {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  font-size: 12px;
+  color: var(--text-sub);
+}
+
+/* 식재료 그리드 (5열) */
+.ingredient-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  padding: 12px 16px 0;
+}
+
+.ingredient-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+  cursor: pointer;
+}
+
+.ingredient-cell__icon {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+}
+
+.ingredient-cell__name {
+  font-size: 11px;
+  text-align: center;
+  color: var(--text-main);
+}
+
+/* + 추가 셀 */
+.ingredient-cell--add {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.ingredient-cell--add__box {
+  width: 56px;
+  height: 56px;
+  border: 2px dashed var(--gray-200);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray-400);
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* 수량 뱃지 */
+.qty-badge {
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+}
+
+.qty-badge--safe    { background: var(--status-safe); }
+.qty-badge--warning { background: var(--status-warning); }
+.qty-badge--danger  { background: var(--status-danger); }
+.qty-badge--expired { background: var(--status-expired); }

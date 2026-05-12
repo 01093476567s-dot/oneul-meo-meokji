@@ -1,0 +1,364 @@
+/* ===========================
+   홈 화면 — Figma 실측 기반
+   =========================== */
+
+/* ── 상단 탭 (오늘의 도시락 / 나의 도시락 기록) ── */
+.home-top-tab {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  padding: 0 16px;
+  margin: 10px 0;
+}
+
+.home-top-tab__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 0;
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--text-inactive-tab);     /* #B3AFAC */
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-family);
+  letter-spacing: -0.4px;
+  white-space: nowrap;
+}
+
+.home-top-tab__item.active {
+  font-weight: 700;
+  color: var(--text-main);             /* #2A2018 */
+}
+
+/* 활성 탭 오렌지 점 — Ic_Dot_Active.svg 사용 (JS에서 img 삽입) */
+.home-top-tab__dot {
+  position: absolute;
+  top: 14px;
+  right: -8px;
+  width: 4px;
+  height: 4px;
+  pointer-events: none;
+}
+
+/* ── 웰컴 배너 ── */
+.home-welcome {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  height: 161px;
+  margin: 20px 0;
+
+}
+
+.home-welcome__greeting {
+  font-size: 36px;
+  letter-spacing: -0.72px;
+  color: var(--text-main);
+  line-height: 60px;
+}
+
+.home-welcome__greeting strong {
+  font-weight: 700;
+}
+
+.home-welcome__greeting span {
+  font-weight: 400;
+}
+
+.home-welcome__mascot {
+  width: 172px;
+  height: 173px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+/* ── 도시락 섹션 헤더 ── */
+.lunchbox-section {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.lunchbox-section__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.lunchbox-section__title-area {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.lunchbox-section__title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.48px;
+  line-height: normal;
+}
+
+.lunchbox-section__date {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-sub);              /* rgba(42,32,24,0.5) */
+  letter-spacing: 0.3px;
+  line-height: normal;
+}
+
+.lunchbox-section__indicator {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.36px;
+}
+
+.lunchbox-section__indicator .total {
+  font-weight: 700;
+  color: var(--text-sub);
+}
+
+/* ── 도시락 카드 스크롤 ── */
+.lunchbox-scroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 4px;               /* 스크롤 그림자 여유 */
+}
+
+/* ── 도시락 카드 ── */
+.lunchbox-card {
+  position: relative;
+  width: 254px;
+  height: 337px;
+  border-radius: 15px;
+  overflow: hidden;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.lunchbox-card:active {
+  transform: scale(0.97);
+}
+
+.lunchbox-card__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 그라디언트 오버레이 — Figma rotate-180 역산 */
+.lunchbox-card__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.50)  0%,
+    rgba(0, 0, 0, 0.30) 32.7%,
+    rgba(255,255,255, 0) 74%,
+    rgba(0, 0, 0, 0.30) 100%
+  );
+}
+
+/* 카드 텍스트 — 절대 위치로 Figma mt 값 그대로 */
+.lunchbox-card__title {
+  position: absolute;
+  top: 31px;
+  left: 18px;
+  right: 12px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.25;
+}
+
+.lunchbox-card__badge {
+  position: absolute;
+  top: 98px;
+  left: 18px;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  padding: 3px 7px;
+  font-size: 10px;
+  font-weight: 300;
+  color: #fff;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
+}
+
+.lunchbox-card__desc {
+  position: absolute;
+  bottom: 10px;
+  left: 12px;
+  right: 8px;
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.7);
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
+  letter-spacing: -0.24px;
+  line-height: 1.45;
+}
+
+/* ── 직접 만들래요 버튼 ── */
+.home-direct-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px;
+}
+
+.home-direct-btn__text {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: -1px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: var(--font-family);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.home-direct-btn__arrow {
+  width: 6px;
+  height: 11px;
+  opacity: 0.8;
+}
+
+/* ── 캘린더 탭 ── */
+
+/* 절감액 카드 */
+.saving-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 16px;
+  padding: 16px;
+  background: var(--white);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+}
+
+.saving-card__mascot {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.saving-card__label {
+  font-size: 12px;
+  color: var(--text-sub);
+}
+
+.saving-card__amount {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--primary);
+  line-height: 1.3;
+}
+
+.saving-card__detail {
+  font-size: 11px;
+  color: var(--text-sub);
+  margin-top: 2px;
+}
+
+/* 캘린더 카드 */
+.calendar-card {
+  margin: 0 16px;
+  padding: 16px;
+  background: var(--white);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+}
+
+.calendar-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.calendar-nav__title {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.calendar-nav__btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--text-main);
+  padding: 4px 8px;
+}
+
+.calendar-record-count {
+  font-size: 12px;
+  color: var(--primary);
+  margin-bottom: 12px;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.calendar-grid__header {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-sub);
+  padding: 4px 0;
+}
+
+.calendar-grid__header.sun { color: var(--cal-sunday); }
+.calendar-grid__header.sat { color: var(--cal-saturday); }
+
+.calendar-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 3px 0;
+}
+
+.calendar-cell__num {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  border-radius: 50%;
+}
+
+.calendar-cell.today .calendar-cell__num {
+  background: var(--primary);
+  color: #fff;
+  font-weight: 700;
+}
+
+.calendar-cell.sun .calendar-cell__num { color: var(--cal-sunday); }
+.calendar-cell.sat .calendar-cell__num { color: var(--cal-saturday); }
+
+.calendar-cell__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--primary);
+}

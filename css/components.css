@@ -1,0 +1,596 @@
+/* =============================
+   공통 컴포넌트 스타일
+   ============================= */
+
+/* ──────────────────────────────
+   앱 헤더 — Figma 실측 (104px)
+   ────────────────────────────── */
+
+/* 메인 헤더 전체 래퍼 */
+.app-header {
+  background: var(--primary);         /* #FF8C66 */
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+}
+
+/* 상태바 줄 (시간 + 아이콘) — 42px */
+.app-header__status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  height: 42px;
+}
+
+.app-header__time {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0;
+  line-height: 13.2px;
+}
+
+.app-header__status-icons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #fff;
+  font-size: 13px;
+}
+
+/* GNB 줄 (로고 + 장바구니) — 62px */
+.app-header__gnb {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  height: 62px;
+}
+
+/* 로고 */
+.app-header__logo {
+  font-size: 28px;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -0.5px;
+  line-height: 1;
+  font-style: italic;
+}
+
+/* 장바구니 버튼 */
+.app-header__cart-btn {
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 35px;
+  height: 33px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 장바구니 뱃지 — Figma: Cart_Num_Bg.svg 위에 숫자 */
+.app-header__cart-badge-wrap {
+  position: absolute;
+  top: 0;
+  right: -2px;
+  width: 18px;
+  height: 18px;
+}
+
+.app-header__cart-badge-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.app-header__cart-badge-num {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 300;
+  color: #fff;
+  letter-spacing: -0.24px;
+  line-height: 1;
+}
+
+/* ── 서브 페이지 헤더 (단일 줄) ── */
+.app-header--sub {
+  background: var(--primary);
+  height: var(--header-height);       /* 56px */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.app-header__back,
+.app-header__home {
+  color: var(--white);
+  font-size: 22px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  width: 36px;
+  height: 36px;
+  justify-content: center;
+}
+
+.app-header__center {
+  color: var(--white);
+  font-size: var(--text-h4);
+  font-weight: 600;
+}
+
+/* ──────────────────────────────
+   하단 탭 바 — Figma 실측 (84px)
+   ────────────────────────────── */
+.bottom-nav {
+  background: var(--bg-base);          /* #FFFAF5 */
+  height: 84px;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: var(--max-width);
+  border-top: 1px solid var(--border-warm);  /* #ECE4DA */
+  filter: drop-shadow(0px 0px 1px rgba(0,0,0,0.15));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.bottom-nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 110px;
+  width: 398px;
+  height: 57px;
+}
+
+.bottom-nav__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: var(--text-inactive-nav);     /* #B0A090 */
+  font-size: 14px;
+  font-family: var(--font-family);
+  font-weight: 500;
+  padding: 0;
+}
+
+.bottom-nav__item.active {
+  color: var(--primary);               /* #FF8C66 */
+}
+
+.bottom-nav__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 홈 아이콘: 29×27 */
+.bottom-nav__item--home .bottom-nav__icon { width: 29px; height: 27px; }
+/* 냉장고 아이콘: 19×31 */
+.bottom-nav__item--fridge .bottom-nav__icon { width: 19px; height: 31px; }
+/* 마이페이지 아이콘: 31×31 */
+.bottom-nav__item--mypage .bottom-nav__icon { width: 31px; height: 31px; }
+
+/* SVG 아이콘 색상 */
+.bottom-nav__item svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+/* 페이지 콘텐츠 영역 */
+.page-content {
+  padding-bottom: 84px;
+}
+
+/* 상단 탭 바 (홈) */
+.top-tab-bar {
+  background: var(--white);
+  height: 44px;
+  display: flex;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.top-tab-bar__item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-body1);
+  color: var(--text-inactive-tab);
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-family: var(--font-family);
+}
+
+.top-tab-bar__item.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+  font-weight: 600;
+}
+
+/* 카테고리 탭 바 (스크롤) */
+.category-tab-bar {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  padding: 0 var(--screen-px);
+  overflow-x: auto;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+/* CTA 버튼 */
+.btn {
+  height: 52px;
+  border-radius: var(--radius-md);
+  font-size: var(--text-h4);
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-family);
+  transition: transform 0.1s ease, opacity 0.1s ease;
+}
+
+.btn:active { transform: scale(0.96); opacity: 0.9; }
+
+.btn-primary {
+  background: var(--primary);
+  color: var(--white);
+  width: calc(100% - 32px);
+  margin: 0 var(--screen-px);
+}
+
+.btn-dark {
+  background: var(--dark-navy);
+  color: var(--white);
+  width: calc(100% - 32px);
+  margin: 0 var(--screen-px);
+}
+
+.btn-pill {
+  border-radius: var(--radius-full);
+  background: var(--white);
+  color: var(--text-main);
+  width: calc(100% - 32px);
+  margin: 0 var(--screen-px);
+}
+
+.btn-disabled {
+  background: var(--gray-200);
+  color: var(--gray-400);
+  pointer-events: none;
+  width: calc(100% - 32px);
+  margin: 0 var(--screen-px);
+}
+
+/* 카드 */
+.card {
+  background: var(--white);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: var(--screen-px);
+  margin: 0 var(--screen-px) var(--space-12);
+}
+
+.card--selected {
+  border: 2px solid var(--primary);
+}
+
+.card--method {
+  width: calc(50% - 24px);
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+}
+
+/* 태그 / Pill */
+.tag {
+  padding: var(--space-4) 12px;
+  border-radius: var(--radius-full);
+  font-size: var(--text-body2);
+  border: 1px solid var(--gray-200);
+  background: var(--white);
+  color: var(--text-main);
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: var(--font-family);
+}
+
+.tag--active {
+  background: var(--primary-bg);
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+.tag--selected {
+  background: var(--primary);
+  color: var(--white);
+  border-color: var(--primary);
+}
+
+.badge-ai {
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-size: 10px;
+  background: var(--primary-bg);
+  color: var(--primary);
+  display: inline-block;
+}
+
+/* 수량 조절 컨트롤 */
+.quantity-control {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  padding: var(--space-4) var(--space-12);
+}
+
+.quantity-btn {
+  width: 28px;
+  height: 28px;
+  font-size: 18px;
+  color: var(--primary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quantity-value {
+  font-size: var(--text-h4);
+  font-weight: 600;
+  min-width: 24px;
+  text-align: center;
+}
+
+/* 수량 뱃지 */
+.quantity-badge {
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  font-size: var(--text-caption);
+  font-weight: 700;
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--space-4);
+}
+
+.badge--safe    { background: var(--status-safe); }
+.badge--warning { background: var(--status-warning); }
+.badge--danger  { background: var(--status-danger); }
+.badge--expired { background: var(--status-expired); }
+
+/* 아코디언 */
+.accordion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--screen-px);
+  background: var(--white);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+
+.accordion-arrow {
+  transition: transform 0.2s ease;
+  color: var(--gray-400);
+}
+
+.accordion--open .accordion-arrow {
+  transform: rotate(180deg);
+}
+
+.accordion-content {
+  overflow: hidden;
+  transition: max-height 0.2s ease;
+  max-height: 0;
+}
+
+.accordion--open .accordion-content {
+  max-height: 1000px;
+}
+
+/* 바텀시트 */
+.bottom-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(100%);
+  width: 100%;
+  max-width: var(--max-width);
+  background: var(--white);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  box-shadow: var(--shadow-sheet);
+  z-index: 200;
+  transition: transform 0.25s ease-out;
+}
+
+.bottom-sheet.open {
+  transform: translateX(-50%) translateY(0);
+}
+
+.bottom-sheet__handle {
+  width: 36px;
+  height: 4px;
+  background: var(--gray-200);
+  border-radius: 2px;
+  margin: 12px auto var(--screen-px);
+}
+
+.bottom-sheet-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 199;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.bottom-sheet-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* FAB — fridge.css의 .fab-container / .fab-btn으로 대체됨 */
+
+/* 툴팁 */
+.tooltip-dark {
+  background: var(--dark-navy);
+  color: var(--white);
+  border-radius: var(--radius-sm) var(--radius-sm) var(--radius-sm) 0;
+  padding: var(--space-12) var(--screen-px);
+  font-size: var(--text-body2);
+  position: relative;
+}
+
+.tooltip-close {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* 검색바 */
+.search-bar {
+  background: var(--primary-bg);
+  border-radius: var(--radius-sm);
+  padding: 10px var(--screen-px);
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  margin: 0 var(--screen-px) var(--space-12);
+}
+
+.search-icon {
+  color: var(--primary);
+  font-size: var(--text-h4);
+}
+
+.search-input {
+  background: none;
+  border: none;
+  font-size: var(--text-body1);
+  color: var(--text-main);
+  flex: 1;
+  font-family: var(--font-family);
+  outline: none;
+}
+
+.search-input::placeholder {
+  color: var(--primary-light);
+}
+
+/* 입력 필드 */
+.input-field {
+  width: 100%;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  padding: 12px var(--screen-px);
+  font-size: var(--text-body1);
+  color: var(--text-main);
+  background: var(--white);
+  font-family: var(--font-family);
+  outline: none;
+}
+
+.input-field:focus {
+  border-color: var(--primary);
+}
+
+.input-field::placeholder {
+  color: var(--gray-400);
+}
+
+/* 토글 스위치 */
+.toggle {
+  width: 48px;
+  height: 28px;
+  border-radius: 14px;
+  background: var(--gray-200);
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s;
+  border: none;
+  flex-shrink: 0;
+}
+
+.toggle--on {
+  background: var(--primary);
+}
+
+.toggle-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--white);
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  transition: transform 0.2s;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.toggle--on .toggle-thumb {
+  transform: translateX(20px);
+}
+
+/* 페이지 전환 애니메이션 */
+.page {
+  display: none;
+  animation: slideIn 0.3s ease-in-out;
+}
+
+.page.active {
+  display: block;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}

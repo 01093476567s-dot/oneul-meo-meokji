@@ -1,0 +1,87 @@
+:root {
+  /* Primary — 피그마 실측값 */
+  --primary:             #FF8C66;
+  --primary-light:       #FFB49A;
+  --primary-bg:          #FFF0E8;
+  --primary-dark:        #E06B48;
+
+  /* Dark Navy (서브 색상) */
+  --dark-navy:           #3A4D7A;
+  --dark-navy-light:     #4D6399;
+
+  /* Neutral — 피그마 실측값 */
+  --white:               #FFFFFF;
+  --bg-base:             #FFFAF5;
+  --border-warm:         #ECE4DA;
+  --text-main:           #2A2018;
+  --text-sub:            rgba(42, 32, 24, 0.5);
+  --text-inactive-tab:   #B3AFAC;
+  --text-inactive-nav:   #B0A090;
+  --gray-200:            #E0E0E0;
+  --gray-400:            #BDBDBD;
+
+  /* Status (유통기한) */
+  --status-safe:    #9E9E9E;
+  --status-warning: #4CAF50;
+  --status-danger:  #F44336;
+  --status-expired: #212121;
+
+  /* Calendar */
+  --cal-sunday:     #F44336;
+  --cal-saturday:   #90CAF9;
+
+  /* Typography */
+  --font-family:    'Pretendard', 'Noto Sans KR', sans-serif;
+  --text-display:   28px;
+  --text-h1:        24px;
+  --text-h2:        20px;
+  --text-h3:        18px;
+  --text-h4:        16px;
+  --text-body1:     14px;
+  --text-body2:     13px;
+  --text-caption:   11px;
+  --text-price:     22px;
+
+  /* Spacing */
+  --space-2:   2px;
+  --space-4:   4px;
+  --space-6:   6px;
+  --space-8:   8px;
+  --space-12:  12px;
+  --space-16:  16px;
+  --space-20:  20px;
+  --space-24:  24px;
+  --space-32:  32px;
+
+  /* Border Radius */
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   16px;
+  --radius-xl:   20px;
+  --radius-full: 100px;
+
+  /* Shadow */
+  --shadow-card:    0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-fab:     0 4px 12px rgba(255, 140, 102, 0.4);
+  --shadow-sheet:   0 -4px 20px rgba(0, 0, 0, 0.12);
+
+  /* Layout */
+  --max-width:      430px;
+  --header-height:  56px;
+  --nav-height:     84px;   /* Figma 실측: 하단 탭바 84px */
+  --screen-px:      16px;
+}
+
+/* Reset & Base */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--text-body1);
+  color: var(--text-main);
+  /* max-width / margin: 0 auto 는 index.html의 #app flex 레이아웃이 담당 */
+}
+
+/* 스크롤바 숨김 */
+* { -ms-overflow-style: none; scrollbar-width: none; }
+*::-webkit-scrollbar { display: none; }

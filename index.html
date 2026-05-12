@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#FF8C66" />
+  <title>오늘 머먹찌?</title>
+
+  <!-- Pretendard 폰트 -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" as="style" crossorigin
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+    onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript>
+    <link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  </noscript>
+
+  <!-- 스타일 -->
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/pages/home.css" />
+  <link rel="stylesheet" href="css/pages/fridge.css" />
+  <link rel="stylesheet" href="css/pages/recipe.css" />
+  <link rel="stylesheet" href="css/pages/mypage.css" />
+  <link rel="stylesheet" href="css/pages/add-ingredient.css" />
+  <link rel="stylesheet" href="css/pages/camera.css" />
+  <link rel="stylesheet" href="css/pages/subscription.css" />
+
+  <style>
+    /* 앱 컨테이너 — 430×923 고정 크기, 뷰포트 중앙 정렬 */
+    html {
+      margin: 0;
+      padding: 0;
+      background: #e5e5e5;
+      min-height: 100%;
+    }
+    body {
+      margin: 0;
+      padding: 24px 0;          /* 위아래 여백 */
+      background: #e5e5e5;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+    #app {
+      /* 고정 크기 */
+      width: 430px;
+      height: 923px;
+      flex-shrink: 0;
+
+      /* 내부 스크롤 */
+      overflow: hidden;
+      overflow-y: auto;
+
+      /* 배경 + 그림자 */
+      background: #FFFAF5;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.18);
+      border-radius: 0;
+
+      /* ★ 핵심: transform이 있으면 position:fixed 자식들이
+             뷰포트가 아닌 #app 기준으로 위치함 */
+      position: relative;
+      transform: translate(0, 0);
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div style="display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column;gap:16px;">
+      <span style="font-size:60px">🐹</span>
+      <p style="color:rgba(42,32,24,0.5);font-family:sans-serif">로딩 중...</p>
+    </div>
+  </div>
+
+  <!-- 공통 -->
+  <script src="js/store.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/components/header.js"></script>
+  <script src="js/components/bottom-nav.js"></script>
+  <script src="js/components/accordion.js"></script>
+  <script src="js/components/bottom-sheet.js"></script>
+
+  <!-- 페이지 -->
+  <script src="js/pages/home.js"></script>
+  <script src="js/pages/fridge.js"></script>
+  <script src="js/pages/recipe.js"></script>
+  <script src="js/pages/mypage.js"></script>
+  <script src="js/pages/add-ingredient.js"></script>
+  <script src="js/pages/camera.js"></script>
+  <script src="js/pages/subscription.js"></script>
+
+  <!-- 진입점 -->
+  <script src="js/app.js"></script>
+</body>
+</html>
