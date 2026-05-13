@@ -103,7 +103,7 @@ export default function Fridge() {
     <>
       <Header type="main" />
       <div className="page-content fridge-page-content">
-        {isEmpty ? (
+        {isEmpty && (
           <div className="fridge-empty">
             <div className="fridge-empty__illustration">
               <img className="fridge-empty__speech-bubble" src="/images/말풍선.png" alt="말풍선"
