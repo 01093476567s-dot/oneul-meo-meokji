@@ -169,6 +169,9 @@ export default function DirectInput() {
   const [tempCategory, setTempCategory] = useState('')
   const [showIconSheet, setShowIconSheet] = useState(false)
   const [tempIcon, setTempIcon] = useState('')
+  const [customCategories, setCustomCategories] = useState([])
+  const [catDirectMode, setCatDirectMode] = useState(false)
+  const [catDirectValue, setCatDirectValue] = useState('')
 
   function openCategorySheet() {
     setTempCategory(manualCategory)
@@ -179,6 +182,17 @@ export default function DirectInput() {
   function confirmCategory() {
     setManualCategory(tempCategory)
     setShowCategorySheet(false)
+    setCatDirectMode(false)
+    setCatDirectValue('')
+  }
+
+  function addCustomCategory() {
+    const val = catDirectValue.trim()
+    if (!val) { setCatDirectMode(false); return }
+    if (!customCategories.includes(val)) setCustomCategories(prev => [...prev, val])
+    setTempCategory(val)
+    setCatDirectValue('')
+    setCatDirectMode(false)
   }
 
   function openIconSheet() {
@@ -463,7 +477,7 @@ export default function DirectInput() {
               </button>
             </div>
             <div className="di-cat-sheet__grid">
-              {MANUAL_CATEGORIES.map(cat => (
+              {MANUAL_CATEGORIES.filter(c => c !== '직접입력').map(cat => (
                 <button
                   key={cat}
                   className={`di-cat-sheet__item${tempCategory === cat ? ' di-cat-sheet__item--active' : ''}`}
@@ -472,6 +486,35 @@ export default function DirectInput() {
                   {cat}
                 </button>
               ))}
+              {customCategories.map(cat => (
+                <button
+                  key={cat}
+                  className={`di-cat-sheet__item${tempCategory === cat ? ' di-cat-sheet__item--active' : ''}`}
+                  onClick={() => setTempCategory(cat)}
+                >
+                  {cat}
+                </button>
+              ))}
+              {catDirectMode ? (
+                <div className="di-cat-sheet__direct-wrap">
+                  <input
+                    className="di-cat-sheet__direct-input"
+                    autoFocus
+                    placeholder="카테고리 입력"
+                    value={catDirectValue}
+                    onChange={e => setCatDirectValue(e.target.value)}
+                    onKeyDown={e => e.key === 'Enter' && addCustomCategory()}
+                  />
+                  <button className="di-cat-sheet__direct-confirm" onClick={addCustomCategory}>확인</button>
+                </div>
+              ) : (
+                <button
+                  className="di-cat-sheet__item di-cat-sheet__item--direct"
+                  onClick={() => setCatDirectMode(true)}
+                >
+                  직접입력
+                </button>
+              )}
             </div>
             <button className="di-cat-sheet__confirm" onClick={confirmCategory}>선택완료</button>
           </div>
