@@ -49,7 +49,7 @@ function IngredientDetail({ item, onClose }) {
     <div style={{ padding: '0 16px 32px' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
         <img
-          src={`/assets/icons/Ingradient/${item.name}.svg`}
+          src={`/assets/icons/${item.folder || 'Ingradient'}/${item.icon || item.name}.svg`}
           style={{ width: 56, height: 56, objectFit: 'contain' }}
           alt={item.name}
           onError={(e) => { e.currentTarget.style.opacity = '0.2' }}
@@ -190,7 +190,7 @@ export default function Fridge() {
                         <div className="ing-cell__img-wrap">
                           <div className="ing-cell__item-area">
                             <img
-                              src={`/assets/icons/Ingradient/${item.name}.svg`}
+                              src={`/assets/icons/${item.folder || 'Ingradient'}/${item.icon || item.name}.svg`}
                               alt={item.name}
                               onError={(e) => { e.currentTarget.style.opacity = '0.2' }}
                             />
@@ -261,7 +261,7 @@ function ExpiryBanner({ expiring }) {
           {expiring.map((item) => (
             <div key={item.id} className="expiry-banner__row">
               <img
-                src={`/assets/icons/Ingradient/${item.name}.svg`}
+                src={`/assets/icons/${item.folder || 'Ingradient'}/${item.icon || item.name}.svg`}
                 className="expiry-banner__row-img"
                 alt={item.name}
                 onError={(e) => { e.currentTarget.style.opacity = '0.15' }}

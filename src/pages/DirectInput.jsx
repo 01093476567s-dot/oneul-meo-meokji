@@ -259,7 +259,8 @@ export default function DirectInput() {
     if (selectedItems.length === 0) { alert('재료를 먼저 선택해주세요'); return }
     selectedItems.forEach((item) => addIngredient({
       name: item.name,
-      emoji: '🥬',
+      icon: item.icon || item.name,
+      folder: item.folder || 'Ingradient',
       category: item.category,
       quantity: item.qty,
       expiryDate: resolveExpiryDate(item.expiry),
