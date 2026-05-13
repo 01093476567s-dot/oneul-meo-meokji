@@ -2,37 +2,6 @@
    식재료 추가 화면 — Figma 실측 기반
    =========================== */
 
-/* ── 상태바 ── */
-.add-ing-statusbar {
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 16px;
-  background: #fffaf5;
-  position: sticky;
-  top: 0;
-  z-index: 101;
-}
-
-.add-ing-statusbar__time {
-  font-size: 15px;
-  font-weight: 600;
-  color: #2a2018;
-  line-height: 1;
-}
-
-.add-ing-statusbar__icons {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.add-ing-statusbar__icons img {
-  /* white SVG → dark color (light 배경용) */
-  filter: brightness(0) opacity(0.87);
-}
-
 /* ── 흰색 서브 헤더 ── */
 .add-ing-header {
   height: 56px;
@@ -157,7 +126,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 10px;
+  padding: 0 20px;
   min-height: 115px;
   cursor: pointer;
   gap: 12px;
