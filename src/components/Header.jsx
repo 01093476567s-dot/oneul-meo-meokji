@@ -8,14 +8,6 @@ export default function Header({ type = 'main', title = '' }) {
   if (type === 'main') {
     return (
       <header className="app-header">
-        <div className="app-header__status">
-          <span className="app-header__time">9:41</span>
-          <div className="app-header__status-icons">
-            <img src="/assets/icons/Cellular Connection.svg" width="18" height="12" alt="" />
-            <img src="/assets/icons/Wifi.svg" width="16" height="12" alt="" />
-            <img src="/assets/icons/Vector-1.svg" width="26" height="12" alt="" />
-          </div>
-        </div>
         <div className="app-header__gnb">
           <button className="app-header__logo" onClick={() => navigate('/')}>
             <img src="/images/logo.png" width="163" height="31" alt="오늘 머먹겠지?" />

@@ -15,31 +15,6 @@
   width: 100%;
 }
 
-/* 상태바 줄 (시간 + 아이콘) — 42px */
-.app-header__status {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 16px;
-  height: 42px;
-}
-
-.app-header__time {
-  font-size: 15px;
-  font-weight: 600;
-  color: #fff;
-  letter-spacing: 0;
-  line-height: 13.2px;
-}
-
-.app-header__status-icons {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: #fff;
-  font-size: 13px;
-}
-
 /* GNB 줄 (로고 + 장바구니) — 62px */
 .app-header__gnb {
   display: flex;
