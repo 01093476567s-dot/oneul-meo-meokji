@@ -2,36 +2,6 @@
    직접입력 페이지
    =========================== */
 
-/* ── 상태바 ── */
-.di-statusbar {
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 16px;
-  background: #fffaf5;
-  position: sticky;
-  top: 0;
-  z-index: 101;
-}
-
-.di-statusbar__time {
-  font-size: 15px;
-  font-weight: 600;
-  color: #2a2018;
-  line-height: 1;
-}
-
-.di-statusbar__icons {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.di-statusbar__icons img {
-  filter: brightness(0) opacity(0.87);
-}
-
 /* ── 헤더 ── */
 .di-header {
   height: 56px;
@@ -40,7 +10,7 @@
   justify-content: space-between;
   padding: 0 20px;
   position: sticky;
-  top: 44px;
+  top: 0;
   z-index: 100;
   background: #fffaf5;
 }

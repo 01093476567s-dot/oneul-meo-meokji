@@ -114,16 +114,6 @@ export default function DirectInput() {
 
   return (
     <>
-      {/* 상태바 */}
-      <div className="di-statusbar" aria-hidden="true">
-        <span className="di-statusbar__time">9:41</span>
-        <div className="di-statusbar__icons">
-          <img src="/assets/icons/Cellular Connection.svg" width="18" height="12" alt="" />
-          <img src="/assets/icons/Wifi.svg" width="16" height="12" alt="" />
-          <img src="/assets/icons/Vector-1.svg" width="26" height="12" alt="" />
-        </div>
-      </div>
-
       {/* 헤더 */}
       <header className="di-header">
         <button className="di-header__btn" onClick={() => navigate(-1)}>
