@@ -9,32 +9,14 @@
   overflow: hidden;
 }
 
-/* ── 상태바 ── */
-.camera-statusbar {
-  height: 42px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 16px;
-  flex-shrink: 0;
-}
-
-.camera-statusbar__time {
-  font-size: 15px;
-  font-weight: 600;
-  color: #fff;
-  line-height: 1;
-}
-
-.camera-statusbar__icons {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-/* SVG는 이미 white fill → 검정 배경이라 그대로 사용 */
-.camera-statusbar__icons img {
-  display: block;
+/* ── 카메라 스트림 비디오 (전체 배경) ── */
+.camera-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
 }
 
 /* ── 헤더 ── */
@@ -45,6 +27,8 @@
   justify-content: space-between;
   padding: 10px 20px;
   flex-shrink: 0;
+  position: relative;
+  z-index: 2;
 }
 
 .camera-header__btn {
@@ -78,6 +62,8 @@
   align-items: center;
   justify-content: center;
   padding: 0 53px;
+  position: relative;
+  z-index: 2;
 }
 
 /* 뷰파인더 프레임 */
@@ -141,6 +127,8 @@
 .camera-bottom {
   flex-shrink: 0;
   padding: 20px 20px 28px;
+  position: relative;
+  z-index: 2;
 }
 
 .camera-capture-btn {
