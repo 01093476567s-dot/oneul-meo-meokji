@@ -106,13 +106,16 @@ export default function AddIngredient() {
     setFavorites(prev => prev.filter((_, idx) => idx !== i))
   }
 
-  function adjustCartQty(i, delta) {
-    setCart(prev =>
-      prev.map((item, idx) => {
-        if (idx !== i) return item
-        return { ...item, quantity: Math.max(1, item.quantity + delta) }
+  function addFavoritesToCart() {
+    favorites.forEach(item => {
+      setCart(prev => {
+        const existing = prev.find(c => c.name === item.name)
+        if (existing) return prev.map(c => c.name === item.name ? { ...c, quantity: c.quantity + item.qty } : c)
+        return [...prev, { name: item.name, quantity: item.qty, unit: item.unit }]
       })
-    )
+    })
+    setFavOpen(false)
+    setCartOpen(true)
   }
 
   function removeCartItem(i) {
@@ -208,6 +211,15 @@ export default function AddIngredient() {
                 <img src="/assets/icons/Add_Ingredient_page/Ic_Search.svg" width="20" height="19" alt="" />
                 <span className="fav-search__placeholder">등록하고 싶은 식재료가 있나요?</span>
               </div>
+
+              {/* 담기 버튼 */}
+              {favorites.length > 0 && (
+                <div style={{ padding: '10px' }}>
+                  <button className="fav-add-btn" onClick={addFavoritesToCart}>
+                    담기
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -216,8 +228,13 @@ export default function AddIngredient() {
         <div className="add-section">
           <div className="add-section__header" onClick={() => setCartOpen(o => !o)}>
             <div className="add-section__text">
-              <p className="add-section__title">담은 재료</p>
-              <p className="add-section__subtitle">담은 재료를 확인해주세요!</p>
+              <p className="add-section__title">
+                담은 재료{' '}
+                {cart.length > 0 && (
+                  <span className="add-section__title--count">{cart.length}</span>
+                )}
+              </p>
+              <p className="add-section__subtitle">담은 재료를 확인해주세요! ⓘ</p>
             </div>
             <img
               src="/assets/icons/btn_open.svg"
@@ -227,28 +244,44 @@ export default function AddIngredient() {
           </div>
 
           {cartOpen && (
-            <div className="add-section__body">
+            <div className="add-section__body add-section__body--no-pad">
               {cart.length === 0 ? (
                 <p className="add-section__empty">아직 담은 재료가 없어요</p>
               ) : (
-                cart.map((item, i) => (
-                  <div key={i} className="add-cart-item">
-                    <img
-                      className="fav-list-item__img"
-                      src={`/assets/icons/Ingradient/${item.name}.svg`}
-                      width="44" height="35"
-                      alt={item.name}
-                      onError={e => { e.currentTarget.style.visibility = 'hidden' }}
-                    />
-                    <span className="add-cart-item__name">{item.name}</span>
-                    <div className="fav-list-item__right">
-                      <button className="fav-qty-btn" onClick={() => adjustCartQty(i, -1)}>−</button>
-                      <span className="fav-qty-val">{item.quantity}</span>
-                      <button className="fav-qty-btn" onClick={() => adjustCartQty(i, 1)}>+</button>
+                <div className="cart-grid">
+                  {cart.map((item, i) => (
+                    <div key={i} className="cart-item">
+                      {/* 뱃지: 수량 */}
+                      <div className={`cart-item__badge${item.unit === 'g' ? ' cart-item__badge--weight' : ''}`}>
+                        <span className="cart-item__badge-text">
+                          {item.unit === 'g' ? `${item.quantity}g` : item.quantity}
+                        </span>
+                      </div>
+                      {/* 카드 내용 */}
+                      <div className="cart-item__content">
+                        <div className="cart-item__img-wrap">
+                          <img
+                            className="cart-item__img"
+                            src={`/assets/icons/Ingradient/${item.name}.svg`}
+                            width="66" height="65"
+                            alt={item.name}
+                            onError={e => { e.currentTarget.style.visibility = 'hidden' }}
+                          />
+                          <div className="cart-item__name-area">
+                            <span className="cart-item__name">{item.name}</span>
+                          </div>
+                        </div>
+                        <button
+                          className="cart-item__delete"
+                          onClick={() => removeCartItem(i)}
+                          aria-label={`${item.name} 삭제`}
+                        >
+                          <img src="/images/Ic_Delete.png" width="19" height="19" alt="삭제" />
+                        </button>
+                      </div>
                     </div>
-                    <button className="add-cart-item__remove" onClick={() => removeCartItem(i)}>✕</button>
-                  </div>
-                ))
+                  ))}
+                </div>
               )}
             </div>
           )}
