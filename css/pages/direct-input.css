@@ -442,6 +442,18 @@
   background: #fff0e8;
 }
 
+.di-icon-sheet__item--add {
+  border-style: dashed;
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+.di-icon-sheet__plus {
+  font-size: 24px;
+  font-weight: 300;
+  color: #c8c0b8;
+  line-height: 1;
+}
+
 /* ── 입력완료 버튼 ── */
 .di-manual-complete-btn {
   width: 100%;

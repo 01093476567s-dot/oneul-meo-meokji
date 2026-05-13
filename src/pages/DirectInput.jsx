@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useFridge } from '../context/FridgeContext'
 
@@ -172,6 +172,8 @@ export default function DirectInput() {
   const [customCategories, setCustomCategories] = useState([])
   const [catDirectMode, setCatDirectMode] = useState(false)
   const [catDirectValue, setCatDirectValue] = useState('')
+  const [customIcons, setCustomIcons] = useState([])
+  const fileInputRef = useRef(null)
 
   function openCategorySheet() {
     setTempCategory(manualCategory)
@@ -184,6 +186,15 @@ export default function DirectInput() {
     setShowCategorySheet(false)
     setCatDirectMode(false)
     setCatDirectValue('')
+  }
+
+  function handleIconFileUpload(e) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    const src = URL.createObjectURL(file)
+    setCustomIcons(prev => [...prev, { id: src, src }])
+    setTempIcon(src)
+    e.target.value = ''
   }
 
   function addCustomCategory() {
@@ -377,7 +388,10 @@ export default function DirectInput() {
                   <div className="di-picker-wrap">
                     <button className="di-pill-btn" onClick={openIconSheet}>
                       {manualIcon
-                        ? <img src={`/assets/icons/Recipe_page/${manualIcon}.svg`} width="28" height="28" alt="" style={{ marginRight: 2 }} />
+                        ? <img
+                            src={manualIcon.startsWith('blob:') ? manualIcon : `/assets/icons/Recipe_page/${manualIcon}.svg`}
+                            width="28" height="28" alt="" style={{ marginRight: 2, objectFit: 'contain' }}
+                          />
                         : '아이콘'
                       }
                       <img src="/assets/icons/btn_open.svg" width="10" height="7" alt="" className="di-pill-btn__arrow" />
@@ -435,7 +449,12 @@ export default function DirectInput() {
                 selectedItems.map((item, i) => (
                   <div key={i} className="di-sel-item">
                     {item.icon ? (
-                      <img className="di-sel-item__img" src={`/assets/icons/${item.folder || 'Add_Ingredient_page'}/${item.icon}.svg`} alt={item.name} />
+                      <img
+                        className="di-sel-item__img"
+                        src={item.icon.startsWith('blob:') ? item.icon : `/assets/icons/${item.folder || 'Add_Ingredient_page'}/${item.icon}.svg`}
+                        alt={item.name}
+                        style={{ objectFit: 'contain' }}
+                      />
                     ) : (
                       <span className="di-sel-item__emoji">🥬</span>
                     )}
@@ -537,6 +556,7 @@ export default function DirectInput() {
               </button>
             </div>
             <div className="di-icon-sheet__grid">
+              {/* 기본 제공 아이콘 */}
               {ICON_OPTIONS.map(opt => (
                 <button
                   key={opt.file}
@@ -546,7 +566,28 @@ export default function DirectInput() {
                   <img src={`/assets/icons/Recipe_page/${opt.file}.svg`} width="48" height="48" alt={opt.label} />
                 </button>
               ))}
+              {/* 사용자 업로드 아이콘 */}
+              {customIcons.map(ic => (
+                <button
+                  key={ic.id}
+                  className={`di-icon-sheet__item${tempIcon === ic.src ? ' di-icon-sheet__item--active' : ''}`}
+                  onClick={() => setTempIcon(ic.src)}
+                >
+                  <img src={ic.src} width="48" height="48" alt="커스텀" style={{ objectFit: 'contain' }} />
+                </button>
+              ))}
+              {/* 업로드 버튼 */}
+              <button className="di-icon-sheet__item di-icon-sheet__item--add" onClick={() => fileInputRef.current?.click()}>
+                <span className="di-icon-sheet__plus">+</span>
+              </button>
             </div>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              style={{ display: 'none' }}
+              onChange={handleIconFileUpload}
+            />
             <button className="di-cat-sheet__confirm" onClick={confirmIcon}>선택완료</button>
           </div>
         </>
