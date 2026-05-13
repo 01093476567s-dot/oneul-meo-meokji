@@ -77,6 +77,15 @@ const DI_ITEMS = [
   { name: '스팸', icon: '스팸', folder: 'Ingradient', category: 'meat', expiry: '1개월' },
   { name: '돼지고기', icon: '돼지고기', folder: 'Ingradient', category: 'meat', expiry: '3일' },
   { name: '등심', icon: '등심', folder: 'Ingradient', category: 'meat', expiry: '3일' },
+  // 유제품
+  { name: '달걀', icon: '계란', folder: 'Ingradient', category: 'dairy', expiry: '1개월' },
+  { name: '우유', icon: '우유', folder: 'Ingradient', category: 'dairy', expiry: '2주일' },
+  { name: '요거트', icon: '요거트', folder: 'Ingradient', category: 'dairy', expiry: '2주일' },
+  { name: '요구르트', icon: '요구르트', folder: 'Ingradient', category: 'dairy', expiry: '2주일' },
+  { name: '체다치즈', icon: '체다치즈', folder: 'Ingradient', category: 'dairy', expiry: '1개월' },
+  { name: '버터', icon: '버터', folder: 'Ingradient', category: 'dairy', expiry: '3개월' },
+  { name: '마가린', icon: '마가린', folder: 'Ingradient', category: 'dairy', expiry: '3개월' },
+  { name: '크림치즈', icon: '크림치즈', folder: 'Ingradient', category: 'dairy', expiry: '2주일' },
   // 조미료
   { name: '식용유', icon: '식용유', folder: 'Ingradient', category: 'seasoning', expiry: '1년' },
   { name: '후추', icon: '후추', folder: 'Ingradient', category: 'seasoning', expiry: '2년' },
