@@ -1,7 +1,12 @@
 import { NavLink } from 'react-router-dom'
 
 function FridgeIcon({ active }) {
-  return <img src="/assets/icons/Ic_Tab_Fridge.svg" width="19" height="28" alt="" />
+  return (
+    <img
+      src={active ? '/assets/icons/Ic_Tab_Fridge_2.svg' : '/assets/icons/Ic_Tab_Fridge.svg'}
+      width="19" height="28" alt=""
+    />
+  )
 }
 
 function MypageIcon({ active }) {
