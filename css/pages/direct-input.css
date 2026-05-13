@@ -66,7 +66,7 @@
 
 /* ── 스크롤 콘텐츠 ── */
 .di-content {
-  padding: 20px 20px 120px;
+  padding: 20px 20px 20px;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -382,7 +382,7 @@
 .di-sel-qty-btn {
   width: 32px;
   height: 32px;
-  border-radius: 50%;
+  border-radius: 11px;
   border: 1.5px solid #e0e0e0;
   background: #fff;
   font-size: 18px;
@@ -426,10 +426,7 @@
 
 /* ── 하단 CTA ── */
 .di-cta {
-  position: fixed;
-  bottom: 34px;
-  left: 50%;
-  transform: translateX(-50%);
+  margin-bottom: 34px;
   width: 100%;
   max-width: var(--max-width, 430px);
   padding: 0 20px;
