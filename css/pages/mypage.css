@@ -107,10 +107,8 @@
 /* ── 메뉴 영역 ── */
 .mp-menu-wrap {
   background: #fff;
-  flex: 1;
   margin-top: 8px;
   border-radius: 12px 12px 0 0;
-  padding-bottom: 24px;
 }
 
 /* 섹션 */
@@ -178,30 +176,36 @@
   display: none;
 }
 
-/* ── 푸터 ── */
+/* ── 푸터 (mp-menu-wrap 바깥, mp-page 배경 위) ── */
 .mp-footer {
-  padding: 0 20px 20px;
+  padding: 20px 20px 24px;
   color: rgba(101, 101, 95, 0.6);
-  font-size: 12px;
-  line-height: 1.8;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .mp-footer p {
   margin: 0;
+  line-height: 23px;
 }
 
 .mp-footer__links {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 4px;
+  gap: 9px;
+  line-height: 16px;
 }
 
 .mp-footer__link-bold {
+  font-size: 14px;
   font-weight: 600;
-  color: rgba(101, 101, 95, 0.8);
+  color: rgba(101, 101, 95, 0.6);
 }
 
 .mp-footer__divider {
+  font-size: 12px;
+  font-weight: 300;
   color: rgba(101, 101, 95, 0.4);
 }

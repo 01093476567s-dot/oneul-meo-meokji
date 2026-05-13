@@ -142,18 +142,18 @@ export default function MyPage() {
           </div>
         </div>
 
-        {/* 푸터 */}
-        <footer className="mp-footer">
-          <div className="mp-footer__links">
-            <span className="mp-footer__link-bold">회원탈퇴</span>
-            <span className="mp-footer__divider">|</span>
-            <span>사업자정보확인</span>
-          </div>
-          <p>고객센터 : 010-1234-5678</p>
-          <p>이메일 : mmg@mmg.com</p>
-        </footer>
-
       </div>
+
+      {/* 푸터 */}
+      <footer className="mp-footer">
+        <div className="mp-footer__links">
+          <span className="mp-footer__link-bold">회원탈퇴</span>
+          <span className="mp-footer__divider">|</span>
+          <span>사업자정보확인</span>
+        </div>
+        <p>고객센터 : 010-1234-5678</p>
+        <p>이메일 : mmg@mmg.com</p>
+      </footer>
 
     </div>
   )
