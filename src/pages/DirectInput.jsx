@@ -69,6 +69,7 @@ const DI_ITEMS = [
   { name: '닭가슴살', icon: '닭가슴살', folder: 'Ingradient', category: 'meat', expiry: '2일' },
   { name: '닭고기', icon: '닭고기', folder: 'Ingradient', category: 'meat', expiry: '2일' },
   { name: '오리고기', icon: '오리고기', folder: 'Ingradient', category: 'meat', expiry: '2일' },
+  { name: '국거리', icon: '국거리', folder: 'Ingradient', category: 'meat', expiry: '3일' },
   { name: '다짐육', icon: '다짐육', folder: 'Ingradient', category: 'meat', expiry: '2일' },
   { name: '베이컨', icon: '베이컨', folder: 'Ingradient', category: 'meat', expiry: '1주일' },
   { name: '소시지', icon: '소시지', folder: 'Ingradient', category: 'meat', expiry: '1주일' },
