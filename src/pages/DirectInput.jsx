@@ -32,35 +32,55 @@ const ICON_OPTIONS = [
 ]
 
 const DI_ITEMS = [
-  { name: '상추', icon: '상추', category: 'veg', expiry: '1개월' },
-  { name: '깻잎', icon: '깻잎', category: 'veg', expiry: '2개월' },
-  { name: '양배추', icon: '양배추', category: 'veg', expiry: '1개월' },
-  { name: '시금치', icon: '시금치', category: 'veg', expiry: '1개월' },
-  { name: '청경채', icon: '청경채', category: 'veg', expiry: '1개월' },
-  { name: '케일', icon: '케일', category: 'veg', expiry: '1개월' },
-  { name: '감자', icon: '감자', category: 'veg', expiry: '2개월' },
-  { name: '고구마', icon: '고구마', category: 'veg', expiry: '2개월' },
-  { name: '당근', icon: '당근', category: 'veg', expiry: '1개월' },
-  { name: '무', icon: '무', category: 'veg', expiry: '1개월' },
-  { name: '양파', icon: '양파', category: 'veg', expiry: '2개월' },
-  { name: '마늘', icon: '마늘', category: 'veg', expiry: '3개월' },
-  { name: '생강', icon: '생강', category: 'veg', expiry: '2개월' },
-  { name: '연근', icon: '연근', category: 'veg', expiry: '1개월' },
-  { name: '오이', icon: '오이', category: 'veg', expiry: '1주일' },
-  { name: '가지', icon: '가지', category: 'veg', expiry: '1개월' },
-  { name: '호박', icon: '호박', category: 'veg', expiry: '1개월' },
-  { name: '브로콜리', icon: '브로콜리', category: 'veg', expiry: '1주일' },
-  { name: '피망', icon: '피망', category: 'veg', expiry: '1개월' },
-  { name: '파프리카', icon: '파프리카', category: 'veg', expiry: '1개월' },
-  { name: '아스파라거스', icon: '아스파라거스', category: 'veg', expiry: '1주일' },
-  { name: '토마토', icon: '토마토', category: 'veg', expiry: '1개월' },
-  { name: '옥수수', icon: '옥수수', category: 'veg', expiry: '1개월' },
-  { name: '콩나물', icon: '콩나물', category: 'veg', expiry: '3일' },
-  { name: '숙주', icon: '숙주', category: 'veg', expiry: '3일' },
-  { name: '표고버섯', icon: '표고버섯', category: 'veg', expiry: '1주일' },
-  { name: '팽이버섯', icon: '팽이버섯', category: 'veg', expiry: '1주일' },
-  { name: '새송이버섯', icon: '새송이버섯', category: 'veg', expiry: '2주일' },
-  { name: '양송이버섯', icon: '양송이버섯', category: 'veg', expiry: '1주일' },
+  // 야채/채소
+  { name: '상추', icon: '상추', folder: 'Add_Ingredient_page', category: 'veg', expiry: '1개월' },
+  { name: '깻잎', icon: '깻잎', folder: 'Ingradient', category: 'veg', expiry: '2개월' },
+  { name: '양배추', icon: '양배추', folder: 'Add_Ingredient_page', category: 'veg', expiry: '1개월' },
+  { name: '시금치', icon: '시금치', folder: 'Add_Ingredient_page', category: 'veg', expiry: '1개월' },
+  { name: '청경채', icon: '청경채', folder: 'Add_Ingredient_page', category: 'veg', expiry: '1개월' },
+  { name: '케일', icon: '케일', folder: 'Add_Ingredient_page', category: 'veg', expiry: '1개월' },
+  { name: '감자', icon: '감자', folder: 'Add_Ingredient_page', category: 'veg', expiry: '2개월' },
+  { name: '고구마', icon: '고구마', folder: 'Add_Ingredient_page', category: 'veg', expiry: '2개월' },
+  { name: '당근', icon: '당근', folder: 'Ingradient', category: 'veg', expiry: '1개월' },
+  { name: '무', icon: '무', folder: 'Add_Ingredient_page', category: 'veg', expiry: '1개월' },
+  { name: '양파', icon: '양파', folder: 'Ingradient', category: 'veg', expiry: '2개월' },
+  { name: '마늘', icon: '마늘', folder: 'Add_Ingredient_page', category: 'veg', expiry: '3개월' },
+  { name: '생강', icon: '생강', folder: 'Add_Ingredient_page', category: 'veg', expiry: '2개월' },
+  { name: '연근', icon: '연근', folder: 'Add_Ingredient_page', category: 'veg', expiry: '1개월' },
+  { name: '오이', icon: '오이', folder: 'Add_Ingredient_page', category: 'veg', expiry: '1주일' },
+  { name: '가지', icon: '가지', folder: 'Add_Ingredient_page', category: 'veg', expiry: '1개월' },
+  { name: '호박', icon: '호박', folder: 'Add_Ingredient_page', category: 'veg', expiry: '1개월' },
+  { name: '브로콜리', icon: '브로콜리', folder: 'Add_Ingredient_page', category: 'veg', expiry: '1주일' },
+  { name: '피망', icon: '피망', folder: 'Add_Ingredient_page', category: 'veg', expiry: '1개월' },
+  { name: '파프리카', icon: '파프리카', folder: 'Add_Ingredient_page', category: 'veg', expiry: '1개월' },
+  { name: '아스파라거스', icon: '아스파라거스', folder: 'Add_Ingredient_page', category: 'veg', expiry: '1주일' },
+  { name: '토마토', icon: '토마토', folder: 'Add_Ingredient_page', category: 'veg', expiry: '1개월' },
+  { name: '옥수수', icon: '옥수수', folder: 'Add_Ingredient_page', category: 'veg', expiry: '1개월' },
+  { name: '콩나물', icon: '콩나물', folder: 'Ingradient', category: 'veg', expiry: '3일' },
+  { name: '숙주', icon: '숙주', folder: 'Add_Ingredient_page', category: 'veg', expiry: '3일' },
+  { name: '표고버섯', icon: '표고버섯', folder: 'Ingradient', category: 'veg', expiry: '1주일' },
+  { name: '팽이버섯', icon: '팽이버섯', folder: 'Add_Ingredient_page', category: 'veg', expiry: '1주일' },
+  { name: '새송이버섯', icon: '새송이버섯', folder: 'Add_Ingredient_page', category: 'veg', expiry: '2주일' },
+  { name: '양송이버섯', icon: '양송이버섯', folder: 'Add_Ingredient_page', category: 'veg', expiry: '1주일' },
+  // 과일
+  { name: '사과', icon: '사과', folder: 'Ingradient', category: 'fruit', expiry: '1개월' },
+  { name: '배', icon: '배', folder: 'Ingradient', category: 'fruit', expiry: '2주일' },
+  { name: '바나나', icon: '바나나', folder: 'Ingradient', category: 'fruit', expiry: '1주일' },
+  { name: '포도', icon: '포도', folder: 'Ingradient', category: 'fruit', expiry: '1주일' },
+  { name: '딸기', icon: '딸기', folder: 'Ingradient', category: 'fruit', expiry: '3일' },
+  { name: '블루베리', icon: '블루베리', folder: 'Ingradient', category: 'fruit', expiry: '1주일' },
+  { name: '키위', icon: '키위', folder: 'Ingradient', category: 'fruit', expiry: '2주일' },
+  { name: '귤', icon: '귤', folder: 'Ingradient', category: 'fruit', expiry: '1개월' },
+  { name: '오렌지', icon: '오렌지', folder: 'Ingradient', category: 'fruit', expiry: '2주일' },
+  { name: '자몽', icon: '자몽', folder: 'Ingradient', category: 'fruit', expiry: '2주일' },
+  { name: '레몬', icon: '레몬', folder: 'Ingradient', category: 'fruit', expiry: '1개월' },
+  { name: '수박', icon: '수박', folder: 'Ingradient', category: 'fruit', expiry: '1주일' },
+  { name: '복숭아', icon: '복숭아', folder: 'Ingradient', category: 'fruit', expiry: '1주일' },
+  { name: '참외', icon: '참외', folder: 'Ingradient', category: 'fruit', expiry: '1주일' },
+  { name: '망고', icon: '망고', folder: 'Ingradient', category: 'fruit', expiry: '1주일' },
+  { name: '파인애플', icon: '파인애플', folder: 'Ingradient', category: 'fruit', expiry: '3일' },
+  { name: '아보카도', icon: '아보카도', folder: 'Ingradient', category: 'fruit', expiry: '3일' },
+  { name: '체리', icon: '체리', folder: 'Ingradient', category: 'fruit', expiry: '3일' },
 ]
 
 export default function DirectInput() {
@@ -238,7 +258,7 @@ export default function DirectInput() {
                 >
                   <img
                     className="di-card__img"
-                    src={`/assets/icons/Add_Ingredient_page/${item.icon}.svg`}
+                    src={`/assets/icons/${item.folder || 'Add_Ingredient_page'}/${item.icon}.svg`}
                     alt={item.name}
                     onError={(e) => { e.currentTarget.style.opacity = '0.3' }}
                   />
