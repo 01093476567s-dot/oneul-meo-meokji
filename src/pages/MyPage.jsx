@@ -11,14 +11,14 @@ export default function MyPage() {
       <div className="mp-header">
         {/* 알림·설정 버튼 */}
         <div className="mp-header__top-actions">
-          <div className="mp-header__icon-btn" aria-label="알림">
-            <img src="/assets/icons/Mypage/Btn_Notification.png" width="47" height="47" alt="알림"
+          <button className="mp-header__icon-btn" aria-label="알림">
+            <img src="/assets/icons/Mypage/Ic_Notification.svg" width="24" height="24" alt="알림"
               onError={(e) => { e.currentTarget.style.display = 'none' }} />
-          </div>
-          <div className="mp-header__icon-btn" aria-label="설정">
-            <img src="/assets/icons/Mypage/Btn_Setting.png" width="47" height="47" alt="설정"
+          </button>
+          <button className="mp-header__icon-btn" aria-label="설정">
+            <img src="/assets/icons/Mypage/Ic_Setting.svg" width="24" height="24" alt="설정"
               onError={(e) => { e.currentTarget.style.display = 'none' }} />
-          </div>
+          </button>
         </div>
 
         {/* 캐릭터 프로필 — 흰색 원 + 캐릭터 이미지 */}
