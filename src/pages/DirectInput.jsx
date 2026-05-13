@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useFridge } from '../context/FridgeContext'
 
 const DI_CATEGORIES = [
@@ -151,10 +151,11 @@ const DI_ITEMS = [
 
 export default function DirectInput() {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
   const { addIngredient } = useFridge()
 
   const [searchQuery, setSearchQuery] = useState('')
-  const [activeCategory, setActiveCategory] = useState('veg')
+  const [activeCategory, setActiveCategory] = useState(searchParams.get('category') || 'veg')
   const [selectedItems, setSelectedItems] = useState([])
   const [manualOpen, setManualOpen] = useState(false)
   const [selectedOpen, setSelectedOpen] = useState(false)
