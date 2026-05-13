@@ -37,10 +37,12 @@ const KNOWN_ICONS = [
 const ICON_NAME_MAP = { '달걀': '계란', '참치': '참치캔' }
 
 function resolveIconSrc(item) {
-  if (item.icon) return `/assets/icons/${item.folder || 'Ingradient'}/${item.icon}.svg`
+  if (item.icon) {
+    if (item.icon.startsWith('data:') || item.icon.startsWith('blob:')) return item.icon
+    return `/assets/icons/${item.folder || 'Ingradient'}/${item.icon}.svg`
+  }
   const matched = KNOWN_ICONS.find((name) => item.name.includes(name))
   if (matched) return `/assets/icons/Ingradient/${ICON_NAME_MAP[matched] || matched}.svg`
-  // ICON_NAME_MAP에 직접 이름이 있는 경우 (예: '달걀(유정란)')
   const mappedKey = Object.keys(ICON_NAME_MAP).find((key) => item.name.includes(key))
   if (mappedKey) return `/assets/icons/Ingradient/${ICON_NAME_MAP[mappedKey]}.svg`
   return `/assets/icons/Ingradient/${item.name}.svg`

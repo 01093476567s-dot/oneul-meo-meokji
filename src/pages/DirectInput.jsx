@@ -191,9 +191,13 @@ export default function DirectInput() {
   function handleIconFileUpload(e) {
     const file = e.target.files?.[0]
     if (!file) return
-    const src = URL.createObjectURL(file)
-    setCustomIcons(prev => [...prev, { id: src, src }])
-    setTempIcon(src)
+    const reader = new FileReader()
+    reader.onload = (ev) => {
+      const src = ev.target.result  // data:image/...;base64,...
+      setCustomIcons(prev => [...prev, { id: src, src }])
+      setTempIcon(src)
+    }
+    reader.readAsDataURL(file)
     e.target.value = ''
   }
 
@@ -389,7 +393,7 @@ export default function DirectInput() {
                     <button className="di-pill-btn" onClick={openIconSheet}>
                       {manualIcon
                         ? <img
-                            src={manualIcon.startsWith('blob:') ? manualIcon : `/assets/icons/Recipe_page/${manualIcon}.svg`}
+                            src={manualIcon.startsWith('blob:') || manualIcon.startsWith('data:') ? manualIcon : `/assets/icons/Recipe_page/${manualIcon}.svg`}
                             width="28" height="28" alt="" style={{ marginRight: 2, objectFit: 'contain' }}
                           />
                         : '아이콘'
@@ -451,7 +455,7 @@ export default function DirectInput() {
                     {item.icon ? (
                       <img
                         className="di-sel-item__img"
-                        src={item.icon.startsWith('blob:') ? item.icon : `/assets/icons/${item.folder || 'Add_Ingredient_page'}/${item.icon}.svg`}
+                        src={item.icon.startsWith('blob:') || item.icon.startsWith('data:') ? item.icon : `/assets/icons/${item.folder || 'Add_Ingredient_page'}/${item.icon}.svg`}
                         alt={item.name}
                         style={{ objectFit: 'contain' }}
                       />
