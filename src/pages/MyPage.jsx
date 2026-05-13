@@ -21,12 +21,13 @@ export default function MyPage() {
           </button>
         </div>
 
-        {/* 캐릭터 프로필 */}
+        {/* 캐릭터 프로필 — 흰색 원 + 캐릭터 이미지 */}
         <div className="mp-header__character-area">
+          <div className="mp-header__circle-bg" />
           <img
             className="mp-header__character"
-            src="/assets/icons/Mypage/구독.svg"
-            alt="구독 캐릭터"
+            src="/images/비구독자.png"
+            alt="프로필 캐릭터"
             onError={(e) => { e.currentTarget.style.display = 'none' }}
           />
         </div>
