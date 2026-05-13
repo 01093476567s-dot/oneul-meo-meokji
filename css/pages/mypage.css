@@ -32,15 +32,11 @@
 }
 
 .mp-header__icon-btn {
-  background: none;
-  border: none;
   padding: 0;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 47px;
   height: 47px;
+  flex-shrink: 0;
 }
 
 /* 캐릭터 프로필 영역 — 흰색 원 + 이미지 */
