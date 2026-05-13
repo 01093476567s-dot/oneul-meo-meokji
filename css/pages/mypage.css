@@ -1,5 +1,5 @@
 /* ===========================
-   마이페이지 — Figma 254-795 기반
+   마이페이지 — Figma 254-806 기반
    =========================== */
 
 /* ── 전체 래퍼 ── */
@@ -8,7 +8,6 @@
   flex-direction: column;
   min-height: 100vh;
   background: #f5f5f5;
-  padding-bottom: 84px;
 }
 
 /* ── 오렌지 헤더 ── */
@@ -16,7 +15,6 @@
   background: #ff8c66;
   border-radius: 0 0 12px 12px;
   padding: 0 20px 24px;
-  position: relative;
   flex-shrink: 0;
 }
 
@@ -24,7 +22,7 @@
 .mp-header__top-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 4px;
+  gap: 0;
   padding-top: 12px;
 }
 
@@ -112,49 +110,54 @@
   flex: 1;
   margin-top: 8px;
   border-radius: 12px 12px 0 0;
-  overflow: hidden;
+  padding-bottom: 100px;
 }
 
 /* 섹션 */
 .mp-menu-section {
-  padding: 20px 0 4px;
+  padding: 30px 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.mp-menu-section:last-of-type {
+  border-bottom: none;
 }
 
 .mp-menu-section__title {
-  font-size: 16px;
-  font-weight: 700;
+  font-size: 20px;
+  font-weight: 600;
   color: #2a2018;
-  padding: 0 20px 8px;
-  margin: 0;
+  margin: 0 0 30px;
 }
 
-/* 메뉴 목록 */
+/* 메뉴 목록 — Figma: gap-20px */
 .mp-menu-list {
   display: flex;
   flex-direction: column;
+  gap: 20px;
 }
 
-/* 메뉴 아이템 */
+/* 메뉴 아이템 — Figma: flex, gap-5px, items-center */
 .mp-menu-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 13px 20px;
+  gap: 5px;
   cursor: pointer;
-  min-height: 52px;
 }
 
 .mp-menu-item:active {
-  background: #f9f9f9;
+  opacity: 0.7;
 }
 
+/* 아이콘 — Figma: Ic_Wrapper w-33~34px h-18~20px */
 .mp-menu-item__icon {
   width: 34px;
-  height: 34px;
+  height: 20px;
   object-fit: contain;
   flex-shrink: 0;
 }
 
+/* 레이블 — Figma: 16px Regular #2a2018 */
 .mp-menu-item__label {
   flex: 1;
   font-size: 16px;
@@ -162,6 +165,7 @@
   color: #2a2018;
 }
 
+/* 서브 텍스트 — Figma: 12px rgba(42,32,24,0.5) */
 .mp-menu-item__sub {
   font-size: 12px;
   font-weight: 400;
@@ -169,26 +173,28 @@
   flex-shrink: 0;
 }
 
-/* 구분선 */
+/* mp-divider는 mp-menu-section의 border-bottom으로 대체되어 숨김 */
 .mp-divider {
-  height: 1px;
-  background: #ebebeb;
-  margin: 0 20px;
+  display: none;
 }
 
 /* ── 푸터 ── */
 .mp-footer {
-  padding: 24px 20px 16px;
+  padding: 0 20px 20px;
   color: rgba(101, 101, 95, 0.6);
   font-size: 12px;
   line-height: 1.8;
+}
+
+.mp-footer p {
+  margin: 0;
 }
 
 .mp-footer__links {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .mp-footer__link-bold {
@@ -198,8 +204,4 @@
 
 .mp-footer__divider {
   color: rgba(101, 101, 95, 0.4);
-}
-
-.mp-footer p {
-  margin: 0;
 }
