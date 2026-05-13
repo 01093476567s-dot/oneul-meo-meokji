@@ -95,10 +95,12 @@ const DI_ITEMS = [
   { name: '버터', icon: '버터', folder: 'Ingradient', category: 'dairy', expiry: '3개월' },
   { name: '마가린', icon: '마가린', folder: 'Ingradient', category: 'dairy', expiry: '3개월' },
   { name: '크림치즈', icon: '크림치즈', folder: 'Ingradient', category: 'dairy', expiry: '2주일' },
+  { name: '모짜렐라', icon: '모짜렐라', folder: 'Ingradient', category: 'dairy', expiry: '1주일' },
   // 조미료
   { name: '식용유', icon: '식용유', folder: 'Ingradient', category: 'seasoning', expiry: '1년' },
   { name: '후추', icon: '후추', folder: 'Ingradient', category: 'seasoning', expiry: '2년' },
   { name: '소금', icon: '소금', folder: 'Ingradient', category: 'seasoning', expiry: '2년' },
+  { name: '설탕', icon: '설탕', folder: 'Ingradient', category: 'seasoning', expiry: '2년' },
   { name: '미원', icon: '미원', folder: 'Ingradient', category: 'seasoning', expiry: '2년' },
   { name: '치킨스톡', icon: '치킨스톡', folder: 'Ingradient', category: 'seasoning', expiry: '1년' },
   { name: '간장', icon: '간장', folder: 'Ingradient', category: 'seasoning', expiry: '2년' },
