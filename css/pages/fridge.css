@@ -80,9 +80,7 @@
   transition: transform 0.1s ease;
 }
 
-.fab-btn:active {
-  transform: scale(0.92);
-}
+.fab-btn:active { transform: scale(0.92); }
 
 /* ── FAB 툴팁 ── */
 .fab-tooltip {
@@ -151,9 +149,7 @@
   flex-shrink: 0;
 }
 
-.expiry-banner__chevron--open {
-  transform: rotate(180deg);
-}
+.expiry-banner__chevron--open { transform: rotate(180deg); }
 
 .expiry-banner__grid {
   display: flex;
@@ -183,135 +179,154 @@
 
 /* ── 마스코트 영역 ── */
 .fridge-mascot-area {
-  height: 160px;
+  height: 180px;
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
   position: relative;
   overflow: hidden;
-  padding-right: 0;
 }
 
 .fridge-mascot__bubble {
   position: absolute;
-  left: 20px;
-  bottom: 20px;
-  width: 130px;
+  left: 16px;
+  top: 10px;
+  width: 145px;
   object-fit: contain;
 }
 
 .fridge-mascot__char {
-  height: 155px;
+  height: 180px;
   object-fit: contain;
   flex-shrink: 0;
 }
 
-/* ── 카테고리 탭 ── */
-.fridge-category-tabs {
-  height: 44px;
+/* ── 흰색 섹션 카드 (Figma: Section_bg) ── */
+.fridge-section-card {
+  background: #fff;
+  border-radius: 12px 12px 0 0;
+  box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.05);
+  min-height: calc(100vh - 104px - 84px - 180px);
+}
+
+/* ── 카테고리 탭 (Figma: Category_List) ── */
+.fridge-cat-list {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 0 16px;
+  padding: 8px 3px;
   overflow-x: auto;
-  border-bottom: 1px solid var(--gray-200);
   scrollbar-width: none;
 }
 
-.fridge-category-tabs::-webkit-scrollbar { display: none; }
+.fridge-cat-list::-webkit-scrollbar { display: none; }
 
-/* ── 유통기한 범례 코치마크 ── */
-.fridge-legend {
-  padding: 8px 16px;
-}
-
-.fridge-legend__body {
-  background: #3a4d7a;
-  border-radius: 8px;
-  padding: 10px 12px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-
-.fridge-legend__items {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  flex-wrap: nowrap;
-}
-
-.fridge-legend__dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
+.fridge-cat-chip {
   flex-shrink: 0;
-}
-
-.fridge-legend__dot--safe    { background: #ebebeb; }
-.fridge-legend__dot--warning { background: #ff8c66; }
-.fridge-legend__dot--danger  { background: #ff4444; }
-.fridge-legend__dot--expired { background: #fff; }
-
-.fridge-legend__label {
-  font-size: 11px;
-  color: #fff;
-  white-space: nowrap;
-  margin-right: 4px;
-}
-
-.fridge-legend__close {
-  background: none;
+  padding: 5px 12px;
   border: none;
+  background: none;
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(42, 32, 24, 0.4);
+  border-radius: 20px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  flex-shrink: 0;
+  font-family: var(--font-family);
+  white-space: nowrap;
+  transition: background 0.15s;
 }
 
-/* ── 식재료 그리드 (5열) ── */
+.fridge-cat-chip--active {
+  background: rgba(255, 140, 102, 0.2);
+  color: #ff8c66;
+  font-weight: 600;
+}
+
+/* Figma: Divider_Horizontal — 좌우 16px 여백 없이 전체 너비 */
+.fridge-cat-divider {
+  height: 1px;
+  background: #ebebeb;
+}
+
+/* ── 유통기한 힌트 텍스트 (Figma: top-407px 위치의 text) ── */
+.fridge-expiry-hint {
+  font-size: 10px;
+  font-weight: 500;
+  color: #929292;
+  padding: 8px 16px 4px;
+  margin: 0;
+}
+
+/* ── 식재료 그리드 5열 (Figma: Ingredient_Grid) ── */
 .ingredient-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
-  padding: 12px 16px 100px;
+  gap: 7px;
+  padding: 4px 16px 120px;
 }
 
-/* ── 식재료 셀 ── */
-.ingredient-cell {
+/* ── 식재료 셀 (Figma: Selected_Item — position relative) ── */
+.ingredient-cell,
+.ingredient-cell--add {
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
   cursor: pointer;
-  border-radius: 4px;
-  overflow: visible;
 }
 
-.ingredient-cell__icon {
-  width: 66px;
-  height: 65px;
-  object-fit: contain;
-  flex-shrink: 0;
-}
-
-.ingredient-cell__name-area {
-  background: #fff;
-  width: 100%;
+/* Figma: Card_Content — h-111px, pt-10px, items-center, justify-center */
+.ing-cell__content {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 23px;
-  border-radius: 0 0 4px 4px;
-  padding: 0 2px;
+  height: 111px;
+  padding-top: 10px;
+  width: 100%;
   box-sizing: border-box;
 }
 
-.ingredient-cell__name {
-  font-size: 11px;
+/* Figma: Img_Wrapper — w-66px, flex-col, items-center, justify-center */
+.ing-cell__img-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 66px;
+}
+
+/* Figma: Item_Area — h-65px, w-66px */
+.ing-cell__item-area {
+  width: 66px;
+  height: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ing-cell__item-area img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Figma: Name_Area — h-23px, bg-white, rounded-bl-4 rounded-br-4 */
+.ing-cell__name-area {
+  background: #fff;
+  width: 100%;
+  height: 23px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 0 4px 4px;
+  padding: 5px 2px 4px;
+  box-sizing: border-box;
+}
+
+.ing-cell__name {
+  font-size: 12px;
   font-weight: 600;
   color: #2a2018;
   text-align: center;
@@ -321,33 +336,21 @@
   max-width: 100%;
 }
 
-/* ── + 추가 셀 ── */
-.ingredient-cell--add {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-}
-
-.ingredient-cell--add__circle {
-  width: 66px;
-  height: 65px;
-  border: 2px dashed #d0d0d0;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #c0c0c0;
-  font-size: 26px;
+/* ── + 추가 박스 (Figma: Btn_Wrapper — 58.7px 정사각형, 점선 테두리) ── */
+.ing-cell--add-box {
+  border: 1.5px dashed #cfc8c0;
+  border-radius: 12px;
+  background: none;
+  color: #c8c0b8;
+  font-size: 24px;
   font-weight: 300;
-  flex-shrink: 0;
 }
 
-/* ── 수량 뱃지 ── */
+/* ── 수량 뱃지 (Figma: Badge — absolute left-0 top-0, 23×23px) ── */
 .ing-badge {
   position: absolute;
-  top: -4px;
-  left: -4px;
+  top: 0;
+  left: 0;
   min-width: 23px;
   height: 23px;
   border-radius: 12px;
@@ -355,13 +358,19 @@
   align-items: center;
   justify-content: center;
   padding: 0 5px;
-  font-size: 11px;
-  font-weight: 400;
+  font-size: 12px;
+  font-weight: 200;
   z-index: 1;
   box-sizing: border-box;
+  line-height: 1;
+  white-space: nowrap;
 }
 
+/* Figma: imgBadgeBg  → gray + blue text */
 .ing-badge--safe    { background: #ebebeb; color: #3a4d7a; }
+/* 2~7일: cream + orange */
 .ing-badge--warning { background: #fff3ee; color: #ff8c66; }
+/* Figma: imgBadgeBg2 → red + white text */
 .ing-badge--danger  { background: #ff4444; color: #fff; }
+/* Figma: imgBadgeBg3 → dark + white text */
 .ing-badge--expired { background: #2a2018; color: #fff; }

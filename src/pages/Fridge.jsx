@@ -29,7 +29,6 @@ function getExpiryStatus(expiryDate) {
   const diff = Math.ceil((expiry - today) / (1000 * 60 * 60 * 24))
   if (diff < 0) return 'expired'
   if (diff <= 1) return 'danger'
-  if (diff <= 7) return 'warning'
   return 'safe'
 }
 
@@ -89,7 +88,6 @@ export default function Fridge() {
   const { openSheet, closeSheet } = useBottomSheet()
   const [activeCategory, setActiveCategory] = useState('전체')
   const [tooltipVisible, setTooltipVisible] = useState(true)
-  const [legendVisible, setLegendVisible] = useState(true)
 
   const isEmpty = ingredients.length === 0
   const expiring = getExpiringIngredients()
@@ -129,69 +127,66 @@ export default function Fridge() {
                 onError={(e) => { e.currentTarget.style.display = 'none' }} />
             </div>
 
-            {/* 카테고리 탭 */}
-            <div className="fridge-category-tabs">
-              {FRIDGE_CATEGORIES.map((cat) => (
-                <button
-                  key={cat}
-                  className={`tag${activeCategory === cat ? ' tag--active' : ''}`}
-                  onClick={() => setActiveCategory(cat)}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
+            {/* 흰색 섹션 카드 */}
+            <div className="fridge-section-card">
 
-            {/* 유통기한 범례 코치마크 */}
-            {legendVisible && (
-              <div className="fridge-legend">
-                <div className="fridge-legend__body">
-                  <div className="fridge-legend__items">
-                    <span className="fridge-legend__dot fridge-legend__dot--safe" />
-                    <span className="fridge-legend__label">넉넉해요</span>
-                    <span className="fridge-legend__dot fridge-legend__dot--warning" />
-                    <span className="fridge-legend__label">2~7일</span>
-                    <span className="fridge-legend__dot fridge-legend__dot--danger" />
-                    <span className="fridge-legend__label">1일 이하</span>
-                    <span className="fridge-legend__dot fridge-legend__dot--expired" />
-                    <span className="fridge-legend__label">기한 초과</span>
-                  </div>
+              {/* 카테고리 탭 */}
+              <div className="fridge-cat-list">
+                {FRIDGE_CATEGORIES.map((cat) => (
                   <button
-                    className="fridge-legend__close"
-                    onClick={() => setLegendVisible(false)}
-                    aria-label="닫기"
+                    key={cat}
+                    className={`fridge-cat-chip${activeCategory === cat ? ' fridge-cat-chip--active' : ''}`}
+                    onClick={() => setActiveCategory(cat)}
                   >
-                    <img src="/assets/icons/Tooltip_CloseIcon.svg" width="11" height="12" alt="닫기" />
+                    {cat}
                   </button>
-                </div>
+                ))}
               </div>
-            )}
+              <div className="fridge-cat-divider" />
 
-            {/* 식재료 그리드 */}
-            <div className="ingredient-grid">
-              {filtered.map((item) => {
-                const status = getExpiryStatus(item.expiryDate)
-                return (
-                  <div key={item.id} className="ingredient-cell" onClick={() => showDetail(item)}>
-                    <div className={`ing-badge ing-badge--${status}`}>{item.quantity}</div>
-                    <img
-                      className="ingredient-cell__icon"
-                      src={`/assets/icons/Ingradient/${item.name}.svg`}
-                      alt={item.name}
-                      onError={(e) => { e.currentTarget.style.opacity = '0.2' }}
-                    />
-                    <div className="ingredient-cell__name-area">
-                      <span className="ingredient-cell__name">{item.name}</span>
+              {/* 유통기한 색상 안내 */}
+              <p className="fridge-expiry-hint">유통기한 표시는 색상으로 표시되요 ⓘ</p>
+
+              {/* 식재료 그리드 */}
+              <div className="ingredient-grid">
+                {filtered.map((item) => {
+                  const status = getExpiryStatus(item.expiryDate)
+                  return (
+                    <div key={item.id} className="ingredient-cell" onClick={() => showDetail(item)}>
+                      <div className={`ing-badge ing-badge--${status}`}>{item.quantity}</div>
+                      <div className="ing-cell__content">
+                        <div className="ing-cell__img-wrap">
+                          <div className="ing-cell__item-area">
+                            <img
+                              src={`/assets/icons/Ingradient/${item.name}.svg`}
+                              alt={item.name}
+                              onError={(e) => { e.currentTarget.style.opacity = '0.2' }}
+                            />
+                          </div>
+                          <div className="ing-cell__name-area">
+                            <span className="ing-cell__name">{item.name}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })}
+
+                {/* 추가 버튼 */}
+                <div className="ingredient-cell--add" onClick={() => navigate('/add-ingredient')}>
+                  <div className="ing-cell__content">
+                    <div className="ing-cell__img-wrap">
+                      <div className="ing-cell__item-area ing-cell--add-box">
+                        <span>+</span>
+                      </div>
+                      <div className="ing-cell__name-area">
+                        <span className="ing-cell__name">추가</span>
+                      </div>
                     </div>
                   </div>
-                )
-              })}
-              <div className="ingredient-cell--add" onClick={() => navigate('/add-ingredient')}>
-                <div className="ingredient-cell--add__circle">+</div>
-                <div className="ingredient-cell__name-area">
-                  <span className="ingredient-cell__name">추가</span>
                 </div>
               </div>
+
             </div>
           </>
         )}
@@ -230,7 +225,7 @@ function ExpiryBanner({ expiring }) {
   return (
     <div className={`expiry-banner${open ? ' expiry-banner--open' : ''}`}>
       <div className="expiry-banner__header" onClick={() => setOpen((o) => !o)}>
-        <span>⚠ 유통기한이 얼마 남지 않은 식재료가 있어요!</span>
+        <span>▲ 유통기한이 얼마 남지 않은 식재료가 있어요!</span>
         <img
           src="/assets/icons/btn_open.svg" width="17" height="10" alt=""
           className={`expiry-banner__chevron${open ? ' expiry-banner__chevron--open' : ''}`}
