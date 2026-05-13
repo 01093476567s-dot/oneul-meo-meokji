@@ -86,6 +86,7 @@ export default function Fridge() {
   const { ingredients, getExpiringIngredients } = useFridge()
   const { openSheet, closeSheet } = useBottomSheet()
   const [activeCategory, setActiveCategory] = useState('전체')
+  const [tooltipVisible, setTooltipVisible] = useState(true)
 
   const isEmpty = ingredients.length === 0
   const expiring = getExpiringIngredients()
@@ -113,7 +114,37 @@ export default function Fridge() {
             <p className="fridge-empty__title">냉장고가 텅~ 비었어요.</p>
             <p className="fridge-empty__subtitle">엇, 처음이신가요? 처음 식재료를 입력하면 포인트를 드려요.</p>
           </div>
-        ) : (
+        )}
+
+        {/* FAB — 빈 냉장고 상태에서만 표시 */}
+        {isEmpty && (
+          <div className="fab-container">
+            {tooltipVisible && (
+              <div className="fab-tooltip">
+                <div className="fab-tooltip__body">
+                  <span className="fab-tooltip__text">재료를 추가해서 냉장고를 채워봐요</span>
+                  <button className="fab-tooltip__close" onClick={() => setTooltipVisible(false)}>
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                      <path d="M1 1L9 9M9 1L1 9" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"/>
+                    </svg>
+                  </button>
+                </div>
+                <div className="fab-tooltip__arrow-wrap">
+                  <svg width="14" height="8" viewBox="0 0 14 8" fill="none">
+                    <path d="M7 8L0 0H14L7 8Z" fill="#3a4d7a"/>
+                  </svg>
+                </div>
+              </div>
+            )}
+            <button className="fab-btn" onClick={() => navigate('/add-ingredient')}>
+              <svg width="19" height="19" viewBox="0 0 19 19" fill="none">
+                <path d="M9.5 1V18M1 9.5H18" stroke="#fff" strokeWidth="2.5" strokeLinecap="round"/>
+              </svg>
+            </button>
+          </div>
+        )}
+
+        {!isEmpty && (
           <div className="fridge-filled">
             {expiring.length > 0 && <ExpiryBanner expiring={expiring} />}
 
