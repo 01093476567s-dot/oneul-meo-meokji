@@ -207,9 +207,16 @@
   border-radius: 12px 12px 0 0;
   box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.05);
   min-height: calc(100vh - 104px - 84px - 180px);
+  padding-top: 20px;
 }
 
-/* ── 카테고리 탭 (Figma: Category_List) ── */
+/* ── 카테고리 탭 래퍼 (Figma: Category_Area, position relative for fade) ── */
+.fridge-cat-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── 카테고리 탭 스크롤 목록 (Figma: Category_List) ── */
 .fridge-cat-list {
   display: flex;
   align-items: center;
@@ -219,6 +226,17 @@
 }
 
 .fridge-cat-list::-webkit-scrollbar { display: none; }
+
+/* ── 오른쪽 페이드 그라데이션 (Figma: Fade_Right) ── */
+.fridge-cat-fade {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 60px;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), #fff);
+  pointer-events: none;
+}
 
 .fridge-cat-chip {
   flex-shrink: 0;
@@ -241,10 +259,11 @@
   font-weight: 600;
 }
 
-/* Figma: Divider_Horizontal — 좌우 16px 여백 없이 전체 너비 */
+/* Figma: Divider_Horizontal — gap 15px after Category_List */
 .fridge-cat-divider {
   height: 1px;
   background: #ebebeb;
+  margin-top: 7px;
 }
 
 /* ── 유통기한 힌트 텍스트 (Figma: top-407px 위치의 text) ── */

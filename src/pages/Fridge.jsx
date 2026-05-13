@@ -131,16 +131,19 @@ export default function Fridge() {
             <div className="fridge-section-card">
 
               {/* 카테고리 탭 */}
-              <div className="fridge-cat-list">
-                {FRIDGE_CATEGORIES.map((cat) => (
-                  <button
-                    key={cat}
-                    className={`fridge-cat-chip${activeCategory === cat ? ' fridge-cat-chip--active' : ''}`}
-                    onClick={() => setActiveCategory(cat)}
-                  >
-                    {cat}
-                  </button>
-                ))}
+              <div className="fridge-cat-wrap">
+                <div className="fridge-cat-list">
+                  {FRIDGE_CATEGORIES.map((cat) => (
+                    <button
+                      key={cat}
+                      className={`fridge-cat-chip${activeCategory === cat ? ' fridge-cat-chip--active' : ''}`}
+                      onClick={() => setActiveCategory(cat)}
+                    >
+                      {cat}
+                    </button>
+                  ))}
+                </div>
+                <div className="fridge-cat-fade" aria-hidden="true" />
               </div>
               <div className="fridge-cat-divider" />
 
