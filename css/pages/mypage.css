@@ -1,131 +1,205 @@
-/* 마이페이지 */
+/* ===========================
+   마이페이지 — Figma 254-795 기반
+   =========================== */
 
-.mypage-header {
-  background: var(--primary);
-  padding: var(--space-20) var(--screen-px) var(--space-24);
+/* ── 전체 래퍼 ── */
+.mp-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #f5f5f5;
+  padding-bottom: 84px;
 }
 
-.mypage-header__actions {
+/* ── 오렌지 헤더 ── */
+.mp-header {
+  background: #ff8c66;
+  border-radius: 0 0 12px 12px;
+  padding: 0 20px 24px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* 알림·설정 버튼 행 */
+.mp-header__top-actions {
   display: flex;
   justify-content: flex-end;
-  gap: var(--space-16);
-  margin-bottom: var(--space-16);
+  gap: 4px;
+  padding-top: 12px;
 }
 
-.mypage-header__action-btn {
+.mp-header__icon-btn {
   background: none;
   border: none;
-  color: var(--white);
-  font-size: 24px;
+  padding: 0;
   cursor: pointer;
-}
-
-.mypage-header__avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  border: 2px solid var(--white);
-  object-fit: cover;
-  display: block;
-  margin: 0 auto var(--space-8);
-}
-
-.mypage-header__name {
-  text-align: center;
-  font-size: var(--text-h3);
-  font-weight: 700;
-  color: var(--white);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-6);
+  width: 47px;
+  height: 47px;
 }
 
-.mypage-header__edit-btn {
-  background: none;
-  border: none;
-  color: rgba(255, 255, 255, 0.8);
-  cursor: pointer;
-  font-size: 16px;
+/* 캐릭터 이미지 영역 */
+.mp-header__character-area {
+  display: flex;
+  justify-content: center;
+  margin-top: 4px;
+  margin-bottom: 8px;
 }
 
-.mypage-header__stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-8);
-  margin-top: var(--space-16);
+.mp-header__character {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
 }
 
-.mypage-stat {
-  background: rgba(255, 255, 255, 0.25);
-  border-radius: var(--radius-sm);
-  padding: 10px var(--screen-px);
-  text-align: center;
-  color: var(--white);
-}
-
-.mypage-stat__label {
-  font-size: var(--text-caption);
-  opacity: 0.8;
-}
-
-.mypage-stat__value {
-  font-size: var(--text-body1);
-  font-weight: 700;
-  margin-top: 2px;
-}
-
-/* 메뉴 섹션 */
-.menu-section {
-  margin: var(--screen-px) 0;
-}
-
-.menu-section__title {
-  font-size: var(--text-body1);
-  font-weight: 700;
-  color: #212121;
-  padding: var(--screen-px) var(--screen-px) var(--space-8);
-}
-
-.menu-item {
-  height: 48px;
-  padding: 0 var(--screen-px);
+/* 닉네임 행 */
+.mp-header__name-row {
   display: flex;
   align-items: center;
-  gap: var(--space-12);
-  cursor: pointer;
-  background: var(--white);
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 16px;
 }
 
-.menu-item:active { background: var(--bg-base); }
-
-.menu-item__icon {
-  font-size: 20px;
-  color: var(--gray-400);
-  width: 20px;
+.mp-header__name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
 }
 
-.menu-item__label {
+/* 포인트·구독현황 카드 그리드 */
+.mp-status-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.mp-status-card {
+  background: #fff;
+  border-radius: 8px;
+  height: 61px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0 14px;
+  gap: 2px;
+}
+
+.mp-status-card__label-wrap {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.mp-status-card__label {
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(42, 32, 24, 0.5);
+}
+
+.mp-status-card__value {
+  font-size: 16px;
+  font-weight: 700;
+  color: #2a2018;
+}
+
+/* ── 메뉴 영역 ── */
+.mp-menu-wrap {
+  background: #fff;
   flex: 1;
-  font-size: var(--text-body1);
-  color: var(--text-main);
+  margin-top: 8px;
+  border-radius: 12px 12px 0 0;
+  overflow: hidden;
 }
 
-.menu-item__value {
-  font-size: var(--text-body2);
-  color: var(--text-sub);
+/* 섹션 */
+.mp-menu-section {
+  padding: 20px 0 4px;
 }
 
-.menu-divider {
-  height: 8px;
-  background: var(--bg-base);
+.mp-menu-section__title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #2a2018;
+  padding: 0 20px 8px;
+  margin: 0;
 }
 
-/* 푸터 */
-.mypage-footer {
-  padding: var(--space-24) var(--screen-px);
-  text-align: center;
-  font-size: var(--text-body2);
-  color: var(--text-sub);
+/* 메뉴 목록 */
+.mp-menu-list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 메뉴 아이템 */
+.mp-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 20px;
+  cursor: pointer;
+  min-height: 52px;
+}
+
+.mp-menu-item:active {
+  background: #f9f9f9;
+}
+
+.mp-menu-item__icon {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.mp-menu-item__label {
+  flex: 1;
+  font-size: 16px;
+  font-weight: 400;
+  color: #2a2018;
+}
+
+.mp-menu-item__sub {
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(42, 32, 24, 0.5);
+  flex-shrink: 0;
+}
+
+/* 구분선 */
+.mp-divider {
+  height: 1px;
+  background: #ebebeb;
+  margin: 0 20px;
+}
+
+/* ── 푸터 ── */
+.mp-footer {
+  padding: 24px 20px 16px;
+  color: rgba(101, 101, 95, 0.6);
+  font-size: 12px;
   line-height: 1.8;
+}
+
+.mp-footer__links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.mp-footer__link-bold {
+  font-weight: 600;
+  color: rgba(101, 101, 95, 0.8);
+}
+
+.mp-footer__divider {
+  color: rgba(101, 101, 95, 0.4);
+}
+
+.mp-footer p {
+  margin: 0;
 }
