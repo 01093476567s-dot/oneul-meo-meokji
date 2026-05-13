@@ -2,16 +2,6 @@ function renderHeader({ type = 'main', title = '', cartCount = 0 } = {}) {
   if (type === 'main') {
     return `
       <header class="app-header">
-        <!-- 상태바 42px -->
-        <div class="app-header__status">
-          <span class="app-header__time">9:41</span>
-          <div class="app-header__status-icons">
-            <img src="assets/icons/Cellular Connection.svg" width="18" height="12" alt="">
-            <img src="assets/icons/Wifi.svg" width="16" height="12" alt="">
-            <img src="assets/icons/Vector-1.svg" width="26" height="12" alt="">
-          </div>
-        </div>
-        <!-- GNB 62px -->
         <div class="app-header__gnb">
           <div class="app-header__logo">오늘 머먹찌?</div>
           <button class="app-header__cart-btn" onclick="Router.navigate('cart')">
