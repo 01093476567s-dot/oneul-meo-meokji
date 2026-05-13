@@ -34,7 +34,7 @@
 
 /* ── 스크롤 콘텐츠 영역 ── */
 .add-ing-content {
-  padding: 39px 20px 100px;
+  padding: 39px 20px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -440,8 +440,6 @@
 /* ── 하단 CTA 버튼 ── */
 /* Figma: bottom-0, width 390px, #FF8C66, radius 17px, padding 18px 0 */
 .add-cta {
-  position: sticky;
-  bottom: 0;
   margin-bottom: 34px;
   width: 100%;
   max-width: var(--max-width);

@@ -13,6 +13,24 @@ const DI_CATEGORIES = [
   { id: 'ambient', label: '상온식품' },
 ]
 
+const MANUAL_CATEGORIES = [
+  '야채/채소', '유제품', '육류',
+  '수산물', '과일', '조미료',
+  '냉동식품', '상온식품', '음료/주류',
+  '직접입력',
+]
+
+const ICON_OPTIONS = [
+  { label: '야채/채소', file: 'Img_Item' },
+  { label: '육류',     file: 'Img_Item-1' },
+  { label: '유제품',   file: 'Img_Item-2' },
+  { label: '조미료',   file: 'Img_Item-3' },
+  { label: '과일',     file: 'Img_Item-4' },
+  { label: '수산물',   file: 'Img_Item-5' },
+  { label: '냉동/상온', file: 'Img_Item-6' },
+  { label: '음료/주류', file: 'Img_Item-7' },
+]
+
 const DI_ITEMS = [
   { name: '상추', icon: '상추', category: 'veg', expiry: '1개월' },
   { name: '깻잎', icon: '깻잎', category: 'veg', expiry: '2개월' },
@@ -58,6 +76,34 @@ export default function DirectInput() {
   const [manualName, setManualName] = useState('')
   const [manualExpiry, setManualExpiry] = useState('')
   const [manualQty, setManualQty] = useState(1)
+  const [manualCategory, setManualCategory] = useState('')
+  const [manualIcon, setManualIcon] = useState('')
+  const [showCategorySheet, setShowCategorySheet] = useState(false)
+  const [tempCategory, setTempCategory] = useState('')
+  const [showIconSheet, setShowIconSheet] = useState(false)
+  const [tempIcon, setTempIcon] = useState('')
+
+  function openCategorySheet() {
+    setTempCategory(manualCategory)
+    setShowCategorySheet(true)
+    setShowIconSheet(false)
+  }
+
+  function confirmCategory() {
+    setManualCategory(tempCategory)
+    setShowCategorySheet(false)
+  }
+
+  function openIconSheet() {
+    setTempIcon(manualIcon)
+    setShowIconSheet(true)
+    setShowCategorySheet(false)
+  }
+
+  function confirmIcon() {
+    setManualIcon(tempIcon)
+    setShowIconSheet(false)
+  }
 
   const filteredItems = DI_ITEMS.filter((item) => {
     if (activeCategory !== 'all' && item.category !== activeCategory) return false
@@ -92,12 +138,21 @@ export default function DirectInput() {
     if (existing) {
       setSelectedItems((prev) => prev.map((i) => i.name === manualName.trim() ? { ...i, qty: i.qty + manualQty } : i))
     } else {
-      setSelectedItems((prev) => [...prev, { name: manualName.trim(), icon: '', category: '기타', expiry: manualExpiry || '미설정', qty: manualQty, starred: false }])
+      setSelectedItems((prev) => [...prev, {
+        name: manualName.trim(),
+        icon: manualIcon,
+        category: manualCategory || '기타',
+        expiry: manualExpiry || '미설정',
+        qty: manualQty,
+        starred: false,
+      }])
       if (!selectedOpen) setSelectedOpen(true)
     }
     setManualName('')
     setManualExpiry('')
     setManualQty(1)
+    setManualCategory('')
+    setManualIcon('')
   }
 
   function saveItems() {
@@ -195,9 +250,28 @@ export default function DirectInput() {
           {manualOpen && (
             <div className="di-section__body">
               <div className="di-manual-form">
+                {/* 드롭다운 row */}
+                <div className="di-dropdown-row">
+                  <div className="di-picker-wrap">
+                    <button className="di-pill-btn" onClick={openCategorySheet}>
+                      {manualCategory || '카테고리'}
+                      <img src="/assets/icons/btn_open.svg" width="10" height="7" alt="" className="di-pill-btn__arrow" />
+                    </button>
+                  </div>
+                  <div className="di-picker-wrap">
+                    <button className="di-pill-btn" onClick={openIconSheet}>
+                      {manualIcon
+                        ? <img src={`/assets/icons/Recipe_page/${manualIcon}.svg`} width="28" height="28" alt="" style={{ marginRight: 2 }} />
+                        : '아이콘'
+                      }
+                      <img src="/assets/icons/btn_open.svg" width="10" height="7" alt="" className="di-pill-btn__arrow" />
+                    </button>
+                  </div>
+                </div>
+
                 <input
                   className="di-input-field"
-                  placeholder="식재료 이름"
+                  placeholder="입력하고 싶은 식재료 이름을 적어주세요."
                   value={manualName}
                   onChange={(e) => setManualName(e.target.value)}
                 />
@@ -207,17 +281,15 @@ export default function DirectInput() {
                   value={manualExpiry}
                   onChange={(e) => setManualExpiry(e.target.value)}
                 />
-                <div className="di-manual-row">
-                  <input
-                    className="di-input-field di-input-field--small"
-                    type="number"
-                    placeholder="수량"
-                    min="1"
-                    value={manualQty}
-                    onChange={(e) => setManualQty(Number(e.target.value) || 1)}
-                  />
-                  <button className="di-manual-add-btn" onClick={addManual}>추가</button>
-                </div>
+                <input
+                  className="di-input-field"
+                  type="number"
+                  placeholder="수량을 입력해 주세요."
+                  min="1"
+                  value={manualQty}
+                  onChange={(e) => setManualQty(Number(e.target.value) || 1)}
+                />
+                <button className="di-manual-complete-btn" onClick={addManual}>입력완료</button>
               </div>
             </div>
           )}
@@ -247,7 +319,7 @@ export default function DirectInput() {
                 selectedItems.map((item, i) => (
                   <div key={i} className="di-sel-item">
                     {item.icon ? (
-                      <img className="di-sel-item__img" src={`/assets/icons/Add_Ingredient_page/${item.icon}.svg`} alt={item.name} />
+                      <img className="di-sel-item__img" src={`/assets/icons/Recipe_page/${item.icon}.svg`} alt={item.name} />
                     ) : (
                       <span className="di-sel-item__emoji">🥬</span>
                     )}
@@ -263,7 +335,10 @@ export default function DirectInput() {
                       <button className="di-sel-qty-btn" onClick={() => adjustQty(i, 1)}>+</button>
                     </div>
                     <button className="di-sel-star" onClick={() => toggleStar(i)}>
-                      {item.starred ? '★' : '☆'}
+                      <img
+                        src={item.starred ? '/assets/icons/star.svg' : '/assets/icons/star_gray.svg'}
+                        width="19" height="18" alt="즐겨찾기"
+                      />
                     </button>
                   </div>
                 ))
@@ -272,6 +347,62 @@ export default function DirectInput() {
           )}
         </div>
       </div>
+
+      {/* 카테고리 바텀시트 */}
+      {showCategorySheet && (
+        <>
+          <div className="di-sheet-overlay" onClick={() => setShowCategorySheet(false)} />
+          <div className="di-cat-sheet">
+            <div className="di-cat-sheet__header">
+              <span className="di-cat-sheet__title">카테고리</span>
+              <button className="di-cat-sheet__close" onClick={() => setShowCategorySheet(false)}>
+                <img src="/assets/icons/Tooltip_CloseIcon.svg" width="19" height="19" alt="닫기"
+                  onError={e => { e.currentTarget.outerHTML = '<span style="font-size:18px;color:#2a2018">✕</span>' }} />
+              </button>
+            </div>
+            <div className="di-cat-sheet__grid">
+              {MANUAL_CATEGORIES.map(cat => (
+                <button
+                  key={cat}
+                  className={`di-cat-sheet__item${tempCategory === cat ? ' di-cat-sheet__item--active' : ''}`}
+                  onClick={() => setTempCategory(cat)}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+            <button className="di-cat-sheet__confirm" onClick={confirmCategory}>선택완료</button>
+          </div>
+        </>
+      )}
+
+      {/* 아이콘 바텀시트 */}
+      {showIconSheet && (
+        <>
+          <div className="di-sheet-overlay" onClick={() => setShowIconSheet(false)} />
+          <div className="di-cat-sheet">
+            <div className="di-cat-sheet__header">
+              <span className="di-cat-sheet__title">아이콘</span>
+              <button className="di-cat-sheet__close" onClick={() => setShowIconSheet(false)}>
+                <img src="/assets/icons/Tooltip_CloseIcon.svg" width="19" height="19" alt="닫기"
+                  onError={e => { e.currentTarget.outerHTML = '<span style="font-size:18px;color:#2a2018">✕</span>' }} />
+              </button>
+            </div>
+            <div className="di-icon-sheet__grid">
+              {ICON_OPTIONS.map(opt => (
+                <button
+                  key={opt.file}
+                  className={`di-icon-sheet__item${tempIcon === opt.file ? ' di-icon-sheet__item--active' : ''}`}
+                  onClick={() => setTempIcon(opt.file)}
+                >
+                  <img src={`/assets/icons/Recipe_page/${opt.file}.svg`} width="48" height="48" alt={opt.label} />
+                </button>
+              ))}
+            </div>
+            <button className="di-cat-sheet__confirm" onClick={confirmIcon}>선택완료</button>
+          </div>
+        </>
+      )}
 
       {/* 하단 CTA */}
       <div className="di-cta">

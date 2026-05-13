@@ -4,12 +4,12 @@ import { useFridge } from '../context/FridgeContext'
 
 // 즐겨찾기 목록 — 아이콘: /assets/icons/Ingradient/[이름].svg
 const DEFAULT_FAVORITES = [
-  { name: '새우',  expiry: '6개월', qty: 1, unit: '' },
-  { name: '당근',  expiry: '1개월', qty: 2, unit: '' },
-  { name: '양파',  expiry: '2개월', qty: 3, unit: '' },
-  { name: '달걀',  expiry: '1개월', qty: 10, unit: '' },
-  { name: '두부',  expiry: '7일',   qty: 1, unit: '' },
-  { name: '김치',  expiry: '3개월', qty: 1, unit: '' },
+  { name: '새우',  expiry: '6개월', unit: '' },
+  { name: '당근',  expiry: '1개월', unit: '' },
+  { name: '양파',  expiry: '2개월', unit: '' },
+  { name: '달걀',  expiry: '1개월', unit: '' },
+  { name: '두부',  expiry: '7일',   unit: '' },
+  { name: '김치',  expiry: '3개월', unit: '' },
 ]
 
 const DELETE_THRESHOLD = -72
@@ -92,30 +92,23 @@ export default function AddIngredient() {
   const [favorites, setFavorites] = useState(DEFAULT_FAVORITES)
   const [cart, setCart] = useState([])
 
-  function adjustFavQty(i, delta) {
-    setFavorites(prev =>
-      prev.map((item, idx) => {
-        if (idx !== i) return item
-        const step = item.unit === 'g' ? 50 : 1
-        return { ...item, qty: Math.max(step, item.qty + delta * step) }
-      })
-    )
+  function adjustFavCartQty(item, delta) {
+    setCart(prev => {
+      const existing = prev.find(c => c.name === item.name)
+      if (existing) {
+        const newQty = existing.quantity + delta
+        if (newQty <= 0) return prev.filter(c => c.name !== item.name)
+        return prev.map(c => c.name === item.name ? { ...c, quantity: newQty } : c)
+      } else if (delta > 0) {
+        setCartOpen(true)
+        return [...prev, { name: item.name, quantity: 1, unit: item.unit }]
+      }
+      return prev
+    })
   }
 
   function removeFavorite(i) {
     setFavorites(prev => prev.filter((_, idx) => idx !== i))
-  }
-
-  function addFavoritesToCart() {
-    favorites.forEach(item => {
-      setCart(prev => {
-        const existing = prev.find(c => c.name === item.name)
-        if (existing) return prev.map(c => c.name === item.name ? { ...c, quantity: c.quantity + item.qty } : c)
-        return [...prev, { name: item.name, quantity: item.qty, unit: item.unit }]
-      })
-    })
-    setFavOpen(false)
-    setCartOpen(true)
   }
 
   function removeCartItem(i) {
@@ -198,9 +191,8 @@ export default function AddIngredient() {
                       </div>
                     </div>
                     <div className="fav-list-item__right">
-                      <button className="fav-qty-btn" onClick={e => { e.stopPropagation(); adjustFavQty(i, -1) }}>−</button>
-                      <span className="fav-qty-val">{item.qty}{item.unit}</span>
-                      <button className="fav-qty-btn" onClick={e => { e.stopPropagation(); adjustFavQty(i, 1) }}>+</button>
+                      <button className="fav-qty-btn" onClick={e => { e.stopPropagation(); adjustFavCartQty(item, -1) }}>−</button>
+                      <button className="fav-qty-btn" onClick={e => { e.stopPropagation(); adjustFavCartQty(item, 1) }}>+</button>
                     </div>
                   </div>
                 </SwipeableItem>
@@ -211,15 +203,6 @@ export default function AddIngredient() {
                 <img src="/assets/icons/Add_Ingredient_page/Ic_Search.svg" width="20" height="19" alt="" />
                 <span className="fav-search__placeholder">등록하고 싶은 식재료가 있나요?</span>
               </div>
-
-              {/* 담기 버튼 */}
-              {favorites.length > 0 && (
-                <div style={{ padding: '10px' }}>
-                  <button className="fav-add-btn" onClick={addFavoritesToCart}>
-                    담기
-                  </button>
-                </div>
-              )}
             </div>
           )}
         </div>
