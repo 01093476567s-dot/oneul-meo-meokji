@@ -206,8 +206,12 @@ export default function Fridge() {
 
                 {/* 추가 버튼 */}
                 <div className="ingredient-cell--add" onClick={() => {
-                  const catId = Object.entries(CATEGORY_MAP).find(([, v]) => v === activeCategory)?.[0] || 'all'
-                  navigate(`/direct-input?category=${catId}`)
+                  if (activeCategory === '전체') {
+                    navigate('/add-ingredient')
+                  } else {
+                    const catId = Object.entries(CATEGORY_MAP).find(([, v]) => v === activeCategory)?.[0]
+                    navigate(`/direct-input?category=${catId}`)
+                  }
                 }}>
                   <div className="ing-cell__content">
                     <div className="ing-cell__img-wrap">
