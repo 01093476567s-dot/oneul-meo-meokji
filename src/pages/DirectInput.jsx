@@ -77,6 +77,15 @@ const DI_ITEMS = [
   { name: '스팸', icon: '스팸', folder: 'Ingradient', category: 'meat', expiry: '1개월' },
   { name: '돼지고기', icon: '돼지고기', folder: 'Ingradient', category: 'meat', expiry: '3일' },
   { name: '등심', icon: '등심', folder: 'Ingradient', category: 'meat', expiry: '3일' },
+  // 상온식품
+  { name: '라면', icon: '라면', folder: 'Ingradient', category: 'ambient', expiry: '6개월' },
+  { name: '파스타면', icon: '파스타면', folder: 'Ingradient', category: 'ambient', expiry: '2년' },
+  { name: '소면', icon: '소면', folder: 'Ingradient', category: 'ambient', expiry: '2년' },
+  { name: '라면면', icon: '라면면', folder: 'Ingradient', category: 'ambient', expiry: '6개월' },
+  { name: '당면', icon: '당면', folder: 'Ingradient', category: 'ambient', expiry: '2년' },
+  { name: '밀가루', icon: '밀가루', folder: 'Ingradient', category: 'ambient', expiry: '1년' },
+  { name: '부침가루', icon: '부침가루', folder: 'Ingradient', category: 'ambient', expiry: '1년' },
+  { name: '전분가루', icon: '전분가루', folder: 'Ingradient', category: 'ambient', expiry: '2년' },
   // 유제품
   { name: '달걀', icon: '계란', folder: 'Ingradient', category: 'dairy', expiry: '1개월' },
   { name: '우유', icon: '우유', folder: 'Ingradient', category: 'dairy', expiry: '2주일' },
