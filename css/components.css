@@ -51,12 +51,12 @@
 
 /* 로고 */
 .app-header__logo {
-  font-size: 28px;
-  font-weight: 900;
-  color: #fff;
-  letter-spacing: -0.5px;
-  line-height: 1;
-  font-style: italic;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
 }
 
 /* 장바구니 버튼 */

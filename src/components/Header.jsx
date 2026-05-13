@@ -17,7 +17,9 @@ export default function Header({ type = 'main', title = '' }) {
           </div>
         </div>
         <div className="app-header__gnb">
-          <div className="app-header__logo">오늘 머먹찌?</div>
+          <button className="app-header__logo" onClick={() => navigate('/')}>
+            <img src="/images/logo.png" width="163" height="31" alt="오늘 머먹겠지?" />
+          </button>
           <button className="app-header__cart-btn" onClick={() => navigate('/cart')}>
             <img src="/assets/icons/Ic_Cart.svg" width="35" height="30" alt="장바구니" />
             {cart.length > 0 && (
