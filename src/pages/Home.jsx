@@ -1,7 +1,6 @@
 import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Header from '../components/Header'
-import BottomNav from '../components/BottomNav'
 import { useFridge } from '../context/FridgeContext'
 
 const LUNCHBOXES = [
@@ -210,7 +209,6 @@ export default function Home() {
 
         {activeTab === 'today' ? <TodayTab /> : <CalendarTab />}
       </div>
-      <BottomNav />
     </>
   )
 }

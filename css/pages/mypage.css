@@ -6,7 +6,7 @@
 .mp-page {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 100%;
   background: #f5f5f5;
 }
 
@@ -110,7 +110,7 @@
   flex: 1;
   margin-top: 8px;
   border-radius: 12px 12px 0 0;
-  padding-bottom: 100px;
+  padding-bottom: 24px;
 }
 
 /* 섹션 */

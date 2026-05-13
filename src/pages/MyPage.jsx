@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom'
-import BottomNav from '../components/BottomNav'
 import { useFridge } from '../context/FridgeContext'
 
 export default function MyPage() {
@@ -156,7 +155,6 @@ export default function MyPage() {
 
       </div>
 
-      <BottomNav />
     </div>
   )
 }

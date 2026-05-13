@@ -213,8 +213,7 @@
 .fridge-page-content {
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh - 84px); /* 탭바 84px 제외 */
-  padding-bottom: 84px;           /* 탭바 높이만큼 여백 */
+  min-height: 100%;
 }
 
 /* ── 재료 있을 때 전체 래퍼 ── */

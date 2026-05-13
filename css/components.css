@@ -115,12 +115,8 @@
 .bottom-nav {
   background: var(--bg-base);
   height: 84px;
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  flex-shrink: 0;
   width: 100%;
-  max-width: var(--max-width);
   border-top: 1px solid var(--border-warm);
   filter: drop-shadow(0px 0px 1px rgba(0,0,0,0.15));
   display: flex;
