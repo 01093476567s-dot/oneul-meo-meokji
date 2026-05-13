@@ -20,6 +20,32 @@ function normalizeCategory(cat) {
   return CATEGORY_MAP[cat] || cat
 }
 
+// 이름에 포함된 식재료명으로 아이콘 파일을 찾기 위한 목록 (긴 이름 우선)
+const KNOWN_ICONS = [
+  '닭가슴살', '파스타면', '부침가루', '전분가루', '라면면', '블루베리', '파인애플', '아보카도', '올리브유',
+  '치킨스톡', '고추장', '참기름', '굴소스', '체다치즈', '모짜렐라', '크림치즈', '요구르트', '요거트',
+  '국거리', '다짐육', '삼겹살', '소갈비', '소고기', '닭고기', '오리고기', '돼지고기', '소시지', '베이컨',
+  '날치알', '쭈꾸미', '고등어', '오징어', '굴비', '홍합', '전복', '조개', '새우', '낙지', '연어', '갈치', '조기', '명란',
+  '바나나', '블루베리', '복숭아', '오렌지', '자몽', '레몬', '수박', '참외', '망고', '체리', '딸기', '포도', '키위', '사과', '귤', '배',
+  '식용유', '올리브유', '참기름', '간장', '된장', '맛술', '케찹', '소금', '설탕', '후추', '미원',
+  '당면', '소면', '라면', '밀가루',
+  '당근', '양파', '깻잎', '콩나물', '표고버섯', '대파', '청양고추',
+  '계란', '우유', '버터', '마가린', '등심', '스팸', '햄',
+]
+
+// 이름과 아이콘 파일명이 다른 경우 매핑
+const ICON_NAME_MAP = { '달걀': '계란', '참치': '참치캔' }
+
+function resolveIconSrc(item) {
+  if (item.icon) return `/assets/icons/${item.folder || 'Ingradient'}/${item.icon}.svg`
+  const matched = KNOWN_ICONS.find((name) => item.name.includes(name))
+  if (matched) return `/assets/icons/Ingradient/${ICON_NAME_MAP[matched] || matched}.svg`
+  // ICON_NAME_MAP에 직접 이름이 있는 경우 (예: '달걀(유정란)')
+  const mappedKey = Object.keys(ICON_NAME_MAP).find((key) => item.name.includes(key))
+  if (mappedKey) return `/assets/icons/Ingradient/${ICON_NAME_MAP[mappedKey]}.svg`
+  return `/assets/icons/Ingradient/${item.name}.svg`
+}
+
 function getExpiryStatus(expiryDate) {
   if (!expiryDate) return 'safe'
   const today = new Date()
@@ -49,7 +75,7 @@ function IngredientDetail({ item, onClose }) {
     <div style={{ padding: '0 16px 32px' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
         <img
-          src={`/assets/icons/${item.folder || 'Ingradient'}/${item.icon || item.name}.svg`}
+          src={resolveIconSrc(item)}
           style={{ width: 56, height: 56, objectFit: 'contain' }}
           alt={item.name}
           onError={(e) => { e.currentTarget.style.opacity = '0.2' }}
@@ -190,7 +216,7 @@ export default function Fridge() {
                         <div className="ing-cell__img-wrap">
                           <div className="ing-cell__item-area">
                             <img
-                              src={`/assets/icons/${item.folder || 'Ingradient'}/${item.icon || item.name}.svg`}
+                              src={resolveIconSrc(item)}
                               alt={item.name}
                               onError={(e) => { e.currentTarget.style.opacity = '0.2' }}
                             />
@@ -268,7 +294,7 @@ function ExpiryBanner({ expiring }) {
           {expiring.map((item) => (
             <div key={item.id} className="expiry-banner__row">
               <img
-                src={`/assets/icons/${item.folder || 'Ingradient'}/${item.icon || item.name}.svg`}
+                src={resolveIconSrc(item)}
                 className="expiry-banner__row-img"
                 alt={item.name}
                 onError={(e) => { e.currentTarget.style.opacity = '0.15' }}
