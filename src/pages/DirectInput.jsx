@@ -353,7 +353,7 @@ export default function DirectInput() {
                 selectedItems.map((item, i) => (
                   <div key={i} className="di-sel-item">
                     {item.icon ? (
-                      <img className="di-sel-item__img" src={`/assets/icons/Recipe_page/${item.icon}.svg`} alt={item.name} />
+                      <img className="di-sel-item__img" src={`/assets/icons/${item.folder || 'Add_Ingredient_page'}/${item.icon}.svg`} alt={item.name} />
                     ) : (
                       <span className="di-sel-item__emoji">🥬</span>
                     )}
