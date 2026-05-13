@@ -125,54 +125,61 @@
   z-index: 100;
 }
 
+/* Figma: w-398px h-55px gap-100px */
 .bottom-nav__inner {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 110px;
+  gap: 100px;
   width: 398px;
-  height: 57px;
+  height: 55px;
 }
 
+/* Figma: flex-col gap-5px items-center justify-end */
 .bottom-nav__item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
+  gap: 5px;
   height: 100%;
   cursor: pointer;
   background: none;
   border: none;
-  color: var(--text-inactive-nav);     /* #B0A090 */
-  font-size: 14px;
+  color: #b0a090;
+  font-size: 12px;
   font-family: var(--font-family);
   font-weight: 500;
   padding: 0;
+  text-decoration: none;
 }
 
 .bottom-nav__item.active {
-  color: var(--primary);               /* #FF8C66 */
+  color: #ff8c66;
 }
 
 .bottom-nav__icon {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
-/* 홈 아이콘: 29×27 */
-.bottom-nav__item--home .bottom-nav__icon { width: 29px; height: 27px; }
-/* 냉장고 아이콘: 19×31 */
-.bottom-nav__item--fridge .bottom-nav__icon { width: 19px; height: 31px; }
-/* 마이페이지 아이콘: 31×31 */
-.bottom-nav__item--mypage .bottom-nav__icon { width: 31px; height: 31px; }
+/* Figma 아이콘 크기 — 홈: 26×24, 냉장고: 19×28, 마이페이지: 24×25 */
+.bottom-nav__item--home    .bottom-nav__icon { width: 26px; height: 24px; }
+.bottom-nav__item--fridge  .bottom-nav__icon { width: 19px; height: 28px; }
+.bottom-nav__item--mypage  .bottom-nav__icon { width: 24px; height: 25px; }
 
-/* SVG 아이콘 색상 */
-.bottom-nav__item svg {
+/* 아이콘 이미지/SVG 크기 맞춤 */
+.bottom-nav__icon img,
+.bottom-nav__icon svg {
   width: 100%;
   height: 100%;
-  fill: currentColor;
+  object-fit: contain;
+  display: block;
 }
+
+.bottom-nav__item svg { fill: currentColor; }
 
 /* 페이지 콘텐츠 영역 */
 .page-content {
