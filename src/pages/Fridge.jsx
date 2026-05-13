@@ -4,7 +4,7 @@ import Header from '../components/Header'
 import { useFridge } from '../context/FridgeContext'
 import { useBottomSheet } from '../context/BottomSheetContext'
 
-const FRIDGE_CATEGORIES = ['전체', '야채/채소', '유제품', '육류', '수산물', '과일', '조미료', '상온식품']
+const FIXED_CATEGORIES = ['전체', '야채/채소', '유제품', '육류', '수산물', '과일', '조미료', '상온식품']
 
 const CATEGORY_MAP = {
   veg: '야채/채소',
@@ -119,6 +119,14 @@ export default function Fridge() {
   const isEmpty = ingredients.length === 0
   const expiring = getExpiringIngredients()
 
+  // 재료에서 커스텀 카테고리(고정 목록에 없는 것) 추출해서 맨 끝에 추가
+  const customCats = [...new Set(
+    ingredients
+      .map(i => normalizeCategory(i.category))
+      .filter(cat => cat && !FIXED_CATEGORIES.includes(cat))
+  )]
+  const fridgeCategories = [...FIXED_CATEGORIES, ...customCats]
+
   const filtered = activeCategory === '전체'
     ? ingredients
     : ingredients.filter((i) => normalizeCategory(i.category) === activeCategory)
@@ -190,7 +198,7 @@ export default function Fridge() {
               {/* 카테고리 탭 */}
               <div className="fridge-cat-wrap">
                 <div className="fridge-cat-list">
-                  {FRIDGE_CATEGORIES.map((cat) => (
+                  {fridgeCategories.map((cat) => (
                     <button
                       key={cat}
                       className={`fridge-cat-chip${activeCategory === cat ? ' fridge-cat-chip--active' : ''}`}
