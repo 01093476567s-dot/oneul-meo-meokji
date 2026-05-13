@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Header from '../components/Header'
 import { useFridge } from '../context/FridgeContext'
@@ -115,6 +115,8 @@ export default function Fridge() {
   const { openSheet, closeSheet } = useBottomSheet()
   const [activeCategory, setActiveCategory] = useState('전체')
   const [tooltipVisible, setTooltipVisible] = useState(true)
+  const [catFade, setCatFade] = useState(true)
+  const catListRef = useRef(null)
 
   const isEmpty = ingredients.length === 0
   const expiring = getExpiringIngredients()
@@ -123,9 +125,15 @@ export default function Fridge() {
   const customCats = [...new Set(
     ingredients
       .map(i => normalizeCategory(i.category))
-      .filter(cat => cat && !FIXED_CATEGORIES.includes(cat))
+      .filter(cat => cat && cat !== '기타' && !FIXED_CATEGORIES.includes(cat))
   )]
   const fridgeCategories = [...FIXED_CATEGORIES, ...customCats]
+
+  function handleCatScroll() {
+    const el = catListRef.current
+    if (!el) return
+    setCatFade(el.scrollLeft + el.clientWidth < el.scrollWidth - 4)
+  }
 
   const filtered = activeCategory === '전체'
     ? ingredients
@@ -197,7 +205,7 @@ export default function Fridge() {
 
               {/* 카테고리 탭 */}
               <div className="fridge-cat-wrap">
-                <div className="fridge-cat-list">
+                <div className="fridge-cat-list" ref={catListRef} onScroll={handleCatScroll}>
                   {fridgeCategories.map((cat) => (
                     <button
                       key={cat}
@@ -208,7 +216,7 @@ export default function Fridge() {
                     </button>
                   ))}
                 </div>
-                <div className="fridge-cat-fade" aria-hidden="true" />
+                {catFade && <div className="fridge-cat-fade" aria-hidden="true" />}
               </div>
               <div className="fridge-cat-divider" />
 

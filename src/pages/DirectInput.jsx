@@ -182,7 +182,13 @@ export default function DirectInput() {
   }
 
   function confirmCategory() {
-    setManualCategory(tempCategory)
+    let cat = tempCategory
+    if (catDirectMode && catDirectValue.trim()) {
+      const val = catDirectValue.trim()
+      if (!customCategories.includes(val)) setCustomCategories(prev => [...prev, val])
+      cat = val
+    }
+    setManualCategory(cat)
     setShowCategorySheet(false)
     setCatDirectMode(false)
     setCatDirectValue('')
