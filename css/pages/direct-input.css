@@ -371,41 +371,23 @@
   color: #ff8c66;
 }
 
-.di-cat-sheet__direct-wrap {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  border: 2px solid #ff8c66;
-  border-radius: 8px;
-  padding: 0 10px;
-  height: 50px;
-}
-
 .di-cat-sheet__direct-input {
-  flex: 1;
-  border: none;
+  text-align: center;
   outline: none;
-  font-size: 14px;
-  font-family: var(--font-family);
+  cursor: text;
+  border-style: dashed;
+  border-color: #ff8c66;
   color: #2a2018;
-  background: transparent;
+  background: #fff;
+  transition: font-size 0.15s ease;
+  padding: 0 6px;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .di-cat-sheet__direct-input::placeholder {
-  color: rgba(42, 32, 24, 0.3);
-}
-
-.di-cat-sheet__direct-confirm {
-  flex-shrink: 0;
-  background: #ff8c66;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  padding: 4px 10px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: var(--font-family);
+  color: rgba(42, 32, 24, 0.25);
+  font-size: 16px;
 }
 
 .di-cat-sheet__confirm {

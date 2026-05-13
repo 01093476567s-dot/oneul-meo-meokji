@@ -496,17 +496,20 @@ export default function DirectInput() {
                 </button>
               ))}
               {catDirectMode ? (
-                <div className="di-cat-sheet__direct-wrap">
-                  <input
-                    className="di-cat-sheet__direct-input"
-                    autoFocus
-                    placeholder="카테고리 입력"
-                    value={catDirectValue}
-                    onChange={e => setCatDirectValue(e.target.value)}
-                    onKeyDown={e => e.key === 'Enter' && addCustomCategory()}
-                  />
-                  <button className="di-cat-sheet__direct-confirm" onClick={addCustomCategory}>확인</button>
-                </div>
+                <input
+                  className="di-cat-sheet__item di-cat-sheet__direct-input"
+                  autoFocus
+                  placeholder="직접입력"
+                  value={catDirectValue}
+                  style={{
+                    fontSize: catDirectValue.length > 12 ? '11px'
+                            : catDirectValue.length > 8  ? '13px'
+                            : '16px'
+                  }}
+                  onChange={e => setCatDirectValue(e.target.value)}
+                  onKeyDown={e => e.key === 'Enter' && addCustomCategory()}
+                  onBlur={addCustomCategory}
+                />
               ) : (
                 <button
                   className="di-cat-sheet__item di-cat-sheet__item--direct"
