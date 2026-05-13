@@ -42,11 +42,13 @@ export function FridgeProvider({ children }) {
 
   const getExpiringIngredients = useCallback(() => {
     const today = new Date()
+    today.setHours(0, 0, 0, 0)
     return ingredients.filter((item) => {
       if (!item.expiryDate) return false
       const expiry = new Date(item.expiryDate)
+      if (isNaN(expiry)) return false
       const diff = Math.ceil((expiry - today) / (1000 * 60 * 60 * 24))
-      return diff <= 2
+      return diff <= 7
     })
   }, [ingredients])
 

@@ -202,26 +202,43 @@ export default function Fridge() {
 
 function ExpiryBanner({ expiring }) {
   const [open, setOpen] = useState(false)
+
+  function daysLeft(expiryDate) {
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+    const expiry = new Date(expiryDate)
+    const diff = Math.ceil((expiry - today) / (1000 * 60 * 60 * 24))
+    if (diff < 0) return '기한 초과'
+    if (diff === 0) return '오늘 마감'
+    return `${diff}일 남음`
+  }
+
   return (
-    <div className={`expiry-banner${open ? ' expiry-banner--open' : ''}`}>
+    <div className="expiry-banner">
       <div className="expiry-banner__header" onClick={() => setOpen((o) => !o)}>
-        <span>▲ 유통기한이 얼마 남지 않은 식재료가 있어요!</span>
+        <p className="expiry-banner__text">
+          <span className="expiry-banner__icon">⚠</span>
+          {` 유통기한이 얼마 남지 않은 식재료가 있어요!`}
+        </p>
         <img
-          src="/assets/icons/btn_open.svg" width="17" height="10" alt=""
+          src="/assets/icons/btn_open.svg"
+          width="10" height="17" alt=""
           className={`expiry-banner__chevron${open ? ' expiry-banner__chevron--open' : ''}`}
         />
       </div>
+
       {open && (
-        <div className="expiry-banner__grid">
-          {expiring.slice(0, 5).map((item) => (
-            <div key={item.id} className="expiry-banner__item">
+        <div className="expiry-banner__body">
+          {expiring.map((item) => (
+            <div key={item.id} className="expiry-banner__row">
               <img
                 src={`/assets/icons/Ingradient/${item.name}.svg`}
-                className="expiry-banner__item-img"
+                className="expiry-banner__row-img"
                 alt={item.name}
-                onError={(e) => { e.currentTarget.style.opacity = '0.2' }}
+                onError={(e) => { e.currentTarget.style.opacity = '0.15' }}
               />
-              <span className="expiry-banner__item-name">{item.name}</span>
+              <span className="expiry-banner__row-name">{item.name}</span>
+              <span className="expiry-banner__row-days">{daysLeft(item.expiryDate)}</span>
             </div>
           ))}
         </div>

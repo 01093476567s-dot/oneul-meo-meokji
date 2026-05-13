@@ -155,6 +155,20 @@ export default function DirectInput() {
     setManualIcon('')
   }
 
+  function resolveExpiryDate(expiry) {
+    if (!expiry) return ''
+    if (/^\d{4}-\d{2}-\d{2}$/.test(expiry)) return expiry
+    const today = new Date()
+    const n = parseInt(expiry) || 0
+    let days = 0
+    if (expiry.includes('개월')) days = n * 30
+    else if (expiry.includes('주일') || expiry.includes('주')) days = n * 7
+    else if (expiry.includes('일')) days = n
+    if (!days) return ''
+    const d = new Date(today.getTime() + days * 24 * 60 * 60 * 1000)
+    return d.toISOString().split('T')[0]
+  }
+
   function saveItems() {
     if (selectedItems.length === 0) { alert('재료를 먼저 선택해주세요'); return }
     selectedItems.forEach((item) => addIngredient({
@@ -162,7 +176,7 @@ export default function DirectInput() {
       emoji: '🥬',
       category: item.category,
       quantity: item.qty,
-      expiryDate: item.expiry || '',
+      expiryDate: resolveExpiryDate(item.expiry),
     }))
     navigate('/fridge')
   }
