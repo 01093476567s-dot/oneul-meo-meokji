@@ -1,0 +1,292 @@
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useFridge } from '../context/FridgeContext'
+
+const DI_CATEGORIES = [
+  { id: 'all', label: '전체' },
+  { id: 'veg', label: '야채/채소' },
+  { id: 'dairy', label: '유제품' },
+  { id: 'meat', label: '육류' },
+  { id: 'seafood', label: '수산물' },
+  { id: 'fruit', label: '과일' },
+  { id: 'seasoning', label: '조미료' },
+  { id: 'ambient', label: '상온식품' },
+]
+
+const DI_ITEMS = [
+  { name: '상추', icon: '상추', category: 'veg', expiry: '1개월' },
+  { name: '깻잎', icon: '깻잎', category: 'veg', expiry: '2개월' },
+  { name: '양배추', icon: '양배추', category: 'veg', expiry: '1개월' },
+  { name: '시금치', icon: '시금치', category: 'veg', expiry: '1개월' },
+  { name: '청경채', icon: '청경채', category: 'veg', expiry: '1개월' },
+  { name: '케일', icon: '케일', category: 'veg', expiry: '1개월' },
+  { name: '감자', icon: '감자', category: 'veg', expiry: '2개월' },
+  { name: '고구마', icon: '고구마', category: 'veg', expiry: '2개월' },
+  { name: '당근', icon: '당근', category: 'veg', expiry: '1개월' },
+  { name: '무', icon: '무', category: 'veg', expiry: '1개월' },
+  { name: '양파', icon: '양파', category: 'veg', expiry: '2개월' },
+  { name: '마늘', icon: '마늘', category: 'veg', expiry: '3개월' },
+  { name: '생강', icon: '생강', category: 'veg', expiry: '2개월' },
+  { name: '연근', icon: '연근', category: 'veg', expiry: '1개월' },
+  { name: '오이', icon: '오이', category: 'veg', expiry: '1주일' },
+  { name: '가지', icon: '가지', category: 'veg', expiry: '1개월' },
+  { name: '호박', icon: '호박', category: 'veg', expiry: '1개월' },
+  { name: '브로콜리', icon: '브로콜리', category: 'veg', expiry: '1주일' },
+  { name: '피망', icon: '피망', category: 'veg', expiry: '1개월' },
+  { name: '파프리카', icon: '파프리카', category: 'veg', expiry: '1개월' },
+  { name: '아스파라거스', icon: '아스파라거스', category: 'veg', expiry: '1주일' },
+  { name: '토마토', icon: '토마토', category: 'veg', expiry: '1개월' },
+  { name: '옥수수', icon: '옥수수', category: 'veg', expiry: '1개월' },
+  { name: '콩나물', icon: '콩나물', category: 'veg', expiry: '3일' },
+  { name: '숙주', icon: '숙주', category: 'veg', expiry: '3일' },
+  { name: '표고버섯', icon: '표고버섯', category: 'veg', expiry: '1주일' },
+  { name: '팽이버섯', icon: '팽이버섯', category: 'veg', expiry: '1주일' },
+  { name: '새송이버섯', icon: '새송이버섯', category: 'veg', expiry: '2주일' },
+  { name: '양송이버섯', icon: '양송이버섯', category: 'veg', expiry: '1주일' },
+]
+
+export default function DirectInput() {
+  const navigate = useNavigate()
+  const { addIngredient } = useFridge()
+
+  const [searchQuery, setSearchQuery] = useState('')
+  const [activeCategory, setActiveCategory] = useState('veg')
+  const [selectedItems, setSelectedItems] = useState([])
+  const [manualOpen, setManualOpen] = useState(false)
+  const [selectedOpen, setSelectedOpen] = useState(false)
+
+  const [manualName, setManualName] = useState('')
+  const [manualExpiry, setManualExpiry] = useState('')
+  const [manualQty, setManualQty] = useState(1)
+
+  const filteredItems = DI_ITEMS.filter((item) => {
+    if (activeCategory !== 'all' && item.category !== activeCategory) return false
+    if (searchQuery && !item.name.includes(searchQuery)) return false
+    return true
+  })
+
+  function toggleItem(item) {
+    setSelectedItems((prev) => {
+      const idx = prev.findIndex((s) => s.name === item.name)
+      if (idx >= 0) return prev.filter((_, i) => i !== idx)
+      if (!selectedOpen) setSelectedOpen(true)
+      return [...prev, { ...item, qty: 1, starred: false }]
+    })
+  }
+
+  function adjustQty(i, delta) {
+    setSelectedItems((prev) =>
+      prev.map((item, idx) => idx === i ? { ...item, qty: Math.max(1, item.qty + delta) } : item)
+    )
+  }
+
+  function toggleStar(i) {
+    setSelectedItems((prev) =>
+      prev.map((item, idx) => idx === i ? { ...item, starred: !item.starred } : item)
+    )
+  }
+
+  function addManual() {
+    if (!manualName.trim()) { alert('식재료 이름을 입력해주세요'); return }
+    const existing = selectedItems.find((i) => i.name === manualName.trim())
+    if (existing) {
+      setSelectedItems((prev) => prev.map((i) => i.name === manualName.trim() ? { ...i, qty: i.qty + manualQty } : i))
+    } else {
+      setSelectedItems((prev) => [...prev, { name: manualName.trim(), icon: '', category: '기타', expiry: manualExpiry || '미설정', qty: manualQty, starred: false }])
+      if (!selectedOpen) setSelectedOpen(true)
+    }
+    setManualName('')
+    setManualExpiry('')
+    setManualQty(1)
+  }
+
+  function saveItems() {
+    if (selectedItems.length === 0) { alert('재료를 먼저 선택해주세요'); return }
+    selectedItems.forEach((item) => addIngredient({
+      name: item.name,
+      emoji: '🥬',
+      category: item.category,
+      quantity: item.qty,
+      expiryDate: item.expiry || '',
+    }))
+    navigate('/fridge')
+  }
+
+  return (
+    <>
+      {/* 상태바 */}
+      <div className="di-statusbar" aria-hidden="true">
+        <span className="di-statusbar__time">9:41</span>
+        <div className="di-statusbar__icons">
+          <img src="/assets/icons/Cellular Connection.svg" width="18" height="12" alt="" />
+          <img src="/assets/icons/Wifi.svg" width="16" height="12" alt="" />
+          <img src="/assets/icons/Vector-1.svg" width="26" height="12" alt="" />
+        </div>
+      </div>
+
+      {/* 헤더 */}
+      <header className="di-header">
+        <button className="di-header__btn" onClick={() => navigate(-1)}>
+          <img src="/assets/icons/back_icon.svg" width="10" height="17" alt="뒤로" />
+        </button>
+        <span className="di-header__title">직접입력</span>
+        <button className="di-header__btn" onClick={() => navigate('/')}>
+          <img src="/assets/icons/home_top_icon.svg" width="27" height="24" alt="홈" />
+        </button>
+      </header>
+
+      <div className="di-content">
+        {/* 검색바 */}
+        <div className="di-search">
+          <img src="/assets/icons/Add_Ingredient_page/Ic_Search.svg" width="19" height="19" alt="" />
+          <input
+            className="di-search__input"
+            type="text"
+            placeholder="찾고싶은 식재료가 있나요?"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+
+        {/* 카테고리 탭 */}
+        <div className="di-category-wrap">
+          <div className="di-category-list">
+            {DI_CATEGORIES.map((cat) => (
+              <button
+                key={cat.id}
+                className={`di-cat-chip${cat.id === activeCategory ? ' di-cat-chip--active' : ''}`}
+                onClick={() => setActiveCategory(cat.id)}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </div>
+          <div className="di-category-divider" />
+        </div>
+
+        {/* 식재료 그리드 */}
+        <div className="di-grid">
+          {filteredItems.length === 0 ? (
+            <p className="di-grid__empty">검색 결과가 없어요.</p>
+          ) : (
+            filteredItems.map((item) => {
+              const isSelected = selectedItems.some((s) => s.name === item.name)
+              return (
+                <div
+                  key={item.name}
+                  className={`di-card${isSelected ? ' di-card--active' : ''}`}
+                  onClick={() => toggleItem(item)}
+                >
+                  <img
+                    className="di-card__img"
+                    src={`/assets/icons/Add_Ingredient_page/${item.icon}.svg`}
+                    alt={item.name}
+                    onError={(e) => { e.currentTarget.style.opacity = '0.3' }}
+                  />
+                  <span className="di-card__name">{item.name}</span>
+                </div>
+              )
+            })
+          )}
+        </div>
+
+        {/* 직접입력 아코디언 */}
+        <div className="di-section">
+          <div className="di-section__header" onClick={() => setManualOpen((o) => !o)}>
+            <div className="di-section__text">
+              <p className="di-section__title">직접입력</p>
+              <p className="di-section__subtitle">원하는 식재료를 직접 입력할 수 있어요.</p>
+            </div>
+            <img
+              src="/assets/icons/btn_open.svg" width="17" height="10" alt=""
+              className={`di-section__chevron${manualOpen ? ' di-section__chevron--open' : ''}`}
+            />
+          </div>
+          {manualOpen && (
+            <div className="di-section__body">
+              <div className="di-manual-form">
+                <input
+                  className="di-input-field"
+                  placeholder="식재료 이름"
+                  value={manualName}
+                  onChange={(e) => setManualName(e.target.value)}
+                />
+                <input
+                  className="di-input-field"
+                  type="date"
+                  value={manualExpiry}
+                  onChange={(e) => setManualExpiry(e.target.value)}
+                />
+                <div className="di-manual-row">
+                  <input
+                    className="di-input-field di-input-field--small"
+                    type="number"
+                    placeholder="수량"
+                    min="1"
+                    value={manualQty}
+                    onChange={(e) => setManualQty(Number(e.target.value) || 1)}
+                  />
+                  <button className="di-manual-add-btn" onClick={addManual}>추가</button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* 선택된 재료 아코디언 */}
+        <div className="di-section">
+          <div className="di-section__header" onClick={() => setSelectedOpen((o) => !o)}>
+            <div className="di-section__text">
+              <p className="di-section__title">
+                선택된 재료{selectedItems.length > 0 && (
+                  <span className="di-section__count"> {selectedItems.length}</span>
+                )}
+              </p>
+              <p className="di-section__subtitle">자주 쓰는 재료는 즐겨찾기 추가가 가능해요!</p>
+            </div>
+            <img
+              src="/assets/icons/btn_open.svg" width="17" height="10" alt=""
+              className={`di-section__chevron${selectedOpen ? ' di-section__chevron--open' : ''}`}
+            />
+          </div>
+          {selectedOpen && (
+            <div className="di-section__body">
+              {selectedItems.length === 0 ? (
+                <p className="di-section__empty">아직 담은 재료가 없어요</p>
+              ) : (
+                selectedItems.map((item, i) => (
+                  <div key={i} className="di-sel-item">
+                    {item.icon ? (
+                      <img className="di-sel-item__img" src={`/assets/icons/Add_Ingredient_page/${item.icon}.svg`} alt={item.name} />
+                    ) : (
+                      <span className="di-sel-item__emoji">🥬</span>
+                    )}
+                    <div className="di-sel-item__info">
+                      <span className="di-sel-item__name">{item.name}</span>
+                      <div className="di-sel-item__expiry">
+                        <span>유통기한 {item.expiry || '미설정'}</span>
+                      </div>
+                    </div>
+                    <div className="di-sel-item__qty">
+                      <button className="di-sel-qty-btn" onClick={() => adjustQty(i, -1)}>−</button>
+                      <span className="di-sel-qty-val">{item.qty}</span>
+                      <button className="di-sel-qty-btn" onClick={() => adjustQty(i, 1)}>+</button>
+                    </div>
+                    <button className="di-sel-star" onClick={() => toggleStar(i)}>
+                      {item.starred ? '★' : '☆'}
+                    </button>
+                  </div>
+                ))
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* 하단 CTA */}
+      <div className="di-cta">
+        <button className="di-cta__btn" onClick={saveItems}>재료 담기</button>
+      </div>
+    </>
+  )
+}

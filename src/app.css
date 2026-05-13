@@ -1,0 +1,75 @@
+/* ──────────────────────────────────────────
+   앱 컨테이너
+   · 데스크톱: 430×923px 폰 프레임 시뮬레이션
+   · 모바일 기기: 전체 화면, 최대 430px
+   ────────────────────────────────────────── */
+
+/* ── 데스크톱 기본 ── */
+html {
+  margin: 0;
+  padding: 0;
+  background: #e5e5e5;
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 24px 0;
+  background: #e5e5e5;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+}
+
+#app {
+  /* 핵심 사이즈: 가로 430px × 세로 923px */
+  width: 430px;
+  height: 923px;
+  flex-shrink: 0;
+
+  /* 내부 스크롤 */
+  overflow: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+
+  /* 외관 */
+  background: #FFFAF5;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.18);
+
+  /* ★ 핵심: position:fixed 자식이 #app 기준으로 위치하게 함 */
+  position: relative;
+  transform: translate(0, 0);
+}
+
+/* ── 모바일 기기: 전체 화면으로 채우기 ── */
+@media screen and (max-width: 480px) {
+  html, body {
+    padding: 0;
+    background: #FFFAF5;
+    height: 100%;
+    width: 100%;
+  }
+
+  #root {
+    width: 100%;
+    height: 100%;
+    align-items: stretch;
+  }
+
+  #app {
+    /* 전체 화면 / 최대 430px */
+    width: 100%;
+    max-width: 430px;
+    height: 100dvh;     /* 브라우저 UI 제외한 실제 뷰포트 높이 */
+    box-shadow: none;
+    margin: 0 auto;
+  }
+}
