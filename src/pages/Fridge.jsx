@@ -87,7 +87,6 @@ export default function Fridge() {
   const { ingredients, getExpiringIngredients } = useFridge()
   const { openSheet, closeSheet } = useBottomSheet()
   const [activeCategory, setActiveCategory] = useState('전체')
-  const [tooltipVisible, setTooltipVisible] = useState(true)
 
   const isEmpty = ingredients.length === 0
   const expiring = getExpiringIngredients()
@@ -116,7 +115,7 @@ export default function Fridge() {
             <p className="fridge-empty__subtitle">엇, 처음이신가요? 처음 식재료를 입력하면 포인트를 드려요.</p>
           </div>
         ) : (
-          <>
+          <div className="fridge-filled">
             {expiring.length > 0 && <ExpiryBanner expiring={expiring} />}
 
             {/* 마스코트 영역 */}
@@ -191,32 +190,10 @@ export default function Fridge() {
               </div>
 
             </div>
-          </>
+          </div>
         )}
       </div>
 
-      <div className="fab-container">
-        {tooltipVisible && (
-          <div className="fab-tooltip">
-            <div className="fab-tooltip__body">
-              <span className="fab-tooltip__text">재료를 추가해서 냉장고를 채워봐요</span>
-              <button
-                className="fab-tooltip__close"
-                onClick={(e) => { e.stopPropagation(); setTooltipVisible(false) }}
-                aria-label="툴팁 닫기"
-              >
-                <img src="/assets/icons/Tooltip_CloseIcon.svg" width="11" height="12" alt="닫기" />
-              </button>
-            </div>
-            <div className="fab-tooltip__arrow-wrap">
-              <img src="/assets/icons/Tooltip_Arrow.svg" width="22" height="16" alt="" />
-            </div>
-          </div>
-        )}
-        <button className="fab-btn" onClick={() => navigate('/add-ingredient')} aria-label="재료 추가">
-          <img src="/assets/icons/Icon.svg" width="19" height="19" alt="+" />
-        </button>
-      </div>
 
       <BottomNav />
     </>

@@ -20,7 +20,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 16px;
+  padding: 20px;
   height: 62px;
 }
 
@@ -83,7 +83,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 16px;
+  padding: 20px;
   position: sticky;
   top: 0;
   z-index: 100;
@@ -115,10 +115,8 @@
 .bottom-nav {
   background: var(--bg-base);          /* #FFFAF5 */
   height: 84px;
-  position: fixed;
+  position: sticky;
   bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
   width: 100%;
   max-width: var(--max-width);
   border-top: 1px solid var(--border-warm);  /* #ECE4DA */
@@ -181,6 +179,8 @@
 /* 페이지 콘텐츠 영역 */
 .page-content {
   padding-bottom: 84px;
+  display: flex;
+  flex-direction: column;
   /* 수평 여백(20px)은 각 섹션 내부에서 개별 설정 */
 }
 
@@ -225,6 +225,7 @@
 
 /* CTA 버튼 */
 .btn {
+  margin-bottom: 34px;
   height: 52px;
   border-radius: var(--radius-md);
   font-size: var(--text-h4);

@@ -177,6 +177,13 @@
   color: #2a2018;
 }
 
+/* ── 재료 있을 때 전체 래퍼 (flex-col로 흰 카드가 남은 공간 채움) ── */
+.fridge-filled {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
 /* ── 마스코트 영역 ── */
 .fridge-mascot-area {
   height: 180px;
@@ -205,8 +212,8 @@
 .fridge-section-card {
   background: #fff;
   border-radius: 12px 12px 0 0;
-  box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.05);
-  min-height: calc(100vh - 104px - 84px - 180px);
+  box-shadow: 0px -2px 10px 3px rgba(0, 0, 0, 0.05);
+  flex: 1;
   padding-top: 20px;
 }
 
