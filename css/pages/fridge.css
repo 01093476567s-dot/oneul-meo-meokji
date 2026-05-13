@@ -177,11 +177,19 @@
   color: #2a2018;
 }
 
-/* ── 재료 있을 때 전체 래퍼 (flex-col로 흰 카드가 남은 공간 채움) ── */
+/* ── 냉장고 페이지 콘텐츠 (헤더 아래, 탭바 위 전체 채움) ── */
+.fridge-page-content {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 84px); /* 탭바 84px 제외 */
+  padding-bottom: 84px;           /* 탭바 높이만큼 여백 */
+}
+
+/* ── 재료 있을 때 전체 래퍼 ── */
 .fridge-filled {
   display: flex;
   flex-direction: column;
-  min-height: 100%;
+  flex: 1;
 }
 
 /* ── 마스코트 영역 ── */
@@ -215,6 +223,7 @@
   box-shadow: 0px -2px 10px 3px rgba(0, 0, 0, 0.05);
   flex: 1;
   padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 /* ── 카테고리 탭 래퍼 (Figma: Category_Area, position relative for fade) ── */

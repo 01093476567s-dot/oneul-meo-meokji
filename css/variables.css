@@ -75,11 +75,15 @@
 /* Reset & Base */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+html, body, #root {
+  height: 100%;
+}
+
 body {
   font-family: var(--font-family);
   font-size: var(--text-body1);
   color: var(--text-main);
-  /* max-width / margin: 0 auto 는 index.html의 #app flex 레이아웃이 담당 */
+  background: var(--bg-base);
 }
 
 /* 스크롤바 숨김 */

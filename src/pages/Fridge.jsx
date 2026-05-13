@@ -102,7 +102,7 @@ export default function Fridge() {
   return (
     <>
       <Header type="main" />
-      <div className="page-content">
+      <div className="page-content fridge-page-content">
         {isEmpty ? (
           <div className="fridge-empty">
             <div className="fridge-empty__illustration">

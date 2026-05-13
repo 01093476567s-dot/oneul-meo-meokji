@@ -113,13 +113,15 @@
    하단 탭 바 — Figma 실측 (84px)
    ────────────────────────────── */
 .bottom-nav {
-  background: var(--bg-base);          /* #FFFAF5 */
+  background: var(--bg-base);
   height: 84px;
-  position: sticky;
+  position: fixed;
   bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: 100%;
   max-width: var(--max-width);
-  border-top: 1px solid var(--border-warm);  /* #ECE4DA */
+  border-top: 1px solid var(--border-warm);
   filter: drop-shadow(0px 0px 1px rgba(0,0,0,0.15));
   display: flex;
   align-items: center;
@@ -179,8 +181,6 @@
 /* 페이지 콘텐츠 영역 */
 .page-content {
   padding-bottom: 84px;
-  display: flex;
-  flex-direction: column;
   /* 수평 여백(20px)은 각 섹션 내부에서 개별 설정 */
 }
 
