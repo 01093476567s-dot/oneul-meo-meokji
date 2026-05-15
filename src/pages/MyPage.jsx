@@ -92,7 +92,7 @@ export default function MyPage() {
               <img src="/assets/icons/Mypage/MY냉장고.svg" className="mp-menu-item__icon" alt="" />
               <span className="mp-menu-item__label">MY냉장고</span>
             </div>
-            <div className="mp-menu-item" onClick={() => navigate('/add-ingredient')} style={{ cursor: 'pointer' }}>
+            <div className="mp-menu-item" onClick={() => navigate('/direct-input')} style={{ cursor: 'pointer' }}>
               <img src="/assets/icons/Mypage/식재료등록.svg" className="mp-menu-item__icon" alt="" />
               <span className="mp-menu-item__label">식재료 등록</span>
             </div>

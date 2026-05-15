@@ -180,7 +180,7 @@ export default function Fridge() {
                 </div>
               </div>
             )}
-            <button className="fab-btn" onClick={() => navigate('/add-ingredient')}>
+            <button className="fab-btn" onClick={() => navigate('/direct-input')}>
               <svg width="19" height="19" viewBox="0 0 19 19" fill="none">
                 <path d="M9.5 1V18M1 9.5H18" stroke="#fff" strokeWidth="2.5" strokeLinecap="round"/>
               </svg>
@@ -250,12 +250,8 @@ export default function Fridge() {
 
                 {/* 추가 버튼 */}
                 <div className="ingredient-cell--add" onClick={() => {
-                  if (activeCategory === '전체') {
-                    navigate('/add-ingredient')
-                  } else {
-                    const catId = Object.entries(CATEGORY_MAP).find(([, v]) => v === activeCategory)?.[0]
-                    navigate(`/direct-input?category=${catId}`)
-                  }
+                  const catId = Object.entries(CATEGORY_MAP).find(([, v]) => v === activeCategory)?.[0]
+                  navigate(catId ? `/direct-input?category=${catId}` : '/direct-input')
                 }}>
                   <div className="ing-cell__content">
                     <div className="ing-cell__img-wrap">

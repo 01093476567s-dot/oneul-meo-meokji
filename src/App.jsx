@@ -7,7 +7,6 @@ import Home from './pages/Home'
 import Fridge from './pages/Fridge'
 import Recipe from './pages/Recipe'
 import MyPage from './pages/MyPage'
-import AddIngredient from './pages/AddIngredient'
 import DirectInput from './pages/DirectInput'
 import Camera from './pages/Camera'
 import Scan from './pages/Scan'
@@ -28,7 +27,6 @@ function AppShell() {
           <Route path="/fridge"         element={<Fridge />} />
           <Route path="/recipe"         element={<Recipe />} />
           <Route path="/mypage"         element={<MyPage />} />
-          <Route path="/add-ingredient" element={<AddIngredient />} />
           <Route path="/direct-input"   element={<DirectInput />} />
           <Route path="/camera"         element={<Camera />} />
           <Route path="/scan"           element={<Scan />} />
