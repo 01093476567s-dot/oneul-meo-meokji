@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import { useNavigate } from 'react-router-dom'
 import Header from '../components/Header'
 import { useFridge } from '../context/FridgeContext'
@@ -116,6 +117,7 @@ export default function Fridge() {
   const [activeCategory, setActiveCategory] = useState('전체')
   const [tooltipVisible, setTooltipVisible] = useState(true)
   const [catFade, setCatFade] = useState(true)
+  const [fabOpen, setFabOpen] = useState(false)
   const catListRef = useRef(null)
 
   const isEmpty = ingredients.length === 0
@@ -160,33 +162,6 @@ export default function Fridge() {
           </div>
         )}
 
-        {/* FAB — 빈 냉장고 상태에서만 표시 */}
-        {isEmpty && (
-          <div className="fab-container">
-            {tooltipVisible && (
-              <div className="fab-tooltip">
-                <div className="fab-tooltip__body">
-                  <span className="fab-tooltip__text">재료를 추가해서 냉장고를 채워봐요</span>
-                  <button className="fab-tooltip__close" onClick={() => setTooltipVisible(false)}>
-                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                      <path d="M1 1L9 9M9 1L1 9" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"/>
-                    </svg>
-                  </button>
-                </div>
-                <div className="fab-tooltip__arrow-wrap">
-                  <svg width="14" height="8" viewBox="0 0 14 8" fill="none">
-                    <path d="M7 8L0 0H14L7 8Z" fill="#3a4d7a"/>
-                  </svg>
-                </div>
-              </div>
-            )}
-            <button className="fab-btn" onClick={() => navigate('/direct-input')}>
-              <svg width="19" height="19" viewBox="0 0 19 19" fill="none">
-                <path d="M9.5 1V18M1 9.5H18" stroke="#fff" strokeWidth="2.5" strokeLinecap="round"/>
-              </svg>
-            </button>
-          </div>
-        )}
 
         {!isEmpty && (
           <div className="fridge-filled">
@@ -271,7 +246,71 @@ export default function Fridge() {
         )}
       </div>
 
-
+      {createPortal(
+        <>
+          {fabOpen && <div className="fab-overlay" onClick={() => setFabOpen(false)} />}
+          <div className="fab-container">
+            {fabOpen ? (
+              <div className="fab-pill">
+                <button className="fab-pill__item" onClick={() => { navigate('/camera'); setFabOpen(false) }}>
+                  <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                    <path d="M8.5 3L7 5H4C2.9 5 2 5.9 2 7V17C2 18.1 2.9 19 4 19H18C19.1 19 20 18.1 20 17V7C20 5.9 19.1 5 18 5H15L13.5 3H8.5Z" stroke="#fff" strokeWidth="1.5" strokeLinejoin="round"/>
+                    <circle cx="11" cy="12" r="3" stroke="#fff" strokeWidth="1.5"/>
+                  </svg>
+                  <span className="fab-pill__label">사진촬영</span>
+                </button>
+                <button className="fab-pill__item" onClick={() => { navigate('/manual-input'); setFabOpen(false) }}>
+                  <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                    <path d="M15.5 3L19 6.5L8 17.5L3 19L4.5 14L15.5 3Z" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                  <span className="fab-pill__label">직접입력</span>
+                </button>
+                <button className="fab-pill__item" onClick={() => { navigate('/favorites'); setFabOpen(false) }}>
+                  <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                    <path d="M11 2L13.2 8.2H20L14.4 12L16.6 18.2L11 14.5L5.4 18.2L7.6 12L2 8.2H8.8L11 2Z" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                  <span className="fab-pill__label">즐겨찾기</span>
+                </button>
+                <button className="fab-pill__item" onClick={() => { navigate('/direct-input'); setFabOpen(false) }}>
+                  <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                    <rect x="2" y="2" width="8" height="8" rx="1.5" stroke="#fff" strokeWidth="1.5"/>
+                    <rect x="12" y="2" width="8" height="8" rx="1.5" stroke="#fff" strokeWidth="1.5"/>
+                    <rect x="2" y="12" width="8" height="8" rx="1.5" stroke="#fff" strokeWidth="1.5"/>
+                    <rect x="12" y="12" width="8" height="8" rx="1.5" stroke="#fff" strokeWidth="1.5"/>
+                  </svg>
+                  <span className="fab-pill__label">선택</span>
+                </button>
+              </div>
+            ) : (
+              <>
+                {isEmpty && tooltipVisible && (
+                  <div className="fab-tooltip">
+                    <div className="fab-tooltip__body">
+                      <span className="fab-tooltip__text">재료를 추가해서 냉장고를 채워봐요</span>
+                      <button className="fab-tooltip__close" onClick={() => setTooltipVisible(false)}>
+                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                          <path d="M1 1L9 9M9 1L1 9" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"/>
+                        </svg>
+                      </button>
+                    </div>
+                    <div className="fab-tooltip__arrow-wrap">
+                      <svg width="14" height="8" viewBox="0 0 14 8" fill="none">
+                        <path d="M7 8L0 0H14L7 8Z" fill="#3a4d7a"/>
+                      </svg>
+                    </div>
+                  </div>
+                )}
+                <button className="fab-btn" onClick={() => setFabOpen(true)}>
+                  <svg width="19" height="19" viewBox="0 0 19 19" fill="none">
+                    <path d="M9.5 1V18M1 9.5H18" stroke="#fff" strokeWidth="2.5" strokeLinecap="round"/>
+                  </svg>
+                </button>
+              </>
+            )}
+          </div>
+        </>,
+        document.getElementById('app')
+      )}
     </>
   )
 }

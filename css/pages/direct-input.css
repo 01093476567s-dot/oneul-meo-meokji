@@ -609,3 +609,150 @@
 .di-cta__btn:active {
   opacity: 0.85;
 }
+
+/* ══════════════════════════════════════
+   직접입력 (ManualInput) 페이지 전용
+   ══════════════════════════════════════ */
+
+.mi-content {
+  padding: 24px 20px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.mi-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* ── 카테고리/아이콘 필 row ── */
+.mi-pill-row {
+  display: flex;
+  gap: 10px;
+}
+
+.mi-pill-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 27px;
+  background: #fff;
+  border: 1px solid rgba(42, 32, 24, 0.1);
+  border-radius: 50px;
+  font-size: 16px;
+  font-family: var(--font-family);
+  color: #2a2018;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.15s;
+}
+
+.mi-pill-btn:active {
+  border-color: rgba(42, 32, 24, 0.3);
+}
+
+/* ── 인풋 그룹 ── */
+.mi-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mi-input-row {
+  height: 50px;
+  border: 1px solid #eae9e8;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 20px;
+  box-sizing: border-box;
+  width: 100%;
+  transition: border-color 0.15s;
+}
+
+.mi-input-row:focus-within {
+  border-color: #ff8c66;
+}
+
+.mi-input-label {
+  font-size: 14px;
+  font-weight: 400;
+  color: #2a2018;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.mi-input-field {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 12px;
+  color: #2a2018;
+  font-family: var(--font-family);
+  outline: none;
+  min-width: 0;
+}
+
+.mi-input-field::placeholder {
+  color: rgba(0, 0, 0, 0.1);
+}
+
+/* number 스핀 버튼 제거 */
+.mi-input-field[type="number"]::-webkit-inner-spin-button,
+.mi-input-field[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* ── 재료담기 CTA row ── */
+.mi-cta-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mi-star-btn {
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: opacity 0.15s;
+}
+
+.mi-star-btn:active {
+  opacity: 0.7;
+}
+
+/* ── 재료담기 CTA ── */
+.mi-cta-btn {
+  flex: 1;
+  padding: 18px 0;
+  background: #cbcbcb;
+  color: #fff;
+  border: none;
+  border-radius: 17px;
+  font-size: 18px;
+  font-weight: 500;
+  font-family: var(--font-family);
+  letter-spacing: -0.36px;
+  cursor: not-allowed;
+  transition: background 0.2s ease, opacity 0.15s;
+}
+
+.mi-cta-btn--active {
+  background: #ff8c66;
+  cursor: pointer;
+}
+
+.mi-cta-btn--active:active {
+  opacity: 0.85;
+}

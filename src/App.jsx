@@ -11,6 +11,8 @@ import DirectInput from './pages/DirectInput'
 import Camera from './pages/Camera'
 import Scan from './pages/Scan'
 import ScanComplete from './pages/ScanComplete'
+import ManualInput from './pages/ManualInput'
+import Favorites from './pages/Favorites'
 import Subscription from './pages/Subscription'
 
 const NAV_ROUTES = ['/', '/fridge', '/mypage']
@@ -28,6 +30,8 @@ function AppShell() {
           <Route path="/recipe"         element={<Recipe />} />
           <Route path="/mypage"         element={<MyPage />} />
           <Route path="/direct-input"   element={<DirectInput />} />
+          <Route path="/manual-input"   element={<ManualInput />} />
+          <Route path="/favorites"      element={<Favorites />} />
           <Route path="/camera"         element={<Camera />} />
           <Route path="/scan"           element={<Scan />} />
           <Route path="/scan-complete"  element={<ScanComplete />} />

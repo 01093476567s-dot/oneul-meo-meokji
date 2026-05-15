@@ -13,6 +13,9 @@ export function FridgeProvider({ children }) {
   const [ingredients, setIngredients] = useState([])
   const [cart, setCart] = useState([])
   const [records, setRecords] = useState([])
+  const [favorites, setFavorites] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('fav_items')) || [] } catch { return [] }
+  })
 
   const addIngredient = useCallback((ingredient) => {
     setIngredients((prev) => {
@@ -60,6 +63,35 @@ export function FridgeProvider({ children }) {
     setRecords((prev) => [...prev, record])
   }, [])
 
+  const addFavorite = useCallback((item) => {
+    setFavorites((prev) => {
+      if (prev.some((f) => f.name === item.name)) return prev
+      const updated = [...prev, { ...item, qty: 1 }]
+      localStorage.setItem('fav_items', JSON.stringify(updated))
+      return updated
+    })
+  }, [])
+
+  const removeFavorite = useCallback((name) => {
+    setFavorites((prev) => {
+      const updated = prev.filter((f) => f.name !== name)
+      localStorage.setItem('fav_items', JSON.stringify(updated))
+      return updated
+    })
+  }, [])
+
+  const updateFavoriteQty = useCallback((name, qty) => {
+    setFavorites((prev) => {
+      const updated = prev.map((f) => f.name === name ? { ...f, qty: Math.max(1, qty) } : f)
+      localStorage.setItem('fav_items', JSON.stringify(updated))
+      return updated
+    })
+  }, [])
+
+  const isFavorite = useCallback((name) => {
+    return favorites.some((f) => f.name === name)
+  }, [favorites])
+
   return (
     <FridgeContext.Provider
       value={{
@@ -67,12 +99,17 @@ export function FridgeProvider({ children }) {
         ingredients,
         cart,
         records,
+        favorites,
         addIngredient,
         updateIngredientQty,
         removeIngredient,
         getExpiringIngredients,
         updateSubscription,
         addRecord,
+        addFavorite,
+        removeFavorite,
+        updateFavoriteQty,
+        isFavorite,
       }}
     >
       {children}
