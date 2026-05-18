@@ -234,43 +234,64 @@
 /* ── 밥 선택 ── */
 .dc-rice-list {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  gap: 6px;
 }
 
 .dc-rice-btn {
-  flex: 1;
+  flex-shrink: 0;
   background: none;
   border: none;
   cursor: pointer;
   padding: 0;
-  display: flex;
-  justify-content: center;
+  margin-right: -3px;
 }
 
-.dc-rice-circle {
-  width: 78px;
-  height: 78px;
-  border-radius: 50%;
+.dc-rice-btn:last-child {
+  margin-right: 0;
+}
+
+.dc-rice-wrap {
+  width: 90px;
+  height: 90px;
+  border-radius: 45px;
   background: #fffaf8;
+  padding: 6px;
+  box-sizing: border-box;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2.5px solid transparent;
-  transition: border-color 0.15s, box-shadow 0.15s;
-  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.04);
 }
 
-.dc-rice-btn--selected .dc-rice-circle {
-  border-color: #ff8c66;
-  box-shadow: 0 0 0 2px rgba(255, 140, 102, 0.2);
+.dc-rice-inner {
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  background: rgba(255, 140, 102, 0.12);
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+
+.dc-rice-btn--selected .dc-rice-inner {
+  background: #ff8c66;
 }
 
 .dc-rice-label {
-  font-size: 13px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
   font-weight: 500;
   color: #ff8c66;
-  letter-spacing: -0.26px;
+  letter-spacing: -0.28px;
   font-family: var(--font-family);
+  white-space: nowrap;
+  pointer-events: none;
+  transition: color 0.15s;
+}
+
+.dc-rice-btn--selected .dc-rice-label {
+  color: #fff;
 }

@@ -54,7 +54,8 @@ function RiceCard({ selected, onSelect }) {
             className={`dc-rice-btn${selected === r ? ' dc-rice-btn--selected' : ''}`}
             onClick={() => onSelect(r)}
           >
-            <div className="dc-rice-circle">
+            <div className="dc-rice-wrap">
+              <div className="dc-rice-inner" />
               <span className="dc-rice-label">{r}</span>
             </div>
           </button>
