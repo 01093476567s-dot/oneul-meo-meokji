@@ -5,16 +5,25 @@ function formatDate(dateStr) {
   return dateStr ? dateStr.replace(/-/g, '.') : ''
 }
 
+function resolveIconSrc(item) {
+  if (!item) return ''
+  if (item.icon) {
+    if (item.icon.startsWith('data:') || item.icon.startsWith('blob:')) return item.icon
+    return `/assets/icons/${item.folder || 'Ingradient'}/${item.icon}.svg`
+  }
+  return `/assets/icons/Ingradient/${item.name}.svg`
+}
+
 export default function LunchRecord() {
   const navigate = useNavigate()
   const { state } = useLocation()
-  const date = state?.date || new Date().toISOString().slice(0, 10)
 
-  const [name, setName] = useState('')
-  const [tags, setTags] = useState('')
-  const [content, setContent] = useState('')
+  const date = state?.date || new Date().toISOString().slice(0, 10)
+  const [name, setName] = useState(state?.name || '')
+  const [tags, setTags] = useState(state?.tags || '')
+  const [content, setContent] = useState(state?.content || '')
   const [photoCount] = useState(0)
-  const [ingredients, setIngredients] = useState([])
+  const [ingredients, setIngredients] = useState(state?.selectedIngredients || [])
 
   const canSave = name.trim() !== ''
 
@@ -24,8 +33,17 @@ export default function LunchRecord() {
   }
 
   function handleAddIngredient() {
-    const item = prompt('식재료 이름을 입력하세요')
-    if (item && item.trim()) setIngredients(p => [...p, item.trim()])
+    navigate('/ingredient-select', {
+      state: {
+        from: '/lunch-record',
+        currentFormState: { date, name, tags, content },
+        currentSelected: ingredients,
+      },
+    })
+  }
+
+  function removeIngredient(id) {
+    setIngredients(prev => prev.filter(i => i.id !== id))
   }
 
   return (
@@ -98,10 +116,28 @@ export default function LunchRecord() {
         <div className="lr-ingredient-section">
           <p className="lr-ingredient-label">사용한 식재료를 선택해주세요.</p>
           <div className="lr-ingredient-list">
-            {ingredients.map((ing, i) => (
-              <span key={i} className="lr-ingredient-chip">{ing}</span>
-            ))}
+            {/* + 추가 버튼 */}
             <button className="lr-ingredient-add" onClick={handleAddIngredient}>+</button>
+
+            {/* 선택된 재료 카드 */}
+            {ingredients.map(ing => (
+              <div key={ing.id} className="lr-ingredient-card">
+                <img
+                  src={resolveIconSrc(ing)}
+                  className="lr-ingredient-card__img"
+                  alt={ing.name}
+                  onError={e => { e.currentTarget.style.opacity = '0.2' }}
+                />
+                <button
+                  className="lr-ingredient-card__remove"
+                  onClick={() => removeIngredient(ing.id)}
+                >
+                  <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
+                    <path d="M1 1L7 7M7 1L1 7" stroke="#fff" strokeWidth="1.3" strokeLinecap="round" />
+                  </svg>
+                </button>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -111,7 +147,7 @@ export default function LunchRecord() {
           className={`di-cta__btn${canSave ? '' : ' di-cta__btn--disabled'}`}
           onClick={handleSave}
         >
-          기록 저장
+          기록저장
         </button>
       </div>
     </>

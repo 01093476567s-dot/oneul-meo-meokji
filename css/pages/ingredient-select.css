@@ -1,0 +1,211 @@
+/* ===========================
+   식재료 선택 페이지 (280-2316)
+   =========================== */
+
+/* ── 스크롤 영역 ── */
+.ing-select-body {
+  /* #app-content 가 스크롤 담당 */
+}
+
+/* 그리드 하단에 패널 공간 확보 */
+.ing-select-grid {
+  padding-bottom: 380px !important;
+}
+
+/* 재료 없을 때 */
+.ing-select-empty {
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 14px;
+  color: rgba(42, 32, 24, 0.4);
+  margin: 0;
+}
+
+/* ── 선택된 셀 오버레이 ── */
+.ing-cell--selected .ing-cell__item-area {
+  opacity: 0.6;
+}
+
+/* 선택 체크 뱃지 (우상단) */
+.ing-select-check {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  line-height: 0;
+}
+
+/* ── 하단 선택 패널 (portal → #app) ── */
+.ing-select-panel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: #fff;
+  border-radius: 12px 12px 0 0;
+  box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  max-height: 56%;
+}
+
+/* 패널 헤더 */
+.ing-select-panel__header {
+  padding: 22px 20px 14px;
+  border-bottom: 1px solid #f3f3f3;
+  flex-shrink: 0;
+}
+
+.ing-select-panel__title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2a2018;
+  margin: 0 0 6px;
+  letter-spacing: -0.36px;
+}
+
+.ing-select-panel__count {
+  color: #ff5555;
+}
+
+.ing-select-panel__subtitle {
+  font-size: 14px;
+  font-weight: 500;
+  color: #929292;
+  margin: 0;
+  letter-spacing: -0.28px;
+}
+
+/* 패널 목록 (스크롤) */
+.ing-select-panel__list {
+  overflow-y: auto;
+  flex: 1;
+}
+
+.ing-select-panel__empty {
+  font-size: 13px;
+  color: rgba(42, 32, 24, 0.35);
+  text-align: center;
+  padding: 16px 20px;
+  margin: 0;
+}
+
+/* 개별 재료 아이템 */
+.ing-select-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  border-bottom: 1px solid #f3f3f3;
+}
+
+.ing-select-item:last-child {
+  border-bottom: none;
+}
+
+.ing-select-item__left {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+/* 재료 이미지 래퍼 (Figma: 60×47px) */
+.ing-select-item__img-wrap {
+  width: 60px;
+  height: 47px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ing-select-item__img {
+  width: 47px;
+  height: 47px;
+  object-fit: contain;
+}
+
+/* 이름 + 유통기한 그룹 */
+.ing-select-item__info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ing-select-item__name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2a2018;
+  letter-spacing: -0.32px;
+}
+
+.ing-select-item__expiry {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 12px;
+  color: rgba(42, 32, 24, 0.5);
+  letter-spacing: -0.24px;
+}
+
+/* 오른쪽 수량 컨트롤 */
+.ing-select-item__right {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+/* − / + 버튼 (Figma: 30×30px 원형) */
+.ing-select-qty-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1.5px solid #ff8c66;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  transition: background 0.1s;
+}
+
+.ing-select-qty-btn:active {
+  background: rgba(255, 140, 102, 0.1);
+}
+
+.ing-select-item__qty {
+  font-size: 14px;
+  font-weight: 700;
+  color: #2a2018;
+  letter-spacing: -0.28px;
+  min-width: 20px;
+  text-align: center;
+}
+
+/* 패널 하단 완료 버튼 */
+.ing-select-panel__footer {
+  padding: 12px 20px 24px;
+  flex-shrink: 0;
+}
+
+.ing-select-panel__done {
+  width: 100%;
+  padding: 16px 0;
+  background: #ff8c66;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-family);
+  letter-spacing: -0.32px;
+  transition: opacity 0.15s;
+}
+
+.ing-select-panel__done:active {
+  opacity: 0.85;
+}
