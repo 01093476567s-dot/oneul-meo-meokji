@@ -15,6 +15,7 @@ import ManualInput from './pages/ManualInput'
 import Favorites from './pages/Favorites'
 import Subscription from './pages/Subscription'
 import LunchRecord from './pages/LunchRecord'
+import DishCombo from './pages/DishCombo'
 
 const NAV_ROUTES = ['/', '/fridge', '/mypage']
 
@@ -38,6 +39,7 @@ function AppShell() {
           <Route path="/scan-complete"  element={<ScanComplete />} />
           <Route path="/subscription"   element={<Subscription />} />
           <Route path="/lunch-record"   element={<LunchRecord />} />
+          <Route path="/dish-combo"     element={<DishCombo />} />
           <Route path="*"              element={<Navigate to="/" replace />} />
         </Routes>
       </div>

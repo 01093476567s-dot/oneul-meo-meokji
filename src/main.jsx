@@ -14,6 +14,7 @@ import '../css/pages/subscription.css'
 import '../css/pages/direct-input.css'
 import '../css/pages/favorites.css'
 import '../css/pages/lunch-record.css'
+import '../css/pages/dish-combo.css'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

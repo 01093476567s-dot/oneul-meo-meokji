@@ -47,7 +47,7 @@ function MenuTab() {
           <div
             key={item.id}
             className="home-menu-card"
-            onClick={() => navigate('/recipe', { state: { id: item.id } })}
+            onClick={() => navigate('/dish-combo', { state: { menuItem: item } })}
           >
             <div className="home-menu-card__photo-wrap">
               <img

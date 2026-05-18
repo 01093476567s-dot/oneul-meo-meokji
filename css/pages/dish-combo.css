@@ -1,0 +1,276 @@
+/* ===========================
+   도시락 조합 페이지
+   =========================== */
+
+/* ── 탭 세그먼트 ── */
+.dc-tabs {
+  display: flex;
+  width: 337px;
+  background: #fff0e8;
+  border-radius: 50px;
+  padding: 4px;
+  margin: 12px auto 0;
+  height: 45px;
+  box-sizing: border-box;
+  align-items: center;
+}
+
+.dc-tab-btn {
+  flex: 1;
+  height: 37px;
+  border: none;
+  background: transparent;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  font-family: var(--font-family);
+  letter-spacing: -0.24px;
+  transition: all 0.2s ease;
+}
+
+.dc-tab-btn--active {
+  background: #fff;
+  color: #2a2018;
+  font-weight: 600;
+  box-shadow: 0 0 4px rgba(255, 140, 102, 0.2);
+}
+
+/* ── 스크롤 콘텐츠 ── */
+.dc-content {
+  padding: 16px 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ── 도시락 컨테이너 ── */
+.dc-lunchbox {
+  width: 100%;
+  background: #d8d8d8;
+  border-radius: 22px;
+  padding: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  box-sizing: border-box;
+  height: 220px;
+}
+
+.dc-lunchbox--1 {
+  display: block;
+}
+
+.dc-lunchbox--2 {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 8px;
+}
+
+.dc-lunchbox--3 {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 8px;
+}
+
+.dc-lunchbox--4 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 8px;
+}
+
+/* ── 칸 ── */
+.dc-slot {
+  border-radius: 14px;
+  overflow: hidden;
+  background: #f0f0f0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dc-slot--1 {
+  border-radius: 14px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.dc-slot--empty {
+  background: #e6e6e6;
+}
+
+.dc-slot__food-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dc-slot__plus {
+  width: 40px;
+  height: 40px;
+  background: rgba(110, 110, 110, 0.85);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 300;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+/* ── 선택 카드 ── */
+.dc-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+  padding: 18px 20px 20px;
+}
+
+.dc-card__hd {
+  margin-bottom: 14px;
+}
+
+.dc-card__hd-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.dc-card__title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #2a2018;
+  margin: 0 0 4px;
+  letter-spacing: -0.36px;
+}
+
+.dc-card__sub {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.7);
+  margin: 0;
+  letter-spacing: -0.28px;
+}
+
+.dc-card__more {
+  background: none;
+  border: none;
+  font-size: 10px;
+  color: rgba(42, 32, 24, 0.5);
+  cursor: pointer;
+  font-family: var(--font-family);
+  letter-spacing: -0.2px;
+  padding: 0;
+}
+
+/* ── 밑반찬 선택 ── */
+.dc-banchan-list {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.dc-banchan-list::-webkit-scrollbar {
+  display: none;
+}
+
+.dc-banchan-item {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: 40px;
+  border: 3px solid transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  padding: 4px;
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+}
+
+.dc-banchan-item--selected {
+  border-color: #ff8c66;
+}
+
+.dc-banchan-img-wrap {
+  width: 100%;
+  height: 100%;
+  border-radius: 34px;
+  overflow: hidden;
+}
+
+.dc-banchan-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dc-banchan-add {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: 40px;
+  border: none;
+  background: rgba(255, 140, 102, 0.15);
+  font-size: 26px;
+  color: #ff8c66;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-family);
+}
+
+/* ── 밥 선택 ── */
+.dc-rice-list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+}
+
+.dc-rice-btn {
+  flex: 1;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.dc-rice-circle {
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  background: #fffaf8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2.5px solid transparent;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.04);
+}
+
+.dc-rice-btn--selected .dc-rice-circle {
+  border-color: #ff8c66;
+  box-shadow: 0 0 0 2px rgba(255, 140, 102, 0.2);
+}
+
+.dc-rice-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #ff8c66;
+  letter-spacing: -0.26px;
+  font-family: var(--font-family);
+}
