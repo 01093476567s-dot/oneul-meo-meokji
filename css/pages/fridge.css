@@ -92,16 +92,17 @@
 
 .fab-btn:active { transform: scale(0.92); }
 
-/* ── FAB 세로 필 메뉴 ── */
+/* ── FAB 세로 필 메뉴 (Figma 262:5793) ── */
 .fab-pill {
-  background: var(--primary);
+  background: rgba(255, 140, 102, 0.1);
   border-radius: 9999px;
   padding: 20px 0;
-  filter: drop-shadow(0px 4px 2px rgba(0, 0, 0, 0.25));
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  justify-content: space-between;
+  gap: 16px;
   width: 59px;
 }
 
@@ -112,6 +113,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   gap: 4px;
   padding: 0;
   transition: opacity 0.15s;
@@ -119,10 +121,15 @@
 
 .fab-pill__item:active { opacity: 0.7; }
 
+.fab-pill__icon {
+  display: block;
+  object-fit: contain;
+}
+
 .fab-pill__label {
   font-size: 10px;
   font-weight: 600;
-  color: #fff;
+  color: #ff8c66;
   white-space: nowrap;
   font-family: var(--font-family);
   letter-spacing: -0.2px;

@@ -240,31 +240,19 @@ export default function Fridge() {
             {fabOpen ? (
               <div className="fab-pill">
                 <button className="fab-pill__item" onClick={() => { navigate('/camera'); setFabOpen(false) }}>
-                  <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-                    <path d="M8.5 3L7 5H4C2.9 5 2 5.9 2 7V17C2 18.1 2.9 19 4 19H18C19.1 19 20 18.1 20 17V7C20 5.9 19.1 5 18 5H15L13.5 3H8.5Z" stroke="#fff" strokeWidth="1.5" strokeLinejoin="round"/>
-                    <circle cx="11" cy="12" r="3" stroke="#fff" strokeWidth="1.5"/>
-                  </svg>
+                  <img className="fab-pill__icon" src="/assets/icons/camera_icon.svg" width="28" height="21" alt="사진촬영" />
                   <span className="fab-pill__label">사진촬영</span>
                 </button>
                 <button className="fab-pill__item" onClick={() => { navigate('/manual-input'); setFabOpen(false) }}>
-                  <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-                    <path d="M15.5 3L19 6.5L8 17.5L3 19L4.5 14L15.5 3Z" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
+                  <img className="fab-pill__icon" src="/assets/icons/pen_icon.svg" width="23" height="28" alt="직접입력" />
                   <span className="fab-pill__label">직접입력</span>
                 </button>
                 <button className="fab-pill__item" onClick={() => { navigate('/favorites'); setFabOpen(false) }}>
-                  <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-                    <path d="M11 2L13.2 8.2H20L14.4 12L16.6 18.2L11 14.5L5.4 18.2L7.6 12L2 8.2H8.8L11 2Z" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
+                  <img className="fab-pill__icon" src="/assets/icons/star.svg" width="19" height="18" alt="즐겨찾기" />
                   <span className="fab-pill__label">즐겨찾기</span>
                 </button>
                 <button className="fab-pill__item" onClick={() => { navigate('/direct-input'); setFabOpen(false) }}>
-                  <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-                    <rect x="2" y="2" width="8" height="8" rx="1.5" stroke="#fff" strokeWidth="1.5"/>
-                    <rect x="12" y="2" width="8" height="8" rx="1.5" stroke="#fff" strokeWidth="1.5"/>
-                    <rect x="2" y="12" width="8" height="8" rx="1.5" stroke="#fff" strokeWidth="1.5"/>
-                    <rect x="12" y="12" width="8" height="8" rx="1.5" stroke="#fff" strokeWidth="1.5"/>
-                  </svg>
+                  <img className="fab-pill__icon" src="/assets/icons/Frame_page/Vector (Stroke).svg" width="16" height="16" alt="선택" />
                   <span className="fab-pill__label">선택</span>
                 </button>
               </div>
