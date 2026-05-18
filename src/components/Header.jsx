@@ -8,20 +8,21 @@ export default function Header({ type = 'main', title = '' }) {
   if (type === 'main') {
     return (
       <header className="app-header">
-        <div className="app-header__gnb">
-          <button className="app-header__logo" onClick={() => navigate('/')}>
-            <img src="/images/logo.png" width="163" height="31" alt="오늘 머먹겠지?" />
-          </button>
-          <button className="app-header__cart-btn" onClick={() => navigate('/cart')}>
-            <img src="/assets/icons/Ic_Cart.svg" width="35" height="30" alt="장바구니" />
-            {cart.length > 0 && (
-              <span className="app-header__cart-badge-wrap">
-                <img src="/assets/icons/Cart_Num_Bg.svg" width="18" height="18" alt="" className="app-header__cart-badge-bg" />
-                <span className="app-header__cart-badge-num">{cart.length}</span>
-              </span>
-            )}
-          </button>
-        </div>
+        <button className="app-header__logo" onClick={() => navigate('/')}>
+          <img
+            src="/assets/images/logo.png"
+            width="206"
+            height="41"
+            alt="오늘 머먹지?"
+            onError={(e) => { e.currentTarget.src = '/images/logo.png' }}
+          />
+        </button>
+        <button className="app-header__cart-btn" onClick={() => navigate('/cart')}>
+          <img src="/assets/icons/Ic_Cart.svg" width="35" height="30" alt="장바구니" className="app-header__cart-icon" />
+          {cart.length > 0 && (
+            <span className="app-header__badge">{cart.length}</span>
+          )}
+        </button>
       </header>
     )
   }
