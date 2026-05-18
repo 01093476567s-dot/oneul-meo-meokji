@@ -1,214 +1,309 @@
 import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Header from '../components/Header'
 import { useFridge } from '../context/FridgeContext'
 
-const LUNCHBOXES = [
+const MENU_ITEMS = [
   {
     id: 1,
-    title: ['영양만점', '소불고기 도시락'],
-    badge: 'AI 추천메뉴',
-    desc: '가나다님의 냉장고에서 발견한 식재료로 도시락 메뉴를 준비했어요. 오늘은 달콤짭짤한 소불고기 도시락 어떠세요?',
+    sublabel: '오늘 AI추천 메인메뉴',
+    title: '영양만점 소불고기',
+    cta: '도시락 조합 시작!',
     image: '/images/소불고기.jpg',
   },
   {
     id: 2,
-    title: ['건강한 한 끼', '두부 스테이크'],
-    badge: 'AI 추천메뉴',
-    desc: '담백한 두부스테이크에 신선한 채소를 곁들여 준비했어요. 오늘은 건강한 도시락 한 끼 어떠세요?',
+    sublabel: '오늘 AI추천 건강식 메뉴',
+    title: '두부 스테이크',
+    cta: '도시락 조합 시작!',
     image: '/images/두부스테이크.jpg',
   },
   {
     id: 3,
-    title: ['초간단 메뉴', '계란간장버터 밥'],
-    badge: '초간단메뉴',
-    desc: '냉장고 속 계란 하나로 만들 수 있어요. 5분 만에 완성되는 초간단 메뉴! 오늘은 짭조름한 계란간장버터밥 어때요?',
+    sublabel: '오늘 AI추천 초간단 메뉴',
+    title: '계란간장버터 밥',
+    cta: '도시락 조합 시작!',
     image: '/images/간장계란버터밥.jpg',
   },
 ]
 
-function TodayTab() {
+function MenuTab() {
   const navigate = useNavigate()
-  const { user } = useFridge()
   const scrollRef = useRef(null)
   const [activeIndex, setActiveIndex] = useState(0)
 
-  const today = new Date()
-  const dateStr = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`
-
   function handleScroll(e) {
-    const cardWidth = 254 + 12
-    const index = Math.round(e.currentTarget.scrollLeft / cardWidth)
-    setActiveIndex(index)
+    const el = e.currentTarget
+    const firstCard = el.firstChild
+    if (!firstCard) return
+    const cardWidth = firstCard.offsetWidth + 12
+    const index = Math.round(el.scrollLeft / cardWidth)
+    setActiveIndex(Math.max(0, Math.min(MENU_ITEMS.length - 1, index)))
   }
 
   return (
-    <>
-      <div className="home-welcome">
-        <div className="home-welcome__greeting">
-          <p><strong>{user.name.replace(/님$/, '')}</strong>님,</p>
-          <p>오늘도 든든히!</p>
-        </div>
-        <img
-          className="home-welcome__mascot"
-          src="/images/hello.png"
-          alt="마스코트"
-          onError={(e) => { e.currentTarget.style.display = 'none' }}
-        />
-      </div>
-
-      <section className="lunchbox-section">
-        <div className="lunchbox-section__header">
-          <div className="lunchbox-section__title-area">
-            <h2 className="lunchbox-section__title">오늘의 도시락</h2>
-            <span className="lunchbox-section__date">{dateStr}</span>
-          </div>
-          <div className="lunchbox-section__indicator">
-            <span>{activeIndex + 1}</span>
-            <span className="total"> / {LUNCHBOXES.length}</span>
-          </div>
-        </div>
-
-        <div className="lunchbox-scroll" ref={scrollRef} onScroll={handleScroll}>
-          {LUNCHBOXES.map((lb) => (
-            <div
-              key={lb.id}
-              className="lunchbox-card"
-              onClick={() => navigate('/recipe', { state: { id: lb.id } })}
-            >
+    <div className="home-menu-wrap">
+      <div className="home-card-scroll" ref={scrollRef} onScroll={handleScroll}>
+        {MENU_ITEMS.map((item) => (
+          <div
+            key={item.id}
+            className="home-menu-card"
+            onClick={() => navigate('/recipe', { state: { id: item.id } })}
+          >
+            <div className="home-menu-card__photo-wrap">
               <img
-                className="lunchbox-card__img"
-                src={lb.image}
-                alt={lb.title.join(' ')}
+                className="home-menu-card__photo"
+                src={item.image}
+                alt={item.title}
                 onError={(e) => { e.currentTarget.parentElement.style.background = '#d4a88a' }}
               />
-              <div className="lunchbox-card__overlay" />
-              <h3 className="lunchbox-card__title">
-                {lb.title[0]}<br />{lb.title[1]}
-              </h3>
-              <span className="lunchbox-card__badge">{lb.badge}</span>
-              <p className="lunchbox-card__desc">{lb.desc}</p>
             </div>
-          ))}
+            <div className="home-menu-card__info">
+              <p className="home-menu-card__sublabel">{item.sublabel}</p>
+              <p className="home-menu-card__title">{item.title}</p>
+              <div className="home-menu-card__rule" />
+              <p className="home-menu-card__cta">{item.cta}</p>
+            </div>
+          </div>
+        ))}
+        {/* 직접 만들래요 카드 */}
+        <div className="home-menu-card home-menu-card--custom" onClick={() => navigate('/fridge')}>
+          <p className="home-menu-card--custom__text">내가 직접 만들래요!</p>
         </div>
-      </section>
-
-      <div className="home-direct-btn">
-        <button className="home-direct-btn__text" onClick={() => navigate('/fridge')}>
-          내가 직접 만들래요 !
-          <img src="/assets/icons/Ic_Arrow_Right.svg" width="6" height="11" alt="" style={{ verticalAlign: 'middle' }} />
-        </button>
       </div>
-    </>
+
+      <div className="home-dots">
+        {[...MENU_ITEMS, { id: 'custom' }].map((_, i) => (
+          <span key={i} className={`home-dot${i === activeIndex ? ' home-dot--active' : ''}`} />
+        ))}
+      </div>
+    </div>
   )
 }
 
+const DISHES = [
+  { name: '장조림',   bg: '#d4f0b1', barColor: 'rgba(169,231,110,0.5)', img: '/assets/images/장조림.png',   progress: 70, date: '2026.05.06 ~', dateRange: { start: '2026-05-06', end: null } },
+  { name: '우엉조림', bg: '#bce2f9', barColor: 'rgba(122,202,252,0.5)', img: '/assets/images/우엉조림.png', progress: 50, date: '2026.05.12 ~', dateRange: { start: '2026-05-12', end: null } },
+  { name: '연근조림', bg: '#dfcffa', barColor: 'rgba(191,165,255,0.5)', img: '/assets/images/연근.png',     progress: 80, date: '2026.05.14 ~', dateRange: { start: '2026-05-14', end: null } },
+]
+
 function CalendarTab() {
+  const navigate = useNavigate()
   const { records } = useFridge()
   const [calDate, setCalDate] = useState(new Date())
+  const [expandedMap, setExpandedMap] = useState({})
 
   const year = calDate.getFullYear()
   const month = calDate.getMonth()
-
   const totalSaved = records.reduce((sum, r) => sum + (r.savedAmount || 0), 0)
   const recordCount = records.length
-  const avgSaved = recordCount > 0 ? Math.round(totalSaved / recordCount) : 0
+  const recordDates = new Set(records.map((r) => r.date))
 
   const DAYS = ['일', '월', '화', '수', '목', '금', '토']
   const firstDay = new Date(year, month, 1).getDay()
   const lastDate = new Date(year, month + 1, 0).getDate()
+  const prevLastDate = new Date(year, month, 0).getDate()
   const today = new Date()
-  const recordDates = records.map((r) => r.date)
 
   const cells = []
-  for (let i = 0; i < firstDay; i++) cells.push(null)
-  for (let d = 1; d <= lastDate; d++) cells.push(d)
+  for (let i = 0; i < firstDay; i++)
+    cells.push({ d: prevLastDate - firstDay + 1 + i, type: 'prev' })
+  for (let d = 1; d <= lastDate; d++)
+    cells.push({ d, type: 'cur' })
+  while (cells.length < 42)
+    cells.push({ d: cells.length - firstDay - lastDate + 1, type: 'next' })
 
-  function changeMonth(delta) {
-    setCalDate((prev) => new Date(prev.getFullYear(), prev.getMonth() + delta, 1))
+  function isToday(cell) {
+    return cell.type === 'cur' && new Date(year, month, cell.d).toDateString() === today.toDateString()
+  }
+  function hasRecord(cell) {
+    if (cell.type !== 'cur') return false
+    return recordDates.has(`${year}-${String(month + 1).padStart(2, '0')}-${String(cell.d).padStart(2, '0')}`)
+  }
+
+  function getBarsForWeek(weekIdx) {
+    const bars = []
+    const todayStr = today
+    DISHES.forEach((dish) => {
+      if (!dish.dateRange) return
+      const rangeStart = new Date(dish.dateRange.start)
+      const rangeEnd = dish.dateRange.end ? new Date(dish.dateRange.end) : todayStr
+      let firstCol = -1, lastCol = -1
+      for (let col = 0; col < 7; col++) {
+        const cell = cells[weekIdx * 7 + col]
+        if (!cell || cell.type !== 'cur') continue
+        const d = new Date(year, month, cell.d)
+        if (d >= rangeStart && d <= rangeEnd) {
+          if (firstCol === -1) firstCol = col
+          lastCol = col
+        }
+      }
+      if (firstCol !== -1) bars.push({ dish, firstCol, lastCol })
+    })
+    return bars
   }
 
   return (
-    <>
-      <div className="saving-card">
-        <img className="saving-card__mascot" src="/images/만족.png" alt=""
-          onError={(e) => { e.currentTarget.style.display = 'none' }} />
-        <div>
-          <p className="saving-card__label">이번 달 절감액</p>
-          <p className="saving-card__amount">{totalSaved.toLocaleString()}원</p>
-          <p className="saving-card__detail">{recordCount}회 × {avgSaved.toLocaleString()}원</p>
+    <div className="cal-page">
+      {/* ── 캘린더 ── */}
+      <div className="cal-box">
+        <div className="cal-nav">
+          <button className="cal-nav__btn" onClick={() => setCalDate(d => new Date(d.getFullYear(), d.getMonth() - 1, 1))}>
+            <img src="/assets/icons/back_icon.svg" width="10" height="17" alt="이전" />
+          </button>
+          <span className="cal-month">{month + 1}월</span>
+          <button className="cal-nav__btn cal-nav__btn--next" onClick={() => setCalDate(d => new Date(d.getFullYear(), d.getMonth() + 1, 1))}>
+            <img src="/assets/icons/back_icon.svg" width="10" height="17" alt="다음" />
+          </button>
         </div>
-      </div>
+        <p className="cal-record-label">이번달 도시락 기록 {recordCount}회</p>
 
-      <div style={{ padding: '20px 16px 16px' }}>
-        <h2 style={{ fontSize: 22, fontWeight: 700 }}>{year}년 {month + 1}월 도시락 기록</h2>
-      </div>
-
-      <div className="calendar-card">
-        <div className="calendar-nav">
-          <button className="calendar-nav__btn" onClick={() => changeMonth(-1)}>‹</button>
-          <span className="calendar-nav__title">{year}년 {month + 1}월</span>
-          <button className="calendar-nav__btn" onClick={() => changeMonth(1)}>›</button>
-        </div>
-        <p className="calendar-record-count">이번달 기록 {recordCount}회</p>
-
-        <div className="calendar-grid">
+        <div className="cal-head">
           {DAYS.map((d, i) => (
-            <div key={d} className={`calendar-grid__header${i === 0 ? ' sun' : i === 6 ? ' sat' : ''}`}>{d}</div>
+            <span key={d} className={`cal-head__d${i === 0 ? ' sun' : i === 6 ? ' sat' : ''}`}>{d}</span>
           ))}
-          {cells.map((d, i) => {
-            if (d === null) return <div key={`empty-${i}`} className="calendar-cell" />
-            const date = new Date(year, month, d)
-            const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`
-            const isToday = date.toDateString() === today.toDateString()
-            const dow = date.getDay()
-            const hasRecord = recordDates.includes(dateStr)
+        </div>
+
+        <div className="cal-body">
+          {[0, 1, 2, 3, 4, 5].map((weekIdx) => {
+            const weekCells = cells.slice(weekIdx * 7, weekIdx * 7 + 7)
+            const bars = getBarsForWeek(weekIdx)
             return (
-              <div
-                key={d}
-                className={`calendar-cell${isToday ? ' today' : ''}${dow === 0 ? ' sun' : dow === 6 ? ' sat' : ''}`}
-              >
-                <span className="calendar-cell__num">{d}</span>
-                {hasRecord && <span className="calendar-cell__dot" />}
+              <div key={weekIdx} className="cal-week">
+                <div className="cal-week__dates">
+                  {weekCells.map((cell, col) => {
+                    const isT = isToday(cell)
+                    const hasRec = hasRecord(cell)
+                    const isDim = cell.type !== 'cur'
+                    const isSun = col === 0 && !isDim
+                    const isSat = col === 6 && !isDim
+                    return (
+                      <div
+                        key={col}
+                        className={`cal-cell${!isDim ? ' cal-cell--cur' : ''}`}
+                        onClick={() => {
+                          if (isDim) return
+                          const d = `${year}-${String(month + 1).padStart(2, '0')}-${String(cell.d).padStart(2, '0')}`
+                          navigate('/lunch-record', { state: { date: d } })
+                        }}
+                      >
+                        {hasRec && <span className="cal-cell__dot" />}
+                        <span className={`cal-cell__num${isT ? ' today' : ''}${isSun ? ' sun' : ''}${isSat ? ' sat' : ''}${isDim ? ' dim' : ''}`}>
+                          {cell.d}
+                        </span>
+                      </div>
+                    )
+                  })}
+                </div>
+                {bars.length > 0 && (
+                  <div className="cal-week__bars">
+                    {bars.map(({ dish, firstCol, lastCol }) => (
+                      <div
+                        key={dish.name}
+                        className="cal-week__bar"
+                        style={{
+                          background: dish.barColor,
+                          gridColumn: `${firstCol + 1} / ${lastCol + 2}`,
+                        }}
+                      />
+                    ))}
+                  </div>
+                )}
               </div>
             )
           })}
         </div>
       </div>
-    </>
+
+      {/* ── 절감액 바 ── */}
+      <div className="savings-bar">
+        <img className="savings-bar__char" src="/assets/images/MMG.png" alt=""
+          onError={(e) => { e.currentTarget.style.display = 'none' }} />
+        <span className="savings-bar__text">이번 달 절감액 {totalSaved.toLocaleString()}원</span>
+        <img src="/assets/icons/btn_open.svg" width="17" height="10" alt="" className="savings-bar__chevron" />
+      </div>
+
+      {/* ── 밑반찬 현황 ── */}
+      <div className="banchan-card">
+        <div className="banchan-card__hd">
+          <p className="banchan-card__title">밑반찬 현황</p>
+          <p className="banchan-card__sub">만들어둔 밑반찬을 확인해보세요!</p>
+        </div>
+        <div className="banchan-list">
+          {DISHES.map((dish) => {
+            const isExp = !!expandedMap[dish.name]
+            return (
+              <div
+                key={dish.name}
+                className={`banchan-item${isExp ? ' banchan-item--expanded' : ''}`}
+                style={{ background: dish.bg }}
+                onClick={() => setExpandedMap(p => ({ ...p, [dish.name]: !p[dish.name] }))}
+              >
+                <div className="banchan-item__img-wrap">
+                  <img className="banchan-item__img" src={dish.img} alt={dish.name}
+                    onError={(e) => { e.currentTarget.style.opacity = '0' }} />
+                  {isExp && dish.progress !== null && (
+                    <div className="banchan-item__overlay">
+                      <span className="banchan-item__pct">{dish.progress}%</span>
+                    </div>
+                  )}
+                </div>
+                {isExp && (
+                  <div className="banchan-item__meta">
+                    <p className="banchan-item__name">{dish.name}</p>
+                    <p className="banchan-item__date">{dish.date}</p>
+                  </div>
+                )}
+              </div>
+            )
+          })}
+          <button className="banchan-add">+</button>
+        </div>
+      </div>
+    </div>
   )
 }
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState('today')
+  const navigate = useNavigate()
+  const { cart } = useFridge()
+  const [activeTab, setActiveTab] = useState('menu')
 
   return (
     <>
-      <Header type="main" />
-      <div className="page-content">
-        <div className="home-top-tab">
-          <button
-            className={`home-top-tab__item${activeTab === 'today' ? ' active' : ''}`}
-            onClick={() => setActiveTab('today')}
-          >
-            오늘의 도시락
-            {activeTab === 'today' && (
-              <img className="home-top-tab__dot" src="/assets/icons/Ic_Dot_Active.svg" alt="" />
-            )}
-          </button>
-          <button
-            className={`home-top-tab__item${activeTab === 'calendar' ? ' active' : ''}`}
-            onClick={() => setActiveTab('calendar')}
-          >
-            나의 도시락 기록
-            {activeTab === 'calendar' && (
-              <img className="home-top-tab__dot" src="/assets/icons/Ic_Dot_Active.svg" alt="" />
-            )}
-          </button>
-        </div>
+      <header className="home-header">
+        <button className="home-header__logo" onClick={() => navigate('/')}>
+          <img
+            src="/assets/images/logo.png"
+            width="206"
+            height="41"
+            alt="오늘 머먹지?"
+            onError={(e) => { e.currentTarget.src = '/images/logo.png' }}
+          />
+        </button>
+        <button className="home-header__cart-btn" onClick={() => navigate('/cart')}>
+          <img src="/assets/icons/Ic_Cart.svg" width="35" height="30" alt="장바구니" className="home-header__cart-icon" />
+          {cart.length > 0 && (
+            <span className="home-header__badge">{cart.length}</span>
+          )}
+        </button>
+      </header>
 
-        {activeTab === 'today' ? <TodayTab /> : <CalendarTab />}
+      <div className="home-tab-seg">
+        <button
+          className={`home-tab-seg__btn${activeTab === 'menu' ? ' home-tab-seg__btn--active' : ''}`}
+          onClick={() => setActiveTab('menu')}
+        >
+          메뉴추천
+        </button>
+        <button
+          className={`home-tab-seg__btn${activeTab === 'calendar' ? ' home-tab-seg__btn--active' : ''}`}
+          onClick={() => setActiveTab('calendar')}
+        >
+          도시락 기록
+        </button>
       </div>
+
+      {activeTab === 'menu' ? <MenuTab /> : <CalendarTab />}
     </>
   )
 }

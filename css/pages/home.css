@@ -1,245 +1,258 @@
 /* ===========================
-   홈 화면 — Figma 실측 기반
+   홈 화면
    =========================== */
 
-/* ── 상단 탭 (오늘의 도시락 / 나의 도시락 기록) ── */
-.home-top-tab {
+/* ── 헤더 — 피그마 274:1387 ── */
+.home-header {
+  background: #fffaf5;
   display: flex;
   align-items: center;
-  gap: 26px;
-  padding: 0 16px;
-  margin: 10px 0;
+  justify-content: space-between;
+  padding: 10px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-.home-top-tab__item {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 14px 0;
-  font-size: 20px;
-  font-weight: 400;
-  color: var(--text-inactive-tab);     /* #B3AFAC */
+.home-header__logo {
   background: none;
   border: none;
   cursor: pointer;
-  font-family: var(--font-family);
-  letter-spacing: -0.4px;
-  white-space: nowrap;
-}
-
-.home-top-tab__item.active {
-  font-weight: 700;
-  color: var(--text-main);             /* #2A2018 */
-}
-
-/* 활성 탭 오렌지 점 — Ic_Dot_Active.svg 사용 (JS에서 img 삽입) */
-.home-top-tab__dot {
-  position: absolute;
-  top: 14px;
-  right: -8px;
-  width: 4px;
-  height: 4px;
-  pointer-events: none;
-}
-
-/* ── 웰컴 배너 ── */
-.home-welcome {
+  padding: 0;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 16px;
-  height: 161px;
-  margin: 20px 0;
-
 }
 
-.home-welcome__greeting {
-  font-size: 36px;
-  letter-spacing: -0.72px;
-  color: var(--text-main);
-  line-height: 60px;
+.home-header__logo img {
+  display: block;
+  width: 206px;
+  height: 41px;
+  object-fit: contain;
 }
 
-.home-welcome__greeting strong {
-  font-weight: 700;
-}
-
-.home-welcome__greeting span {
-  font-weight: 400;
-}
-
-.home-welcome__mascot {
-  width: 172px;
-  height: 173px;
-  object-fit: cover;
+.home-header__cart-btn {
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 45px;
+  height: 33px;
   flex-shrink: 0;
 }
 
-/* ── 도시락 섹션 헤더 ── */
-.lunchbox-section {
-  padding: 16px;
+.home-header__cart-icon {
+  display: block;
+  margin-top: 3px;
+}
+
+.home-header__badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 18px;
+  height: 18px;
+  background: #ff8c66;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 300;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: -0.24px;
+}
+
+/* ── 탭 세그먼트 — 피그마 274:1450 ── */
+.home-tab-seg {
+  display: flex;
+  width: 337px;
+  background: #fff0e8;
+  border-radius: 50px;
+  padding: 4px;
+  margin: 16px auto;
+  height: 45px;
+  box-sizing: border-box;
+  align-items: center;
+}
+
+.home-tab-seg__btn {
+  flex: 1;
+  height: 37px;
+  border: none;
+  background: transparent;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 500;
+  color: rgba(42, 32, 24, 0.2);
+  cursor: pointer;
+  font-family: var(--font-family);
+  letter-spacing: -0.32px;
+  transition: all 0.2s ease;
+}
+
+.home-tab-seg__btn--active {
+  background: #fff;
+  color: #2a2018;
+  font-weight: 500;
+  box-shadow: 0 0 2px rgba(255, 140, 102, 0.2);
+}
+
+/* ── 메뉴 카드 스크롤 ── */
+.home-menu-wrap {
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 0;
+  padding-bottom: 84px;
+  padding: 0 20px;
 }
 
-.lunchbox-section__header {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-}
-
-.lunchbox-section__title-area {
-  display: flex;
-  align-items: flex-end;
-  gap: 10px;
-}
-
-.lunchbox-section__title {
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--text-main);
-  letter-spacing: -0.48px;
-  line-height: normal;
-}
-
-.lunchbox-section__date {
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--text-sub);              /* rgba(42,32,24,0.5) */
-  letter-spacing: 0.3px;
-  line-height: normal;
-}
-
-.lunchbox-section__indicator {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--text-main);
-  letter-spacing: -0.36px;
-}
-
-.lunchbox-section__indicator .total {
-  font-weight: 700;
-  color: var(--text-sub);
-}
-
-/* ── 도시락 카드 스크롤 ── */
-.lunchbox-scroll {
+.home-card-scroll {
   display: flex;
   gap: 12px;
   overflow-x: auto;
-  padding-bottom: 4px;               /* 스크롤 그림자 여유 */
+  padding: 0 20px 8px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
 }
 
-/* ── 도시락 카드 ── */
-.lunchbox-card {
-  position: relative;
-  width: 254px;
-  height: 337px;
+.home-card-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── 카드 ── */
+.home-menu-card {
+  flex-shrink: 0;
+  width: 390px;
+  height: 549px;
   border-radius: 15px;
   overflow: hidden;
-  flex-shrink: 0;
+  scroll-snap-align: start;
   cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
   transition: transform 0.1s ease;
 }
 
-.lunchbox-card:active {
-  transform: scale(0.97);
+.home-menu-card:active {
+  transform: scale(0.98);
 }
 
-.lunchbox-card__img {
-  position: absolute;
-  inset: 0;
+.home-menu-card__photo-wrap {
+  height: 377px;
+  overflow: hidden;
+  background: #d4a88a;
+}
+
+.home-menu-card__photo {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-/* 그라디언트 오버레이 — Figma rotate-180 역산 */
-.lunchbox-card__overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0.50)  0%,
-    rgba(0, 0, 0, 0.30) 32.7%,
-    rgba(255,255,255, 0) 74%,
-    rgba(0, 0, 0, 0.30) 100%
-  );
+/* 주황 정보 섹션 — 피그마 수치 그대로 */
+.home-menu-card__info {
+  background: #ff8c66;
+  height: 172px;
+  position: relative;
+  flex-shrink: 0;
 }
 
-/* 카드 텍스트 — 절대 위치로 Figma mt 값 그대로 */
-.lunchbox-card__title {
+.home-menu-card__sublabel {
   position: absolute;
-  top: 31px;
-  left: 18px;
-  right: 12px;
+  top: 6px;
+  left: 21px;
+  right: 21px;
+  font-size: 24px;
+  font-weight: 500;
+  color: #fff;
+  line-height: 60px;
+  letter-spacing: -0.48px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+}
+
+.home-menu-card__title {
+  position: absolute;
+  top: 40px;
+  left: 21px;
+  right: 21px;
   font-size: 24px;
   font-weight: 600;
   color: #fff;
-  line-height: 1.25;
-}
-
-.lunchbox-card__badge {
-  position: absolute;
-  top: 98px;
-  left: 18px;
-  border: 1px solid #fff;
-  border-radius: 5px;
-  padding: 3px 7px;
-  font-size: 10px;
-  font-weight: 300;
-  color: #fff;
-  letter-spacing: -0.2px;
+  line-height: 60px;
+  letter-spacing: -0.48px;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
 }
 
-.lunchbox-card__desc {
+.home-menu-card__rule {
   position: absolute;
-  bottom: 10px;
-  left: 12px;
-  right: 8px;
-  font-size: 12px;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.7);
-  text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
-  letter-spacing: -0.24px;
-  line-height: 1.45;
+  top: 117px;
+  left: 21px;
+  right: 21px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.5);
+  border: none;
 }
 
-/* ── 직접 만들래요 버튼 ── */
-.home-direct-btn {
+.home-menu-card__cta {
+  position: absolute;
+  top: 134px;
+  left: 21px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  letter-spacing: -0.28px;
+  white-space: nowrap;
+  margin: 0;
+}
+
+/* 직접 만들래요 카드 */
+.home-menu-card--custom {
+  background: #fffaf5;
+  border: 5px dashed #ff8c66;
+  box-shadow: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 16px;
+  box-sizing: border-box;
 }
 
-.home-direct-btn__text {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--primary);
-  letter-spacing: -1px;
-  cursor: pointer;
-  background: none;
-  border: none;
-  font-family: var(--font-family);
+.home-menu-card--custom__text {
+  font-size: 20px;
+  font-weight: 500;
+  color: #ff8c66;
+  letter-spacing: -0.4px;
+  text-align: center;
+  margin: 0;
+}
+
+/* ── 페이지 인디케이터 점 ── */
+.home-dots {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
+  padding: 18px 0 8px;
 }
 
-.home-direct-btn__arrow {
-  width: 6px;
-  height: 11px;
-  opacity: 0.8;
+.home-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(42, 32, 24, 0.15);
+  transition: background 0.2s;
+}
+
+.home-dot--active {
+  background: #ff8c66;
 }
 
 /* ── 캘린더 탭 ── */
-
-/* 절감액 카드 */
 .saving-card {
   display: flex;
   align-items: center;
@@ -276,7 +289,6 @@
   margin-top: 2px;
 }
 
-/* 캘린더 카드 */
 .calendar-card {
   margin: 0 16px;
   padding: 16px;
@@ -361,4 +373,308 @@
   height: 6px;
   border-radius: 50%;
   background: var(--primary);
+}
+
+/* ── 도시락 기록 탭 ── */
+.cal-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 8px 0 100px;
+}
+
+.cal-box {
+  padding: 0 20px;
+}
+
+.cal-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.cal-nav__btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cal-nav__btn--next img {
+  transform: rotate(180deg);
+}
+
+.cal-month {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2a2018;
+  letter-spacing: -0.36px;
+}
+
+.cal-record-label {
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(42, 32, 24, 0.5);
+  margin: 0 0 12px;
+  letter-spacing: -0.26px;
+}
+
+.cal-head {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 4px;
+}
+
+.cal-head__d {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(42, 32, 24, 0.5);
+  padding: 4px 0;
+}
+
+.cal-head__d.sun { color: #ff8c66; }
+.cal-head__d.sat { color: #3a4d7a; }
+
+.cal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.cal-week {
+  display: flex;
+  flex-direction: column;
+}
+
+.cal-week__dates {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.cal-week__bars {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  height: 10px;
+  align-items: center;
+  margin: 4px 0 8px;
+}
+
+.cal-week__bar {
+  height: 6px;
+  border-radius: 3px;
+}
+
+.cal-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 10px 0 4px;
+}
+
+.cal-cell__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #ff8c66;
+  flex-shrink: 0;
+}
+
+.cal-cell__num {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: #2a2018;
+  border-radius: 50px;
+  letter-spacing: -0.24px;
+}
+
+.cal-cell--cur {
+  cursor: pointer;
+}
+
+.cal-cell__num.today {
+  background: rgba(255, 140, 102, 0.26);
+  font-weight: 600;
+}
+
+.cal-cell__num.sun { color: #ff8c66; }
+.cal-cell__num.sat { color: #3a4d7a; }
+.cal-cell__num.dim { color: rgba(42, 32, 24, 0.2); }
+
+/* ── 절감액 바 ── */
+.savings-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 20px;
+  padding: 0 16px;
+  height: 55px;
+  background: #fff0e8;
+  border-radius: 12px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.savings-bar__char {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.savings-bar__text {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+  color: #2a2018;
+  letter-spacing: -0.28px;
+}
+
+.savings-bar__chevron {
+  flex-shrink: 0;
+}
+
+/* ── 밑반찬 현황 카드 ── */
+.banchan-card {
+  margin: 0 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+  padding: 16px;
+  box-sizing: border-box;
+  height: 172px;
+  overflow: visible;
+}
+
+.banchan-card__hd {
+  margin-bottom: 14px;
+}
+
+.banchan-card__title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2a2018;
+  margin: 0 0 2px;
+  letter-spacing: -0.32px;
+}
+
+.banchan-card__sub {
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(42, 32, 24, 0.5);
+  margin: 0;
+  letter-spacing: -0.24px;
+}
+
+.banchan-list {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  overflow: visible;
+}
+
+.banchan-item {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: 40px;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px;
+  box-sizing: border-box;
+  transition: height 0.25s ease;
+}
+
+.banchan-item--expanded {
+  height: auto;
+  padding-bottom: 12px;
+}
+
+.banchan-item__img-wrap {
+  width: 70px;
+  height: 68px;
+  border-radius: 34px;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.banchan-item__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.banchan-item__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: inherit;
+}
+
+.banchan-item__pct {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.28px;
+}
+
+.banchan-item__meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  margin-top: 5px;
+  width: 60px;
+}
+
+.banchan-item__name {
+  font-size: 12px;
+  font-weight: 700;
+  color: #2a2018;
+  text-align: center;
+  margin: 0;
+  letter-spacing: -0.24px;
+  width: 100%;
+}
+
+.banchan-item__date {
+  font-size: 9px;
+  color: rgba(0, 0, 0, 0.5);
+  text-align: center;
+  margin: 0;
+  letter-spacing: -0.18px;
+  width: 100%;
+}
+
+.banchan-add {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: 40px;
+  border: none;
+  background: rgba(255, 140, 102, 0.15);
+  font-size: 26px;
+  color: #ff8c66;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-family);
 }

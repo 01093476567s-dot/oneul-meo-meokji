@@ -171,6 +171,26 @@
   text-align: center;
 }
 
+.fav-qty-val--clickable {
+  cursor: pointer;
+  border-bottom: 1.5px dashed rgba(42, 32, 24, 0.3);
+  padding-bottom: 1px;
+}
+
+.fav-qty-input {
+  width: 56px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #2a2018;
+  font-family: var(--font-family);
+  border: none;
+  border-bottom: 2px solid #ff8c66;
+  background: transparent;
+  text-align: center;
+  outline: none;
+  padding: 2px 0;
+}
+
 /* ── 스와이프 힌트 ── */
 .fav-swipe-hint {
   font-size: 12px;

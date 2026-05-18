@@ -1,0 +1,146 @@
+/* ===========================
+   도시락 기록 페이지
+   =========================== */
+
+.lr-content {
+  padding-bottom: 100px;
+}
+
+/* ── 사진 섹션 ── */
+.lr-photo-section {
+  padding: 16px 20px 14px;
+}
+
+.lr-photo-box {
+  width: 83px;
+  height: 82px;
+  background: #fff0e8;
+  border: 1px solid rgba(255, 140, 102, 0.5);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.lr-photo-icon {
+  width: 37px;
+  height: 27px;
+  object-fit: contain;
+}
+
+.lr-photo-count {
+  font-size: 10px;
+  color: #2a2018;
+  letter-spacing: -0.2px;
+  font-family: var(--font-family);
+}
+
+/* ── 구분선 ── */
+.lr-divider {
+  height: 1px;
+  background: rgba(42, 32, 24, 0.08);
+}
+
+/* ── 행 (날짜 / 입력필드) ── */
+.lr-row {
+  padding: 0 20px;
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+}
+
+.lr-row--tall {
+  align-items: flex-start;
+  padding-top: 14px;
+  min-height: 200px;
+}
+
+.lr-date {
+  font-size: 14px;
+  color: #2a2018;
+  letter-spacing: -0.28px;
+}
+
+.lr-input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-family: var(--font-family);
+  color: #2a2018;
+  outline: none;
+  letter-spacing: -0.28px;
+}
+
+.lr-input::placeholder {
+  color: rgba(42, 32, 24, 0.2);
+}
+
+.lr-textarea {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-family: var(--font-family);
+  color: #2a2018;
+  outline: none;
+  resize: none;
+  min-height: 180px;
+  letter-spacing: -0.28px;
+  line-height: 1.6;
+}
+
+.lr-textarea::placeholder {
+  color: rgba(42, 32, 24, 0.2);
+}
+
+/* ── 식재료 섹션 ── */
+.lr-ingredient-section {
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.lr-ingredient-label {
+  font-size: 14px;
+  color: #2a2018;
+  margin: 0;
+  letter-spacing: -0.28px;
+}
+
+.lr-ingredient-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.lr-ingredient-chip {
+  padding: 6px 14px;
+  background: rgba(255, 140, 102, 0.12);
+  border-radius: 20px;
+  font-size: 13px;
+  color: #ff8c66;
+  letter-spacing: -0.26px;
+}
+
+.lr-ingredient-add {
+  width: 63px;
+  height: 62px;
+  background: #fff0e8;
+  border: 1px solid rgba(255, 140, 102, 0.5);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #ff8c66;
+  font-size: 26px;
+  font-weight: 300;
+  font-family: var(--font-family);
+  line-height: 1;
+}

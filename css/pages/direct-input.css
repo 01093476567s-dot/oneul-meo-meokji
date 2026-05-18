@@ -610,6 +610,13 @@
   opacity: 0.85;
 }
 
+.di-cta__btn--disabled {
+  background: #d9d9d9;
+  color: #fff;
+  cursor: default;
+  pointer-events: none;
+}
+
 /* ══════════════════════════════════════
    직접입력 (ManualInput) 페이지 전용
    ══════════════════════════════════════ */
