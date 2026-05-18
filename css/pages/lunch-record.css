@@ -97,6 +97,55 @@
   color: rgba(42, 32, 24, 0.2);
 }
 
+/* ── 태그 행 (칩 + 인라인 입력, Figma 280-2311) ── */
+.lr-tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  min-height: 50px;
+  cursor: text;
+}
+
+/* 태그 칩: bg #fff0e8, rounded 50px, px 14px py 6px, 오렌지 텍스트 */
+.lr-tag-chip {
+  display: inline-flex;
+  align-items: center;
+  background: #fff0e8;
+  border-radius: 50px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #ff8c66;
+  font-family: var(--font-family);
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition: opacity 0.1s;
+}
+
+.lr-tag-chip:active {
+  opacity: 0.6;
+}
+
+/* 인라인 태그 입력 */
+.lr-tag-input {
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-family: var(--font-family);
+  color: #2a2018;
+  outline: none;
+  letter-spacing: -0.28px;
+  min-width: 60px;
+  flex: 1;
+}
+
+.lr-tag-input::placeholder {
+  color: rgba(42, 32, 24, 0.2);
+}
+
 /* ── 식재료 섹션 ── */
 .lr-ingredient-section {
   padding: 16px 20px;

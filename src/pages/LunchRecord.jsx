@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 
 function formatDate(dateStr) {
@@ -14,18 +14,51 @@ function resolveIconSrc(item) {
   return `/assets/icons/Ingradient/${item.name}.svg`
 }
 
+function normalizeTag(raw) {
+  const trimmed = raw.trim().replace(/^#+/, '')
+  return trimmed ? `#${trimmed}` : ''
+}
+
 export default function LunchRecord() {
   const navigate = useNavigate()
   const { state } = useLocation()
+  const tagInputRef = useRef(null)
 
   const date = state?.date || new Date().toISOString().slice(0, 10)
   const [name, setName] = useState(state?.name || '')
-  const [tags, setTags] = useState(state?.tags || '')
+  const [tags, setTags] = useState(() => {
+    const t = state?.tags
+    if (Array.isArray(t)) return t
+    if (typeof t === 'string' && t.trim()) return [normalizeTag(t)].filter(Boolean)
+    return []
+  })
+  const [tagInput, setTagInput] = useState('')
   const [content, setContent] = useState(state?.content || '')
   const [photoCount] = useState(0)
   const [ingredients, setIngredients] = useState(state?.selectedIngredients || [])
 
   const canSave = name.trim() !== ''
+
+  function commitTag() {
+    const tag = normalizeTag(tagInput)
+    if (tag && !tags.includes(tag)) {
+      setTags(prev => [...prev, tag])
+    }
+    setTagInput('')
+  }
+
+  function handleTagKeyDown(e) {
+    if (e.key === 'Enter' || e.key === ' ' || e.key === ',') {
+      e.preventDefault()
+      commitTag()
+    } else if (e.key === 'Backspace' && tagInput === '' && tags.length > 0) {
+      setTags(prev => prev.slice(0, -1))
+    }
+  }
+
+  function removeTag(idx) {
+    setTags(prev => prev.filter((_, i) => i !== idx))
+  }
 
   function handleSave() {
     if (!canSave) return
@@ -33,10 +66,11 @@ export default function LunchRecord() {
   }
 
   function handleAddIngredient() {
+    const finalTags = tagInput.trim() ? [...tags, normalizeTag(tagInput)].filter(Boolean) : tags
     navigate('/ingredient-select', {
       state: {
         from: '/lunch-record',
-        currentFormState: { date, name, tags, content },
+        currentFormState: { date, name, tags: finalTags, content },
         currentSelected: ingredients,
       },
     })
@@ -88,13 +122,24 @@ export default function LunchRecord() {
 
         <div className="lr-divider" />
 
-        {/* 태그 */}
-        <div className="lr-row">
+        {/* 태그 — 칩 + 인라인 입력 */}
+        <div
+          className="lr-tag-row"
+          onClick={() => tagInputRef.current?.focus()}
+        >
+          {tags.map((tag, i) => (
+            <span key={i} className="lr-tag-chip" onClick={e => { e.stopPropagation(); removeTag(i) }}>
+              {tag}
+            </span>
+          ))}
           <input
-            className="lr-input"
-            placeholder="#태그"
-            value={tags}
-            onChange={e => setTags(e.target.value)}
+            ref={tagInputRef}
+            className="lr-tag-input"
+            placeholder={tags.length === 0 ? '#태그' : ''}
+            value={tagInput}
+            onChange={e => setTagInput(e.target.value)}
+            onKeyDown={handleTagKeyDown}
+            onBlur={commitTag}
           />
         </div>
 
@@ -116,10 +161,7 @@ export default function LunchRecord() {
         <div className="lr-ingredient-section">
           <p className="lr-ingredient-label">사용한 식재료를 선택해주세요.</p>
           <div className="lr-ingredient-list">
-            {/* + 추가 버튼 */}
             <button className="lr-ingredient-add" onClick={handleAddIngredient}>+</button>
-
-            {/* 선택된 재료 카드 */}
             {ingredients.map(ing => (
               <div key={ing.id} className="lr-ingredient-card">
                 <img
