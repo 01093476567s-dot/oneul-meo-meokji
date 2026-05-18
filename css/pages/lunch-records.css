@@ -1,0 +1,127 @@
+/* ===========================
+   도시락 기록 모아보기 페이지 (280-2712)
+   =========================== */
+
+.lrec-content {
+  padding-bottom: 40px;
+}
+
+/* ── 월 섹션 ── */
+.lrec-section {
+  margin-bottom: 32px;
+}
+
+/* 월 레이블: "이번달" / "4월" */
+.lrec-month-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #2a2018;
+  margin: 0;
+  padding: 20px 20px 12px;
+  line-height: 13.2px;
+  letter-spacing: -0.28px;
+}
+
+/* 3열 그리드 (Figma: 3×122px, gap 12px, px 20px) */
+.lrec-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 122px);
+  gap: 12px;
+  padding: 0 20px;
+}
+
+/* ── 카드 ── */
+.lrec-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* 사진 영역 122×122px, rounded 12px */
+.lrec-card__photo {
+  width: 122px;
+  height: 122px;
+  border-radius: 12px;
+  background: #d9d9d9;
+  overflow: hidden;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.lrec-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* 제목 */
+.lrec-card__title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #2a2018;
+  text-align: center;
+  margin: 6px 0 0;
+  line-height: 13.2px;
+  letter-spacing: -0.24px;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 날짜 */
+.lrec-card__date {
+  font-size: 8px;
+  font-weight: 500;
+  color: rgba(42, 32, 24, 0.5);
+  text-align: center;
+  margin: 3px 0 0;
+  line-height: normal;
+}
+
+/* ──────────────────────────────────
+   홈 캘린더 탭 하단 카드 (280-1790)
+   ────────────────────────────────── */
+.home-records-card {
+  margin: 16px 20px 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.05);
+  height: 96px;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  cursor: pointer;
+  gap: 0;
+  transition: opacity 0.15s;
+}
+
+.home-records-card:active {
+  opacity: 0.8;
+}
+
+.home-records-card__texts {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.home-records-card__title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #000;
+  letter-spacing: -0.36px;
+  margin: 0;
+  line-height: normal;
+}
+
+.home-records-card__sub {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.7);
+  letter-spacing: -0.28px;
+  margin: 0;
+  line-height: normal;
+}

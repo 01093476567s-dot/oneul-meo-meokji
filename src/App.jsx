@@ -17,6 +17,7 @@ import Subscription from './pages/Subscription'
 import LunchRecord from './pages/LunchRecord'
 import DishCombo from './pages/DishCombo'
 import IngredientSelect from './pages/IngredientSelect'
+import LunchRecords from './pages/LunchRecords'
 
 const NAV_ROUTES = ['/', '/fridge', '/mypage']
 
@@ -42,6 +43,7 @@ function AppShell() {
           <Route path="/lunch-record"       element={<LunchRecord />} />
           <Route path="/dish-combo"         element={<DishCombo />} />
           <Route path="/ingredient-select"  element={<IngredientSelect />} />
+          <Route path="/lunch-records"      element={<LunchRecords />} />
           <Route path="*"              element={<Navigate to="/" replace />} />
         </Routes>
       </div>

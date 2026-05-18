@@ -16,6 +16,7 @@ import '../css/pages/favorites.css'
 import '../css/pages/lunch-record.css'
 import '../css/pages/dish-combo.css'
 import '../css/pages/ingredient-select.css'
+import '../css/pages/lunch-records.css'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
