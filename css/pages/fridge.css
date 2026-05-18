@@ -102,7 +102,7 @@
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  width: 64px;
+  width: 59px;
 }
 
 .fab-pill__item {
@@ -328,7 +328,7 @@
   top: 0;
   bottom: 0;
   width: 60px;
-  background: linear-gradient(to right, rgba(255, 255, 255, 0), #fff);
+  background: linear-gradient(to right, rgba(255, 250, 245, 0), #fffaf5);
   pointer-events: none;
 }
 
@@ -425,9 +425,9 @@
   display: block;
 }
 
-/* Figma: Name_Area — h-23px, bg-white, rounded-bl-4 rounded-br-4 */
+/* Figma: Name_Area — h-23px, bg-#fffaf5(페이지 배경색과 동일), rounded-bl-4 rounded-br-4 */
 .ing-cell__name-area {
-  background: #fff;
+  background: #fffaf5;
   width: 100%;
   height: 23px;
   display: flex;

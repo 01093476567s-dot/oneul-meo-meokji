@@ -167,80 +167,67 @@ export default function Fridge() {
           <div className="fridge-filled">
             {expiring.length > 0 && <ExpiryBanner expiring={expiring} />}
 
-            {/* 마스코트 영역 */}
-            <div className="fridge-mascot-area">
-              <img className="fridge-mascot__bubble" src="/images/Speech_Bubble.png" alt=""
-                onError={(e) => { e.currentTarget.style.display = 'none' }} />
-              <img className="fridge-mascot__char" src="/images/Img_Character_Meomeokjji.png" alt="머먹지"
-                onError={(e) => { e.currentTarget.style.display = 'none' }} />
-            </div>
-
-            {/* 흰색 섹션 카드 */}
-            <div className="fridge-section-card">
-
-              {/* 카테고리 탭 */}
-              <div className="fridge-cat-wrap">
-                <div className="fridge-cat-list" ref={catListRef} onScroll={handleCatScroll}>
-                  {fridgeCategories.map((cat) => (
-                    <button
-                      key={cat}
-                      className={`fridge-cat-chip${activeCategory === cat ? ' fridge-cat-chip--active' : ''}`}
-                      onClick={() => setActiveCategory(cat)}
-                    >
-                      {cat}
-                    </button>
-                  ))}
-                </div>
-                {catFade && <div className="fridge-cat-fade" aria-hidden="true" />}
+            {/* 카테고리 탭 */}
+            <div className="fridge-cat-wrap">
+              <div className="fridge-cat-list" ref={catListRef} onScroll={handleCatScroll}>
+                {fridgeCategories.map((cat) => (
+                  <button
+                    key={cat}
+                    className={`fridge-cat-chip${activeCategory === cat ? ' fridge-cat-chip--active' : ''}`}
+                    onClick={() => setActiveCategory(cat)}
+                  >
+                    {cat}
+                  </button>
+                ))}
               </div>
-              <div className="fridge-cat-divider" />
+              {catFade && <div className="fridge-cat-fade" aria-hidden="true" />}
+            </div>
+            <div className="fridge-cat-divider" />
 
-              {/* 유통기한 색상 안내 */}
-              <p className="fridge-expiry-hint">유통기한 표시는 색상으로 표시되요 ⓘ</p>
+            {/* 유통기한 색상 안내 */}
+            <p className="fridge-expiry-hint">유통기한 표시는 색상으로 표시되요 ⓘ</p>
 
-              {/* 식재료 그리드 */}
-              <div className="ingredient-grid">
-                {filtered.map((item) => {
-                  const status = getExpiryStatus(item.expiryDate)
-                  return (
-                    <div key={item.id} className="ingredient-cell" onClick={() => showDetail(item)}>
-                      <div className={`ing-badge ing-badge--${status}`}>{item.quantity}</div>
-                      <div className="ing-cell__content">
-                        <div className="ing-cell__img-wrap">
-                          <div className="ing-cell__item-area">
-                            <img
-                              src={resolveIconSrc(item)}
-                              alt={item.name}
-                              onError={(e) => { e.currentTarget.style.opacity = '0.2' }}
-                            />
-                          </div>
-                          <div className="ing-cell__name-area">
-                            <span className="ing-cell__name">{item.name}</span>
-                          </div>
+            {/* 식재료 그리드 */}
+            <div className="ingredient-grid">
+              {filtered.map((item) => {
+                const status = getExpiryStatus(item.expiryDate)
+                return (
+                  <div key={item.id} className="ingredient-cell" onClick={() => showDetail(item)}>
+                    <div className={`ing-badge ing-badge--${status}`}>{item.quantity}</div>
+                    <div className="ing-cell__content">
+                      <div className="ing-cell__img-wrap">
+                        <div className="ing-cell__item-area">
+                          <img
+                            src={resolveIconSrc(item)}
+                            alt={item.name}
+                            onError={(e) => { e.currentTarget.style.opacity = '0.2' }}
+                          />
+                        </div>
+                        <div className="ing-cell__name-area">
+                          <span className="ing-cell__name">{item.name}</span>
                         </div>
                       </div>
                     </div>
-                  )
-                })}
+                  </div>
+                )
+              })}
 
-                {/* 추가 버튼 */}
-                <div className="ingredient-cell--add" onClick={() => {
-                  const catId = Object.entries(CATEGORY_MAP).find(([, v]) => v === activeCategory)?.[0]
-                  navigate(catId ? `/direct-input?category=${catId}` : '/direct-input')
-                }}>
-                  <div className="ing-cell__content">
-                    <div className="ing-cell__img-wrap">
-                      <div className="ing-cell__item-area ing-cell--add-box">
-                        <span>+</span>
-                      </div>
-                      <div className="ing-cell__name-area">
-                        <span className="ing-cell__name">추가</span>
-                      </div>
+              {/* 추가 버튼 */}
+              <div className="ingredient-cell--add" onClick={() => {
+                const catId = Object.entries(CATEGORY_MAP).find(([, v]) => v === activeCategory)?.[0]
+                navigate(catId ? `/direct-input?category=${catId}` : '/direct-input')
+              }}>
+                <div className="ing-cell__content">
+                  <div className="ing-cell__img-wrap">
+                    <div className="ing-cell__item-area ing-cell--add-box">
+                      <span>+</span>
+                    </div>
+                    <div className="ing-cell__name-area">
+                      <span className="ing-cell__name">추가</span>
                     </div>
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
         )}
