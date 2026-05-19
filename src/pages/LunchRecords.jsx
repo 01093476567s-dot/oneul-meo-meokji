@@ -1,6 +1,12 @@
 import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+const CHECK_SVG = (
+  <svg width="14" height="11" viewBox="0 0 14 11" fill="none">
+    <path d="M1 5.5L5.5 10L13 1" stroke="#ff8c66" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+)
+
 /* ── 임시 mock 데이터 (나중에 실제 저장 데이터로 교체) ── */
 const MOCK_RECORDS = [
   { id: 1,  title: '간단한 김치볶음밥',   date: '2026-05-12', img: '/images/소불고기.jpg' },
@@ -56,6 +62,7 @@ export default function LunchRecords() {
   const [searchQuery, setSearchQuery] = useState('')
   const [kebabOpen, setKebabOpen] = useState(false)
   const [sortOrder, setSortOrder] = useState('newest')
+  const [viewMode, setViewMode] = useState('medium') // 'large' | 'medium' | 'list'
 
   /* 검색창 열릴 때 자동 포커스 */
   useEffect(() => {
@@ -114,22 +121,36 @@ export default function LunchRecords() {
                     onClick={() => { setSortOrder('newest'); setKebabOpen(false) }}
                   >
                     최신순
-                    {sortOrder === 'newest' && (
-                      <svg width="14" height="11" viewBox="0 0 14 11" fill="none">
-                        <path d="M1 5.5L5.5 10L13 1" stroke="#ff8c66" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    )}
+                    {sortOrder === 'newest' && CHECK_SVG}
                   </button>
                   <button
                     className={`lrec-kebab-item${sortOrder === 'oldest' ? ' lrec-kebab-item--active' : ''}`}
                     onClick={() => { setSortOrder('oldest'); setKebabOpen(false) }}
                   >
                     오래된순
-                    {sortOrder === 'oldest' && (
-                      <svg width="14" height="11" viewBox="0 0 14 11" fill="none">
-                        <path d="M1 5.5L5.5 10L13 1" stroke="#ff8c66" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    )}
+                    {sortOrder === 'oldest' && CHECK_SVG}
+                  </button>
+                  <div className="lrec-kebab-divider" />
+                  <button
+                    className={`lrec-kebab-item${viewMode === 'large' ? ' lrec-kebab-item--active' : ''}`}
+                    onClick={() => { setViewMode('large'); setKebabOpen(false) }}
+                  >
+                    크게보기
+                    {viewMode === 'large' && CHECK_SVG}
+                  </button>
+                  <button
+                    className={`lrec-kebab-item${viewMode === 'medium' ? ' lrec-kebab-item--active' : ''}`}
+                    onClick={() => { setViewMode('medium'); setKebabOpen(false) }}
+                  >
+                    중간 보기
+                    {viewMode === 'medium' && CHECK_SVG}
+                  </button>
+                  <button
+                    className={`lrec-kebab-item${viewMode === 'list' ? ' lrec-kebab-item--active' : ''}`}
+                    onClick={() => { setViewMode('list'); setKebabOpen(false) }}
+                  >
+                    간단목록 보기
+                    {viewMode === 'list' && CHECK_SVG}
                   </button>
                 </div>
               </>
@@ -160,7 +181,7 @@ export default function LunchRecords() {
         </div>
       )}
 
-      {/* ── 기록 그리드 ── */}
+      {/* ── 기록 본문 ── */}
       <div className="lrec-content">
         {groups.length === 0 ? (
           <p className="lrec-empty">검색 결과가 없어요</p>
@@ -168,28 +189,61 @@ export default function LunchRecords() {
           groups.map((group, gi) => (
             <section key={gi} className="lrec-section">
               <h2 className="lrec-month-label">{group.label}</h2>
-              <div className="lrec-grid">
-                {group.items.map(record => (
-                  <div
-                    key={record.id}
-                    className="lrec-card"
-                    onClick={() => navigate('/lunch-record', { state: { date: record.date } })}
-                  >
-                    <div className="lrec-card__photo">
-                      {record.img && (
-                        <img
-                          src={record.img}
-                          alt={record.title}
-                          className="lrec-card__img"
-                          onError={e => { e.currentTarget.style.display = 'none' }}
-                        />
-                      )}
+
+              {viewMode === 'list' ? (
+                /* ── 간단목록 보기 ── */
+                <div className="lrec-list">
+                  {group.items.map(record => (
+                    <div
+                      key={record.id}
+                      className="lrec-list-item"
+                      onClick={() => navigate('/lunch-record-detail', { state: { id: record.id, date: record.date } })}
+                    >
+                      <div className="lrec-list-item__photo">
+                        {record.img && (
+                          <img
+                            src={record.img}
+                            alt={record.title}
+                            className="lrec-card__img"
+                            onError={e => { e.currentTarget.style.display = 'none' }}
+                          />
+                        )}
+                      </div>
+                      <div className="lrec-list-item__info">
+                        <p className="lrec-list-item__title">{record.title}</p>
+                        <p className="lrec-list-item__date">{formatCardDate(record.date)}</p>
+                      </div>
+                      <svg width="7" height="12" viewBox="0 0 7 12" fill="none" flexShrink="0">
+                        <path d="M1 1L6 6L1 11" stroke="rgba(42,32,24,0.25)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
                     </div>
-                    <p className="lrec-card__title">{record.title}</p>
-                    <p className="lrec-card__date">{formatCardDate(record.date)}</p>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              ) : (
+                /* ── 중간 보기 / 크게보기 ── */
+                <div className={`lrec-grid${viewMode === 'large' ? ' lrec-grid--large' : ''}`}>
+                  {group.items.map(record => (
+                    <div
+                      key={record.id}
+                      className={`lrec-card${viewMode === 'large' ? ' lrec-card--large' : ''}`}
+                      onClick={() => navigate('/lunch-record-detail', { state: { id: record.id, date: record.date } })}
+                    >
+                      <div className="lrec-card__photo">
+                        {record.img && (
+                          <img
+                            src={record.img}
+                            alt={record.title}
+                            className="lrec-card__img"
+                            onError={e => { e.currentTarget.style.display = 'none' }}
+                          />
+                        )}
+                      </div>
+                      <p className="lrec-card__title">{record.title}</p>
+                      <p className="lrec-card__date">{formatCardDate(record.date)}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
             </section>
           ))
         )}

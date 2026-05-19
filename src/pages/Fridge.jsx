@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { useNavigate } from 'react-router-dom'
 import Header from '../components/Header'
@@ -110,15 +110,83 @@ function IngredientDetail({ item, onClose }) {
   )
 }
 
+const DRAWER_MENUS = [
+  { icon: '/assets/icons/ic_side_dish.svg',        label: '밑반찬',        route: '/banchan-list' },
+  { icon: '/assets/icons/ic_carrot.svg',            label: '식재료 추가 기록', route: '/direct-input' },
+  { icon: '/assets/icons/ic_order_checklist.svg',   label: '구독 식재료 현황', route: '/subscription' },
+  { icon: '/assets/icons/ic_buy_ingredients.svg',   label: '식재료 구매하기', route: '/cart' },
+]
+
+function FridgeDrawer({ open, onClose, userName }) {
+  const navigate = useNavigate()
+  return createPortal(
+    <div className={`fridge-drawer-root${open ? ' fridge-drawer-root--open' : ''}`} onClick={onClose}>
+      <div className="fridge-drawer" onClick={e => e.stopPropagation()}>
+        {/* 상단 헤더 */}
+        <div className="fridge-drawer__header">
+          <button className="fridge-drawer__close" onClick={onClose}>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M1 1L13 13M13 1L1 13" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
+            </svg>
+          </button>
+          <img
+            className="fridge-drawer__avatar"
+            src="/assets/images/Img_Character_Meomeokjji.png"
+            alt="캐릭터"
+            onError={e => { e.currentTarget.style.display = 'none' }}
+          />
+          <p className="fridge-drawer__greeting">안녕하세요!</p>
+          <p className="fridge-drawer__name">{userName}</p>
+        </div>
+
+        {/* 메뉴 목록 */}
+        <div className="fridge-drawer__menu">
+          {DRAWER_MENUS.map(({ icon, label, route }) => (
+            <button
+              key={label}
+              className="fridge-drawer__menu-item"
+              onClick={() => { onClose(); navigate(route) }}
+            >
+              <img src={icon} width="34" height="24" alt="" className="fridge-drawer__menu-icon"
+                onError={e => { e.currentTarget.style.opacity = '0' }} />
+              <span className="fridge-drawer__menu-label">{label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>,
+    document.getElementById('app')
+  )
+}
+
 export default function Fridge() {
   const navigate = useNavigate()
-  const { ingredients, getExpiringIngredients } = useFridge()
+  const { ingredients, getExpiringIngredients, removeIngredients, user } = useFridge()
   const { openSheet, closeSheet } = useBottomSheet()
   const [activeCategory, setActiveCategory] = useState('전체')
   const [tooltipVisible, setTooltipVisible] = useState(true)
   const [catFade, setCatFade] = useState(true)
   const [fabOpen, setFabOpen] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [fridgeKebabOpen, setFridgeKebabOpen] = useState(false)
+  const [drawerOpen, setDrawerOpen] = useState(false)
+  const [sortMode, setSortMode] = useState('default') // 'default' | 'expiry' | 'name'
+  const [searchQuery, setSearchQuery] = useState('')
+  const [deleteMode, setDeleteMode] = useState(false)
+  const [selectedIds, setSelectedIds] = useState(new Set())
   const catListRef = useRef(null)
+  const searchInputRef = useRef(null)
+
+  useEffect(() => {
+    if (searchOpen) searchInputRef.current?.focus()
+  }, [searchOpen])
+
+  function handleSearchToggle() {
+    setSearchOpen(v => {
+      if (v) setSearchQuery('')
+      return !v
+    })
+  }
 
   const isEmpty = ingredients.length === 0
   const expiring = getExpiringIngredients()
@@ -137,9 +205,23 @@ export default function Fridge() {
     setCatFade(el.scrollLeft + el.clientWidth < el.scrollWidth - 4)
   }
 
-  const filtered = activeCategory === '전체'
+  const baseFiltered = activeCategory === '전체'
     ? ingredients
     : ingredients.filter((i) => normalizeCategory(i.category) === activeCategory)
+
+  const sorted = [...(searchQuery.trim()
+    ? ingredients.filter(i => i.name.toLowerCase().includes(searchQuery.toLowerCase()))
+    : baseFiltered
+  )].sort((a, b) => {
+    if (sortMode === 'expiry') {
+      if (!a.expiryDate) return 1
+      if (!b.expiryDate) return -1
+      return a.expiryDate.localeCompare(b.expiryDate)
+    }
+    if (sortMode === 'name') return a.name.localeCompare(b.name, 'ko')
+    return 0
+  })
+  const filtered = sorted
 
   function showDetail(item) {
     openSheet(<IngredientDetail item={item} onClose={closeSheet} />)
@@ -147,7 +229,8 @@ export default function Fridge() {
 
   return (
     <>
-      <Header type="main" />
+      <Header type="fridge" onHamburger={() => setDrawerOpen(true)} />
+      <FridgeDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} userName={user?.name || '가나다님'} />
       <div className="page-content fridge-page-content">
         {isEmpty && (
           <div className="fridge-empty">
@@ -167,9 +250,36 @@ export default function Fridge() {
           <div className="fridge-filled">
             {expiring.length > 0 && <ExpiryBanner expiring={expiring} />}
 
-            {/* 카테고리 탭 */}
+            {/* 카테고리 탭 + 검색 (Figma 286-1575) */}
             <div className="fridge-cat-wrap">
-              <div className="fridge-cat-list" ref={catListRef} onScroll={handleCatScroll}>
+              {/* 검색 필: width 슬라이드 */}
+              <div className={`fridge-search-pill-outer${searchOpen ? ' fridge-search-pill-outer--open' : ''}`}>
+                <button className="fridge-search-pill__icon-btn" onClick={handleSearchToggle}>
+                  <img src="/assets/icons/Search.svg" width="19" height="19" alt="검색" />
+                </button>
+                <input
+                  ref={searchInputRef}
+                  className={`fridge-search-pill__input${searchOpen ? ' fridge-search-pill__input--visible' : ''}`}
+                  placeholder="찾고 싶은 식재료가 있나요?"
+                  value={searchQuery}
+                  onChange={e => setSearchQuery(e.target.value)}
+                />
+                {searchQuery && (
+                  <button className="fridge-search-clear" onClick={() => setSearchQuery('')}>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <circle cx="8" cy="8" r="8" fill="rgba(255,140,102,0.2)" />
+                      <path d="M5.5 5.5L10.5 10.5M10.5 5.5L5.5 10.5" stroke="#ff8c66" strokeWidth="1.3" strokeLinecap="round" />
+                    </svg>
+                  </button>
+                )}
+              </div>
+
+              {/* 카테고리 칩: 검색 열리면 축소 */}
+              <div
+                className={`fridge-cat-list${searchOpen ? ' fridge-cat-list--hidden' : ''}`}
+                ref={catListRef}
+                onScroll={handleCatScroll}
+              >
                 {fridgeCategories.map((cat) => (
                   <button
                     key={cat}
@@ -180,19 +290,100 @@ export default function Fridge() {
                   </button>
                 ))}
               </div>
-              {catFade && <div className="fridge-cat-fade" aria-hidden="true" />}
+              {catFade && !searchOpen && <div className="fridge-cat-fade" aria-hidden="true" />}
             </div>
             <div className="fridge-cat-divider" />
 
-            {/* 유통기한 색상 안내 */}
-            <p className="fridge-expiry-hint">유통기한 표시는 색상으로 표시되요 ⓘ</p>
+            {/* 유통기한 색상 안내 + 케밥 (Figma 287-1629) */}
+            <div className="fridge-hint-row">
+              <p className="fridge-expiry-hint">유통기한 표시는 색상으로 표시되요 ⓘ</p>
+              <div className="lrec-kebab-wrap">
+                <button
+                  className={`fridge-hint-kebab-btn${fridgeKebabOpen ? ' lrec-btn--active' : ''}`}
+                  onClick={() => setFridgeKebabOpen(v => !v)}
+                >
+                  <img src="/assets/icons/Kebab_icon.svg" width="4" height="18" alt="더보기" />
+                </button>
+                {fridgeKebabOpen && (
+                  <>
+                    <div className="lrec-kebab-overlay" onClick={() => setFridgeKebabOpen(false)} />
+                    <div className="lrec-kebab-menu">
+                      <button
+                        className={`lrec-kebab-item${sortMode === 'default' ? ' lrec-kebab-item--active' : ''}`}
+                        onClick={() => { setSortMode('default'); setFridgeKebabOpen(false) }}
+                      >
+                        기본순
+                        {sortMode === 'default' && (
+                          <svg width="14" height="11" viewBox="0 0 14 11" fill="none">
+                            <path d="M1 5.5L5.5 10L13 1" stroke="#ff8c66" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        )}
+                      </button>
+                      <button
+                        className={`lrec-kebab-item${sortMode === 'expiry' ? ' lrec-kebab-item--active' : ''}`}
+                        onClick={() => { setSortMode('expiry'); setFridgeKebabOpen(false) }}
+                      >
+                        유통기한순
+                        {sortMode === 'expiry' && (
+                          <svg width="14" height="11" viewBox="0 0 14 11" fill="none">
+                            <path d="M1 5.5L5.5 10L13 1" stroke="#ff8c66" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        )}
+                      </button>
+                      <button
+                        className={`lrec-kebab-item${sortMode === 'name' ? ' lrec-kebab-item--active' : ''}`}
+                        onClick={() => { setSortMode('name'); setFridgeKebabOpen(false) }}
+                      >
+                        이름순
+                        {sortMode === 'name' && (
+                          <svg width="14" height="11" viewBox="0 0 14 11" fill="none">
+                            <path d="M1 5.5L5.5 10L13 1" stroke="#ff8c66" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        )}
+                      </button>
+                      <div className="lrec-kebab-divider" />
+                      <button
+                        className="lrec-kebab-item lrec-kebab-item--danger"
+                        onClick={() => { setDeleteMode(true); setSelectedIds(new Set()); setFridgeKebabOpen(false) }}
+                      >
+                        삭제하기
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
 
             {/* 식재료 그리드 */}
             <div className="ingredient-grid">
               {filtered.map((item) => {
                 const status = getExpiryStatus(item.expiryDate)
+                const isSelected = selectedIds.has(item.id)
                 return (
-                  <div key={item.id} className="ingredient-cell" onClick={() => showDetail(item)}>
+                  <div
+                    key={item.id}
+                    className={`ingredient-cell${deleteMode && isSelected ? ' ingredient-cell--selected' : ''}`}
+                    onClick={() => {
+                      if (deleteMode) {
+                        setSelectedIds(prev => {
+                          const next = new Set(prev)
+                          next.has(item.id) ? next.delete(item.id) : next.add(item.id)
+                          return next
+                        })
+                      } else {
+                        showDetail(item)
+                      }
+                    }}
+                  >
+                    {deleteMode && (
+                      <div className={`ing-select-circle${isSelected ? ' ing-select-circle--checked' : ''}`}>
+                        {isSelected && (
+                          <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                            <path d="M1 4L3.8 7L9 1" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        )}
+                      </div>
+                    )}
                     <div className={`ing-badge ing-badge--${status}`}>{item.quantity}</div>
                     <div className="ing-cell__content">
                       <div className="ing-cell__img-wrap">
@@ -212,28 +403,53 @@ export default function Fridge() {
                 )
               })}
 
-              {/* 추가 버튼 */}
-              <div className="ingredient-cell--add" onClick={() => {
-                const catId = Object.entries(CATEGORY_MAP).find(([, v]) => v === activeCategory)?.[0]
-                navigate(catId ? `/direct-input?category=${catId}` : '/direct-input')
-              }}>
-                <div className="ing-cell__content">
-                  <div className="ing-cell__img-wrap">
-                    <div className="ing-cell__item-area ing-cell--add-box">
-                      <span>+</span>
-                    </div>
-                    <div className="ing-cell__name-area">
-                      <span className="ing-cell__name">추가</span>
+              {/* 추가 버튼: 삭제 모드일 때 숨김 */}
+              {!deleteMode && (
+                <div className="ingredient-cell--add" onClick={() => {
+                  const catId = Object.entries(CATEGORY_MAP).find(([, v]) => v === activeCategory)?.[0]
+                  navigate(catId ? `/direct-input?category=${catId}` : '/direct-input')
+                }}>
+                  <div className="ing-cell__content">
+                    <div className="ing-cell__img-wrap">
+                      <div className="ing-cell__item-area ing-cell--add-box">
+                        <span>+</span>
+                      </div>
+                      <div className="ing-cell__name-area">
+                        <span className="ing-cell__name">추가</span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
+
+            {/* 삭제 모드 하단 액션 바 */}
+            {deleteMode && (
+              <div className="fridge-delete-bar">
+                <button
+                  className="fridge-delete-bar__cancel"
+                  onClick={() => { setDeleteMode(false); setSelectedIds(new Set()) }}
+                >
+                  취소
+                </button>
+                <button
+                  className={`fridge-delete-bar__confirm${selectedIds.size === 0 ? ' fridge-delete-bar__confirm--disabled' : ''}`}
+                  disabled={selectedIds.size === 0}
+                  onClick={() => {
+                    removeIngredients([...selectedIds])
+                    setDeleteMode(false)
+                    setSelectedIds(new Set())
+                  }}
+                >
+                  삭제 ({selectedIds.size}개)
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>
 
-      {createPortal(
+      {!deleteMode && createPortal(
         <>
           {fabOpen && <div className="fab-overlay" onClick={() => setFabOpen(false)} />}
           <div className="fab-container">

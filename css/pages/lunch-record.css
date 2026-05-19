@@ -230,3 +230,153 @@
   font-family: var(--font-family);
   line-height: 1;
 }
+
+/* ===========================
+   도시락 기록 상세 보기 (280-2969)
+   =========================== */
+
+.lrd-content {
+  padding-bottom: 60px;
+  overflow-x: hidden;
+}
+
+/* 대표 사진 308×308, 가운데 정렬 */
+.lrd-photo {
+  width: 308px;
+  height: 308px;
+  border-radius: 12px;
+  background: #d9d9d9;
+  overflow: hidden;
+  margin: 28px auto 0;
+}
+
+.lrd-photo__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* 제목 */
+.lrd-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2a2018;
+  text-align: center;
+  letter-spacing: -0.36px;
+  margin: 20px 20px 0;
+  line-height: normal;
+}
+
+/* 태그 행 (flex-wrap, 중앙 정렬) */
+.lrd-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 20px 0;
+}
+
+/* 메모 텍스트 */
+.lrd-memo {
+  font-size: 14px;
+  font-weight: 400;
+  color: #2a2018;
+  text-align: center;
+  line-height: 1.7;
+  margin: 24px 40px 0;
+  white-space: pre-line;
+}
+
+/* 구분선 */
+.lrd-divider {
+  margin-top: 40px;
+  height: 1px;
+  background: rgba(42, 32, 24, 0.08);
+}
+
+/* 사용한 식재료 섹션 */
+.lrd-ingredients {
+  padding: 18px 20px 0;
+}
+
+.lrd-ingredients__label {
+  font-size: 14px;
+  font-weight: 400;
+  color: #2a2018;
+  letter-spacing: -0.28px;
+  margin: 0 0 12px;
+}
+
+.lrd-ingredients__list {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.lrd-ingredients__empty {
+  font-size: 13px;
+  color: rgba(42, 32, 24, 0.35);
+  margin: 0;
+  letter-spacing: -0.26px;
+}
+
+/* 케밥 삭제 옵션 */
+.lrec-kebab-item--danger {
+  color: #e53e3e;
+}
+
+/* ── 삭제 확인 팝업 (Figma 274-1263) ── */
+.lrd-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.lrd-modal {
+  background: #fff;
+  border-radius: 12px;
+  width: 318px;
+  overflow: hidden;
+}
+
+.lrd-modal__text {
+  font-size: 14px;
+  font-weight: 500;
+  color: #2a2018;
+  letter-spacing: -0.28px;
+  text-align: center;
+  padding: 28px 20px 24px;
+  margin: 0;
+  line-height: normal;
+}
+
+.lrd-modal__actions {
+  display: flex;
+  border-top: 1px solid rgba(42, 32, 24, 0.2);
+}
+
+.lrd-modal__btn {
+  flex: 1;
+  height: 54px;
+  background: none;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: var(--font-family);
+  letter-spacing: -0.28px;
+  cursor: pointer;
+}
+
+.lrd-modal__btn--cancel {
+  color: rgba(42, 32, 24, 0.5);
+  border-right: 1px solid rgba(42, 32, 24, 0.2);
+}
+
+.lrd-modal__btn--delete {
+  color: #ff5555;
+}

@@ -183,6 +183,7 @@
 /* ── 유통기한 경고 배너 (Figma: Section_Alert) ── */
 .expiry-banner {
   background: #ffefe7;
+  margin-top: 10px;
 }
 
 /* Figma: px-20px, items-center, justify-between */
@@ -311,22 +312,112 @@
   padding-bottom: 20px;
 }
 
-/* ── 카테고리 탭 래퍼 (Figma: Category_Area, position relative for fade) ── */
+/* ── 카테고리 탭 래퍼 ── */
 .fridge-cat-wrap {
   position: relative;
   overflow: hidden;
+  padding: 0 20px;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  min-height: 52px;
 }
 
-/* ── 카테고리 탭 스크롤 목록 (Figma: Category_List) ── */
+/* ── 검색 필 (Figma 286-1575): 슬라이드 확장 ── */
+.fridge-search-pill-outer {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 9999px;
+  height: 40px;
+  padding: 0 6px;
+  overflow: hidden;
+  /* 닫힌 상태: 아이콘만 보이는 너비 */
+  width: 32px;
+  background: transparent;
+  transition:
+    width     0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    background 0.3s  ease 0.05s,
+    padding   0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* 열린 상태: 전체 너비 pill */
+.fridge-search-pill-outer--open {
+  width: 390px;
+  background: #fff0e8;
+  padding: 0 16px;
+}
+
+.fridge-search-pill__icon-btn {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.fridge-search-pill__input {
+  flex: 1;
+  min-width: 180px;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-family: var(--font-family);
+  color: rgba(255, 140, 102, 0.9);
+  outline: none;
+  letter-spacing: -0.28px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+/* 펼쳐진 후 텍스트 fade-in */
+.fridge-search-pill__input--visible {
+  opacity: 1;
+  transition: opacity 0.2s ease 0.2s;
+}
+
+.fridge-search-pill__input::placeholder {
+  color: rgba(255, 140, 102, 0.4);
+}
+
+.fridge-search-clear {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ── 카테고리 탭 스크롤 목록 ── */
 .fridge-cat-list {
+  flex: 1;
+  min-width: 0;
+  max-width: 800px;
   display: flex;
   align-items: center;
   padding: 8px 3px;
   overflow-x: auto;
   scrollbar-width: none;
+  transition: max-width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              opacity   0.2s ease;
 }
 
 .fridge-cat-list::-webkit-scrollbar { display: none; }
+
+/* 검색 열릴 때 카테고리 접기 */
+.fridge-cat-list--hidden {
+  max-width: 0;
+  opacity: 0;
+  pointer-events: none;
+  padding: 0;
+  overflow: hidden;
+}
 
 /* ── 오른쪽 페이드 그라데이션 (Figma: Fade_Right) ── */
 .fridge-cat-fade {
@@ -367,13 +458,32 @@
   margin-top: 7px;
 }
 
-/* ── 유통기한 힌트 텍스트 (Figma: top-407px 위치의 text) ── */
+/* ── 유통기한 힌트 행 (Figma 287-1629) ── */
+.fridge-hint-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 20px;
+  margin-bottom: 20px;
+  margin-top: 3px;
+}
+
 .fridge-expiry-hint {
   font-size: 10px;
-  font-weight: 500;
+  font-weight: 400;
   color: #929292;
-  padding: 8px 16px 4px;
+  padding: 10px 20px;
   margin: 0;
+}
+
+.fridge-hint-kebab-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
 }
 
 /* ── 식재료 그리드 5열 (Figma: Ingredient_Grid) ── */
@@ -381,7 +491,7 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 7px;
-  padding: 4px 16px 120px;
+  padding: 0 20px;
 }
 
 /* ── 식재료 셀 (Figma: Selected_Item — position relative) ── */
@@ -494,3 +604,200 @@
 .ing-badge--danger  { background: #ff4444; color: #fff; }
 /* Figma: imgBadgeBg3 → dark + white text */
 .ing-badge--expired { background: #2a2018; color: #fff; }
+
+/* ── 삭제 모드 ── */
+.ingredient-cell--selected {
+  opacity: 0.7;
+}
+
+.ing-select-circle {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid rgba(42, 32, 24, 0.25);
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.ing-select-circle--checked {
+  background: #ff8c66;
+  border-color: #ff8c66;
+}
+
+/* 하단 삭제 액션 바 */
+.fridge-delete-bar {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  gap: 10px;
+  padding: 12px 20px 20px;
+  background: linear-gradient(to bottom, transparent 0%, #fffaf5 28px);
+}
+
+.fridge-delete-bar__cancel {
+  flex: 1;
+  height: 52px;
+  border: 1.5px solid rgba(42, 32, 24, 0.2);
+  border-radius: 14px;
+  background: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(42, 32, 24, 0.5);
+  font-family: var(--font-family);
+  cursor: pointer;
+}
+
+.fridge-delete-bar__confirm {
+  flex: 2;
+  height: 52px;
+  border: none;
+  border-radius: 14px;
+  background: #ff5555;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  font-family: var(--font-family);
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.fridge-delete-bar__confirm--disabled {
+  background: rgba(42, 32, 24, 0.12);
+  color: rgba(42, 32, 24, 0.3);
+  cursor: default;
+}
+
+/* ── 사이드 드로어 (Figma 288-1894) ── */
+.fridge-drawer-root {
+  position: absolute;
+  inset: 0;
+  z-index: 300;
+  background: rgba(0, 0, 0, 0);
+  pointer-events: none;
+  transition: background 0.3s ease;
+}
+
+.fridge-drawer-root--open {
+  background: rgba(0, 0, 0, 0.4);
+  pointer-events: auto;
+}
+
+.fridge-drawer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 276px;
+  height: 100%;
+  background: #fff;
+  border-radius: 30px 0 0 30px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.fridge-drawer-root--open .fridge-drawer {
+  transform: translateX(0);
+}
+
+/* 헤더 영역 */
+.fridge-drawer__header {
+  position: relative;
+  background: #ff8c66;
+  height: 174px;
+  border-radius: 30px 0 0 0;
+  flex-shrink: 0;
+  overflow: hidden;
+  padding: 28px 20px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: 20px;
+}
+
+.fridge-drawer__close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 30px;
+  height: 30px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fridge-drawer__avatar {
+  position: absolute;
+  right: 16px;
+  bottom: 10px;
+  height: 90px;
+  object-fit: contain;
+}
+
+.fridge-drawer__greeting {
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0 0 4px;
+}
+
+.fridge-drawer__name {
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+  letter-spacing: -0.48px;
+}
+
+/* 메뉴 목록 */
+.fridge-drawer__menu {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 0;
+}
+
+.fridge-drawer__menu-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 18px 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  border-bottom: 1px solid rgba(42, 32, 24, 0.05);
+}
+
+.fridge-drawer__menu-item:last-child {
+  border-bottom: none;
+}
+
+.fridge-drawer__menu-item:active {
+  background: rgba(255, 140, 102, 0.06);
+}
+
+.fridge-drawer__menu-icon {
+  width: 34px;
+  height: 24px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.fridge-drawer__menu-label {
+  font-size: 14px;
+  font-weight: 400;
+  color: #2a2018;
+  font-family: var(--font-family);
+  letter-spacing: -0.28px;
+}

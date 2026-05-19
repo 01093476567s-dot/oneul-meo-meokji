@@ -1,0 +1,145 @@
+/* ===========================
+   반찬 등록 페이지 (Figma 283-1383)
+   =========================== */
+
+.br-content {
+  padding-bottom: 100px;
+}
+
+/* ── 사진 ── */
+.br-photo-section {
+  padding: 24px 20px 16px;
+}
+
+.br-photo-box {
+  width: 83px;
+  height: 82px;
+  background: #fff0e8;
+  border: 1px solid rgba(255, 140, 102, 0.5);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.br-photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.br-photo-input-hidden {
+  display: none;
+}
+
+/* ── 입력 필드 ── */
+.br-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-family: var(--font-family);
+  color: #2a2018;
+  outline: none;
+  letter-spacing: -0.28px;
+  width: 100%;
+}
+
+.br-input::placeholder {
+  color: rgba(42, 32, 24, 0.2);
+}
+
+.br-input[type='date'].br-input--empty {
+  color: rgba(42, 32, 24, 0.2);
+}
+
+/* ── 색상 선택 행 ── */
+.br-row--color {
+  gap: 12px;
+}
+
+.br-placeholder {
+  font-size: 14px;
+  color: rgba(42, 32, 24, 0.2);
+  letter-spacing: -0.28px;
+  flex-shrink: 0;
+}
+
+.br-color-swatches {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.br-color-swatch {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform 0.15s, border-color 0.15s;
+}
+
+.br-color-swatch--selected {
+  border-color: #ff8c66;
+  transform: scale(1.2);
+}
+
+/* ── 식재료 ── */
+.br-ingredients-label {
+  font-size: 14px;
+  font-weight: 400;
+  color: #2a2018;
+  letter-spacing: -0.28px;
+  padding: 16px 20px 12px;
+  margin: 0;
+}
+
+.br-ingredients-row {
+  display: flex;
+  gap: 8px;
+  padding: 0 20px;
+  flex-wrap: wrap;
+}
+
+/* ── CTA ── */
+.br-cta {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px 20px 20px;
+  background: linear-gradient(to bottom, transparent 0%, #fffaf5 28px);
+}
+
+.br-cta__btn {
+  width: 100%;
+  background: #ff8c66;
+  color: #fff;
+  border: none;
+  border-radius: 17px;
+  padding: 18px;
+  font-size: 18px;
+  font-weight: 500;
+  font-family: var(--font-family);
+  letter-spacing: -0.36px;
+  cursor: pointer;
+  text-align: center;
+  transition: opacity 0.15s;
+}
+
+.br-cta__btn:active:not(:disabled) {
+  opacity: 0.85;
+}
+
+.br-cta__btn--disabled,
+.br-cta__btn:disabled {
+  background: rgba(42, 32, 24, 0.12);
+  color: rgba(42, 32, 24, 0.3);
+  cursor: default;
+}

@@ -18,6 +18,9 @@ import LunchRecord from './pages/LunchRecord'
 import DishCombo from './pages/DishCombo'
 import IngredientSelect from './pages/IngredientSelect'
 import LunchRecords from './pages/LunchRecords'
+import LunchRecordDetail from './pages/LunchRecordDetail'
+import BanchanRegister from './pages/BanchanRegister'
+import BanchanList from './pages/BanchanList'
 
 const NAV_ROUTES = ['/', '/fridge', '/mypage']
 
@@ -43,7 +46,10 @@ function AppShell() {
           <Route path="/lunch-record"       element={<LunchRecord />} />
           <Route path="/dish-combo"         element={<DishCombo />} />
           <Route path="/ingredient-select"  element={<IngredientSelect />} />
-          <Route path="/lunch-records"      element={<LunchRecords />} />
+          <Route path="/lunch-records"        element={<LunchRecords />} />
+          <Route path="/lunch-record-detail" element={<LunchRecordDetail />} />
+          <Route path="/banchan-register"    element={<BanchanRegister />} />
+          <Route path="/banchan-list"        element={<BanchanList />} />
           <Route path="*"              element={<Navigate to="/" replace />} />
         </Routes>
       </div>

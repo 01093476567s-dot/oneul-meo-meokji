@@ -17,6 +17,8 @@ import '../css/pages/lunch-record.css'
 import '../css/pages/dish-combo.css'
 import '../css/pages/ingredient-select.css'
 import '../css/pages/lunch-records.css'
+import '../css/pages/banchan-register.css'
+import '../css/pages/banchan-list.css'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

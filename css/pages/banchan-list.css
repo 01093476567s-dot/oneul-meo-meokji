@@ -1,0 +1,114 @@
+/* ===========================
+   밑반찬 목록 페이지 (Figma 288-1895)
+   =========================== */
+
+.bl-content {
+  padding-bottom: 40px;
+}
+
+/* ── 섹션 타이틀 ── */
+.bl-section-title {
+  padding: 32px 20px 24px;
+}
+
+.bl-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2a2018;
+  letter-spacing: -0.36px;
+  margin: 0 0 8px;
+}
+
+.bl-subtitle {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.7);
+  letter-spacing: -0.28px;
+  margin: 0;
+}
+
+/* ── 목록 ── */
+.bl-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.bl-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.bl-item__row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 15px 20px;
+  position: relative;
+}
+
+/* 원형 이미지 */
+.bl-item__img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: #f0f0f0;
+}
+
+/* 이름 + 날짜 */
+.bl-item__info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.bl-item__name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #2a2018;
+  letter-spacing: -0.28px;
+  margin: 0;
+}
+
+.bl-item__date {
+  font-size: 10px;
+  font-weight: 500;
+  color: rgba(42, 32, 24, 0.5);
+  margin: 0;
+}
+
+/* 퍼센트 */
+.bl-item__progress {
+  font-size: 18px;
+  font-weight: 600;
+  color: rgba(42, 32, 24, 0.5);
+  letter-spacing: -0.36px;
+  flex-shrink: 0;
+}
+
+/* 아이템 케밥 버튼 */
+.bl-item__kebab {
+  padding: 6px 4px;
+  flex-shrink: 0;
+}
+
+/* 아이템 케밥 메뉴 위치 */
+.bl-item__kebab-menu {
+  right: 20px;
+  top: 36px;
+}
+
+/* ── 추가(+) 버튼 ── */
+.bl-add-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 28px 0;
+}

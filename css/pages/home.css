@@ -384,14 +384,14 @@
 }
 
 .cal-box {
-  padding: 0 20px;
+  padding: 0 45px;
 }
 
 .cal-nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 4px;
+  margin-bottom: 13px;
 }
 
 .cal-nav__btn {
@@ -417,10 +417,12 @@
 
 .cal-record-label {
   font-size: 13px;
-  font-weight: 400;
+  font-weight: 500;
   color: rgba(42, 32, 24, 0.5);
-  margin: 0 0 12px;
+  margin: 13px 0 ;
+  color: #FF8C66;
   letter-spacing: -0.26px;
+  text-align:center;
 }
 
 .cal-head {
@@ -534,7 +536,7 @@
 
 .savings-bar__text {
   flex: 1;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   color: #2a2018;
   letter-spacing: -0.28px;

@@ -222,14 +222,6 @@ function CalendarTab() {
         <img src="/assets/icons/btn_open.svg" width="17" height="10" alt="" className="savings-bar__chevron" />
       </div>
 
-      {/* ── 도시락 기록 모아보기 카드 (Figma 280-1790) ── */}
-      <div className="home-records-card" onClick={() => navigate('/lunch-records')}>
-        <div className="home-records-card__texts">
-          <p className="home-records-card__title">도시락 기록 모아보기</p>
-          <p className="home-records-card__sub">도시락 기록을 모아봐요</p>
-        </div>
-      </div>
-
       {/* ── 밑반찬 현황 ── */}
       <div className="banchan-card">
         <div className="banchan-card__hd">
@@ -264,7 +256,15 @@ function CalendarTab() {
               </div>
             )
           })}
-          <button className="banchan-add">+</button>
+          <button className="banchan-add" onClick={() => navigate('/banchan-register')}>+</button>
+        </div>
+      </div>
+
+      {/* ── 도시락 기록 모아보기 카드 (Figma 280-1790) ── */}
+      <div className="home-records-card" onClick={() => navigate('/lunch-records')}>
+        <div className="home-records-card__texts">
+          <p className="home-records-card__title">도시락 기록 모아보기</p>
+          <p className="home-records-card__sub">도시락 기록을 모아봐요</p>
         </div>
       </div>
     </div>

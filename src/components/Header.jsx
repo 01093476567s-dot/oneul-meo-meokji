@@ -1,9 +1,28 @@
 import { useNavigate } from 'react-router-dom'
 import { useFridge } from '../context/FridgeContext'
 
-export default function Header({ type = 'main', title = '' }) {
+export default function Header({ type = 'main', title = '', onHamburger }) {
   const navigate = useNavigate()
   const { cart } = useFridge()
+
+  if (type === 'fridge') {
+    return (
+      <header className="app-header">
+        <button className="app-header__logo" onClick={() => navigate('/')}>
+          <img
+            src="/assets/images/logo.png"
+            width="206"
+            height="41"
+            alt="오늘 머먹지?"
+            onError={(e) => { e.currentTarget.src = '/images/logo.png' }}
+          />
+        </button>
+        <button className="app-header__hamburger" onClick={onHamburger}>
+          <img src="/assets/icons/hamburger_icon.svg" width="28" height="17" alt="메뉴" />
+        </button>
+      </header>
+    )
+  }
 
   if (type === 'main') {
     return (

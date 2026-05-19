@@ -43,6 +43,11 @@ export function FridgeProvider({ children }) {
     setIngredients((prev) => prev.filter((i) => i.id !== id))
   }, [])
 
+  const removeIngredients = useCallback((ids) => {
+    const idSet = new Set(ids)
+    setIngredients((prev) => prev.filter((i) => !idSet.has(i.id)))
+  }, [])
+
   const getExpiringIngredients = useCallback(() => {
     const today = new Date()
     today.setHours(0, 0, 0, 0)
@@ -103,6 +108,7 @@ export function FridgeProvider({ children }) {
         addIngredient,
         updateIngredientQty,
         removeIngredient,
+        removeIngredients,
         getExpiringIngredients,
         updateSubscription,
         addRecord,
