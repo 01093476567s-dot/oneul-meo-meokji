@@ -2,6 +2,131 @@
    도시락 기록 모아보기 페이지 (280-2712)
    =========================== */
 
+/* ── 헤더 (Figma 280-2900): 뒤로 | 타이틀(절대중앙) | 검색+케밥 ── */
+.lrec-header {
+  position: relative;
+}
+
+.lrec-header__title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.lrec-header__right {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+/* 활성 상태 아이콘 (검색창 열렸을 때) */
+.lrec-btn--active img {
+  opacity: 0.5;
+}
+
+/* ── 케밥 메뉴 래퍼 (position relative for popup) ── */
+.lrec-kebab-wrap {
+  position: relative;
+}
+
+/* 케밥 클릭 외 영역 닫기 오버레이 */
+.lrec-kebab-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+}
+
+/* 케밥 드롭다운 팝업 (Figma 280-3043: white, rounded-12, shadow) */
+.lrec-kebab-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);
+  z-index: 100;
+  min-width: 130px;
+  overflow: hidden;
+}
+
+.lrec-kebab-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 16px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 500;
+  color: #2a2018;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-family);
+  letter-spacing: -0.28px;
+  transition: background 0.1s;
+}
+
+.lrec-kebab-item:hover {
+  background: rgba(42, 32, 24, 0.04);
+}
+
+.lrec-kebab-item + .lrec-kebab-item {
+  border-top: 1px solid rgba(42, 32, 24, 0.07);
+}
+
+.lrec-kebab-item--active {
+  color: #ff8c66;
+  font-weight: 600;
+}
+
+/* ── 검색 바 ── */
+.lrec-search-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  background: #fffaf5;
+  border-bottom: 1px solid rgba(42, 32, 24, 0.08);
+}
+
+.lrec-search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-family: var(--font-family);
+  color: #2a2018;
+  outline: none;
+  letter-spacing: -0.28px;
+}
+
+.lrec-search-input::placeholder {
+  color: rgba(42, 32, 24, 0.3);
+}
+
+.lrec-search-clear {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* 검색 결과 없음 */
+.lrec-empty {
+  text-align: center;
+  padding: 60px 20px;
+  font-size: 14px;
+  color: rgba(42, 32, 24, 0.4);
+  margin: 0;
+}
+
 .lrec-content {
   padding-bottom: 40px;
 }
