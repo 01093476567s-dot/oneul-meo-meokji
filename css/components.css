@@ -358,6 +358,15 @@
   text-align: center;
 }
 
+.quantity-value--editable {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 56px;
+  padding: 0;
+  color: inherit;
+}
+
 /* 수량 뱃지 */
 .quantity-badge {
   position: absolute;

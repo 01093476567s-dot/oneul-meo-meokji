@@ -84,7 +84,7 @@ export default function LunchRecord() {
     <>
       <header className="di-header">
         <button className="di-header__btn" onClick={() => navigate(-1)}>
-          <img src="/assets/icons/back_icon.svg" width="10" height="17" alt="뒤로" />
+          <img src="/assets/icons/action/ic-chevron-left.svg" height="16" alt="뒤로" />
         </button>
         <span className="di-header__title">도시락 기록</span>
         <button className="di-header__btn" onClick={() => navigate('/')}>
@@ -96,7 +96,7 @@ export default function LunchRecord() {
         {/* 사진 */}
         <div className="lr-photo-section">
           <button className="lr-photo-box">
-            <img src="/assets/icons/camera_icon.svg" className="lr-photo-icon" alt="" />
+            <img src="/assets/icons/action/ic-camera.svg" className="lr-photo-icon" alt="" style={{ filter: 'brightness(0) invert(1)' }} />
             <span className="lr-photo-count">{photoCount}/5</span>
           </button>
         </div>

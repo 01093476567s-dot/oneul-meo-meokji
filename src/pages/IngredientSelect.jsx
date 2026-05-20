@@ -76,7 +76,7 @@ export default function IngredientSelect() {
     setSelected(prev => {
       const exists = prev.find(s => s.id === item.id)
       if (exists) return prev.filter(s => s.id !== item.id)
-      return [...prev, { ...item, usedQty: 1 }]
+      return [...prev, { ...item, usedQty: 1, frozen: false }]
     })
   }
 
@@ -86,11 +86,20 @@ export default function IngredientSelect() {
     )
   }
 
+  function toggleFrozen(id) {
+    setSelected(prev =>
+      prev.map(s => s.id === id ? { ...s, frozen: !s.frozen } : s)
+    )
+  }
+
   function handleDone() {
     navigate(state?.from || '/lunch-record', {
       state: {
         ...(state?.currentFormState || {}),
-        selectedIngredients: selected,
+        selectedIngredients: selected.map(s => ({
+          ...s,
+          storageType: s.frozen ? '냉동' : '냉장',
+        })),
       },
       replace: true,
     })
@@ -101,7 +110,7 @@ export default function IngredientSelect() {
       {/* 헤더 */}
       <header className="di-header">
         <button className="di-header__btn" onClick={() => navigate(-1)}>
-          <img src="/assets/icons/back_icon.svg" width="10" height="17" alt="뒤로" />
+          <img src="/assets/icons/action/ic-chevron-left.svg" height="16" alt="뒤로" />
         </button>
         <span className="di-header__title">식재료 선택</span>
         <span className="di-header__btn" />
@@ -203,6 +212,17 @@ export default function IngredientSelect() {
                     </div>
                   </div>
                 </div>
+                <button
+                  className={`ing-select-freeze-btn${item.frozen ? ' ing-select-freeze-btn--active' : ''}`}
+                  onClick={() => toggleFrozen(item.id)}
+                >
+                  <img
+                    src="/assets/icons/common/badge-frozen.svg"
+                    width="28" height="28"
+                    alt="냉동"
+                    style={{ filter: item.frozen ? 'none' : 'saturate(0) brightness(1.6)' }}
+                  />
+                </button>
                 <div className="ing-select-item__right">
                   <button className="ing-select-qty-btn" onClick={() => adjustQty(item.id, -1)}>
                     <svg width="12" height="2" viewBox="0 0 12 2" fill="none">

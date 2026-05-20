@@ -51,7 +51,7 @@ export default function LunchRecordDetail() {
       {/* ── 헤더 ── */}
       <header className="di-header lrec-header">
         <button className="di-header__btn" onClick={() => navigate(-1)}>
-          <img src="/assets/icons/back_icon.svg" width="10" height="17" alt="뒤로" />
+          <img src="/assets/icons/action/ic-chevron-left.svg" height="16" alt="뒤로" />
         </button>
 
         <span className="di-header__title lrec-header__title">
@@ -63,7 +63,7 @@ export default function LunchRecordDetail() {
             className={`di-header__btn${kebabOpen ? ' lrec-btn--active' : ''}`}
             onClick={() => setKebabOpen(v => !v)}
           >
-            <img src="/assets/icons/Kebab_icon.svg" width="4" height="18" alt="더보기" />
+            <img src="/assets/icons/common/ic-more-vertical.svg" width="4" alt="더보기" />
           </button>
 
           {kebabOpen && (

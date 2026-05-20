@@ -11,38 +11,72 @@ const DETECTED_TAGS = [
   { name: '청양고추', left: 106, top: 505, width: 80 },
   { name: '등심',     left: 160, top: 529, width: 51 },
   { name: '유정란',   left: 118, top: 578, width: 61 },
-  { name: '라면',     left: 130, top: 604, width: 56 },
 ]
 
 const SCAN_RESULT_DATA = [
-  { name: '양파',            icon: 'Img_Wrapper',   expiry: '1개월', qty: 12,  unit: '' },
-  { name: '대파',            icon: 'Img_Wrapper-1', expiry: '1개월', qty: 2,   unit: '' },
-  { name: '당근',            icon: 'Img_Wrapper-2', expiry: '1개월', qty: 4,   unit: '' },
-  { name: '콩나물',          icon: 'Img_Wrapper-3', expiry: '7일',   qty: 200, unit: 'g' },
-  { name: '청양고추',        icon: 'Img_Wrapper-4', expiry: '14일',  qty: 5,   unit: '' },
-  { name: '등심',            icon: 'Img_Wrapper-5', expiry: '3일',   qty: 250, unit: 'g' },
-  { name: '달걀(유정란)',    icon: 'Img_Wrapper-6', expiry: '1개월', qty: 15,  unit: '' },
-  { name: '라면(오징어짬뽕)', icon: 'Img_Wrapper-7', expiry: '6개월', qty: 5,  unit: '' },
+  { name: '양파',     iconFile: '양파',     expiry: '1개월', qty: '12',   frozen: false },
+  { name: '대파',     iconFile: '대파',     expiry: '1개월', qty: '2',    frozen: false },
+  { name: '당근',     iconFile: '당근',     expiry: '1개월', qty: '4',    frozen: false },
+  { name: '콩나물',   iconFile: '콩나물',   expiry: '7일',   qty: '200g', frozen: false },
+  { name: '청양고추', iconFile: '청양고추', expiry: '14일',  qty: '5',    frozen: false },
+  { name: '등심',     iconFile: '등심',     expiry: '3일',   qty: '250g', frozen: false },
+  { name: '달걀',     iconFile: '계란',     expiry: '1개월', qty: '15',   frozen: false },
 ]
 
 function ScanResultSheet({ onClose }) {
   const navigate = useNavigate()
   const { addIngredient } = useFridge()
   const [items, setItems] = useState(SCAN_RESULT_DATA)
+  const [editingIdx, setEditingIdx] = useState(null)
+  const [editingVal, setEditingVal] = useState('')
+
+  function parseQty(str) {
+    const hasG = /g/i.test(str)
+    const num = parseFloat(str) || 0
+    return { num, hasG }
+  }
 
   function adjustQty(i, delta) {
     setItems(prev =>
       prev.map((item, idx) => {
         if (idx !== i) return item
-        const step = item.unit === 'g' ? 50 : 1
-        return { ...item, qty: Math.max(step, item.qty + delta * step) }
+        const { num, hasG } = parseQty(item.qty)
+        const step = hasG ? 50 : 1
+        const next = Math.max(step, num + delta * step)
+        return { ...item, qty: hasG ? `${next}g` : String(next) }
       })
     )
   }
 
+  function toggleFrozen(i) {
+    setItems(prev =>
+      prev.map((item, idx) => idx === i ? { ...item, frozen: !item.frozen } : item)
+    )
+  }
+
+  function startEdit(i) {
+    setEditingIdx(i)
+    setEditingVal(items[i].qty)
+  }
+
+  function commitEdit(i) {
+    setItems(prev =>
+      prev.map((item, idx) => idx === i ? { ...item, qty: editingVal || item.qty } : item)
+    )
+    setEditingIdx(null)
+  }
+
   function handleSave() {
     items.forEach(item =>
-      addIngredient({ name: item.name, emoji: '🥬', category: '기타', quantity: item.qty, expiryDate: '' })
+      addIngredient({
+        name: item.name,
+        icon: item.iconFile,
+        folder: 'Ingradient',
+        category: '기타',
+        quantity: item.qty,
+        expiryDate: '',
+        storageType: item.frozen ? '냉동' : '냉장',
+      })
     )
     onClose()
     navigate('/fridge')
@@ -50,41 +84,68 @@ function ScanResultSheet({ onClose }) {
 
   return (
     <div className="sr-sheet">
-      <p className="sr-sheet__title">발견된 식재료</p>
-      <p className="sr-sheet__sub">
-        AI가 <span className="sr-sheet__count">{items.length}개 항목</span>을 인식했습니다.
-      </p>
+      <div className="sr-sheet__header">
+        <p className="sr-sheet__title">발견된 식재료</p>
+        <p className="sr-sheet__sub">
+          AI가 <span className="sr-sheet__count">{items.length}개 항목</span>을 인식했습니다.
+        </p>
+      </div>
+
       <div className="sr-list">
         {items.map((item, i) => (
           <div key={i} className="sr-item">
             <div className="sr-item__left">
               <img
                 className="sr-item__img"
-                src={`/assets/icons/Frame_page/${item.icon}.svg`}
-                width="60"
-                height="47"
+                src={`/assets/icons/Ingradient/${item.iconFile}.svg`}
+                width="48"
+                height="38"
                 alt={item.name}
                 onError={e => { e.currentTarget.style.opacity = '0.3' }}
               />
               <div className="sr-item__info">
                 <span className="sr-item__name">{item.name}</span>
-                <div className="sr-item__expiry">
-                  <span>유통기한 {item.expiry}</span>
-                </div>
+                <span className="sr-item__expiry-text">유통기한 {item.expiry}</span>
               </div>
             </div>
             <div className="sr-item__right">
-              <button className="sr-qty-btn" onClick={() => adjustQty(i, -1)}>−</button>
-              <span className="sr-qty-val">{item.qty}{item.unit}</span>
-              <button className="sr-qty-btn" onClick={() => adjustQty(i, 1)}>+</button>
+              <div className="sr-item__controls">
+                <button className="sr-qty-btn" onClick={() => adjustQty(i, -1)}>−</button>
+                {editingIdx === i ? (
+                  <input
+                    className="sr-qty-input"
+                    value={editingVal}
+                    onChange={e => setEditingVal(e.target.value)}
+                    onBlur={() => commitEdit(i)}
+                    onKeyDown={e => e.key === 'Enter' && commitEdit(i)}
+                    autoFocus
+                    inputMode="text"
+                  />
+                ) : (
+                  <span className="sr-qty-val" onClick={() => startEdit(i)}>{item.qty}</span>
+                )}
+                <button className="sr-qty-btn" onClick={() => adjustQty(i, 1)}>+</button>
+              </div>
+              <button
+                className={`sr-freeze-btn${item.frozen ? ' sr-freeze-btn--active' : ''}`}
+                onClick={() => toggleFrozen(i)}
+              >
+                <img
+                  src="/assets/icons/common/badge-frozen.svg"
+                  width="31" height="31"
+                  alt="냉동"
+                  style={{ filter: item.frozen ? 'none' : 'saturate(0) brightness(1.6)' }}
+                />
+              </button>
             </div>
           </div>
         ))}
       </div>
-      <button className="sr-cta" onClick={handleSave}>
-        <img src="/assets/icons/Frame_page/Plus_icon.svg" width="13" height="13" alt="" />
-        재료 담기
-      </button>
+
+      <div className="sr-bottom">
+        <button className="sr-btn-cancel" onClick={onClose}>취소</button>
+        <button className="sr-btn-save" onClick={handleSave}>재료 담기</button>
+      </div>
     </div>
   )
 }
@@ -96,12 +157,12 @@ export default function ScanComplete() {
   return (
     <div className="scan-complete-page">
       {/* layer 0: 영수증 배경 */}
-      <img className="scan-receipt" src="/images/Receipt.PNG" alt="" aria-hidden="true" />
+      <img className="scan-receipt" src="/assets/images/sample-receipt.png" alt="" aria-hidden="true" />
 
       {/* layer 1: 어두운 마스크 */}
       <div className="scan-complete-mask" />
 
-      {/* layer 2: 인식된 식재료 태그 (픽셀 좌표) */}
+      {/* layer 2: 인식된 식재료 태그 */}
       {DETECTED_TAGS.map(tag => (
         <span
           key={tag.name}
@@ -116,15 +177,20 @@ export default function ScanComplete() {
       <header className="camera-header scan-layer">
         <button className="camera-header__btn" onClick={() => navigate(-1)}>
           <img
-            src="/assets/icons/back_icon.svg"
-            width="10"
-            height="17"
+            src="/assets/icons/action/ic-chevron-left.svg"
+            height="16"
             alt="뒤로"
             style={{ filter: 'brightness(0) invert(1)' }}
           />
         </button>
         <span className="camera-header__title">자동인식</span>
-        <div className="camera-header__btn" aria-hidden="true" />
+        <div className="camera-header__btn" aria-hidden="true">
+          <img
+            src="/assets/icons/action/ic-flash.svg"
+            width="15" height="20" alt=""
+            style={{ filter: 'brightness(0) invert(1)' }}
+          />
+        </div>
       </header>
 
       {/* layer 3: 프레임 코너 브라켓 */}

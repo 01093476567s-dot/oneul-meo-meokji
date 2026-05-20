@@ -185,6 +185,25 @@
   text-align: center;
 }
 
+/* 냉동 토글 버튼 */
+.ing-select-freeze-btn {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.1s;
+}
+
+.ing-select-freeze-btn:active {
+  transform: scale(0.9);
+}
+
 /* 패널 하단 완료 버튼 */
 .ing-select-panel__footer {
   padding: 12px 20px 24px;

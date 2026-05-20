@@ -26,7 +26,7 @@ export default function ManualInput() {
   const [name, setName] = useState('')
   const [expiry, setExpiry] = useState('')
   const [expiryFocused, setExpiryFocused] = useState(false)
-  const [qty, setQty] = useState(1)
+  const [qty, setQty] = useState('')
   const [category, setCategory] = useState('')
   const [icon, setIcon] = useState('')
   const [starred, setStarred] = useState(false)
@@ -36,6 +36,8 @@ export default function ManualInput() {
   const [catDirectMode, setCatDirectMode] = useState(false)
   const [catDirectValue, setCatDirectValue] = useState('')
   const [customCategories, setCustomCategories] = useState([])
+
+  const [storageType, setStorageType] = useState('냉장')
 
   const [showIconSheet, setShowIconSheet] = useState(false)
   const [tempIcon, setTempIcon] = useState('')
@@ -106,8 +108,9 @@ export default function ManualInput() {
       icon: icon || name.trim(),
       folder,
       category: category || '기타',
-      quantity: qty,
+      quantity: qty || '1',
       expiryDate: expiry,
+      storageType,
     })
     if (starred) {
       addFavorite({ name: name.trim(), icon: icon || name.trim(), folder, category: category || '기타', expiry: expiry || '' })
@@ -123,7 +126,7 @@ export default function ManualInput() {
     <>
       <header className="di-header">
         <button className="di-header__btn" onClick={() => navigate(-1)}>
-          <img src="/assets/icons/back_icon.svg" width="10" height="17" alt="뒤로" />
+          <img src="/assets/icons/action/ic-chevron-left.svg" height="16" alt="뒤로" />
         </button>
         <span className="di-header__title">직접입력</span>
         <button className="di-header__btn" onClick={() => navigate('/')}>
@@ -135,11 +138,11 @@ export default function ManualInput() {
         <div className="mi-form">
           {/* 카테고리 / 아이콘 선택 */}
           <div className="mi-pill-row">
-            <button className="mi-pill-btn" onClick={openCategorySheet}>
+            <button className={`mi-pill-btn${category ? ' mi-pill-btn--selected' : ''}`} onClick={openCategorySheet}>
               {category || '카테고리'}
-              <img src="/assets/icons/btn_open.svg" width="10" height="7" alt="" />
+              <img src="/assets/icons/action/ic-chevron-down.svg" width="10" alt="" style={category ? { filter: 'brightness(0) invert(1)' } : {}} />
             </button>
-            <button className="mi-pill-btn" onClick={openIconSheet}>
+            <button className={`mi-pill-btn${icon ? ' mi-pill-btn--selected' : ''}`} onClick={openIconSheet}>
               {icon
                 ? <img
                     src={icon.startsWith('data:') || icon.startsWith('blob:') ? icon : `/assets/icons/Recipe_page/${icon}.svg`}
@@ -148,7 +151,13 @@ export default function ManualInput() {
                   />
                 : '아이콘'
               }
-              <img src="/assets/icons/btn_open.svg" width="10" height="7" alt="" />
+              <img src="/assets/icons/action/ic-chevron-down.svg" width="10" alt="" style={icon ? { filter: 'brightness(0) invert(1)' } : {}} />
+            </button>
+            <button
+              className={`storage-type-btn${storageType === '냉동' ? ' storage-type-btn--frozen' : ''}`}
+              onClick={() => setStorageType(s => s === '냉장' ? '냉동' : '냉장')}
+            >
+              {storageType}
             </button>
           </div>
 
@@ -179,11 +188,11 @@ export default function ManualInput() {
               <span className="mi-input-label">수량</span>
               <input
                 className="mi-input-field"
-                type="number"
+                type="text"
+                inputMode="text"
                 placeholder="수량을 설정해주세요."
-                min="1"
-                value={qty === 1 ? '' : qty}
-                onChange={(e) => setQty(Number(e.target.value) || 1)}
+                value={qty}
+                onChange={(e) => setQty(e.target.value)}
               />
             </div>
           </div>
@@ -192,8 +201,12 @@ export default function ManualInput() {
           <div className="mi-cta-row">
             <button className="mi-star-btn" onClick={() => setStarred(s => !s)}>
               <img
-                src={starred ? '/assets/icons/star.svg' : '/assets/icons/star_gray.svg'}
+                src="/assets/icons/action/ic-star-fill.svg"
                 width="28" height="28" alt="즐겨찾기"
+                style={{ filter: starred
+                  ? 'brightness(0) invert(1) sepia(1) saturate(10) hue-rotate(5deg)'
+                  : 'saturate(0) brightness(1.35)'
+                }}
               />
             </button>
             <button

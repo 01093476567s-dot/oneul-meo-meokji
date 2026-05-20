@@ -89,7 +89,7 @@ export default function LunchRecords() {
       {/* ── 헤더 (Figma 280-2900) ── */}
       <header className="di-header lrec-header">
         <button className="di-header__btn" onClick={() => navigate(-1)}>
-          <img src="/assets/icons/back_icon.svg" width="10" height="17" alt="뒤로" />
+          <img src="/assets/icons/action/ic-chevron-left.svg" height="16" alt="뒤로" />
         </button>
 
         <span className="di-header__title lrec-header__title">도시락 기록 모아보기</span>
@@ -100,7 +100,7 @@ export default function LunchRecords() {
             className={`di-header__btn${searchOpen ? ' lrec-btn--active' : ''}`}
             onClick={handleSearchToggle}
           >
-            <img src="/assets/icons/Search.svg" width="19" height="19" alt="검색" />
+            <img src="/assets/icons/common/ic-search.svg" width="19" height="19" alt="검색" style={{ filter: 'brightness(0) saturate(100%) invert(9%) sepia(28%) saturate(700%) hue-rotate(340deg)' }} />
           </button>
 
           {/* 케밥 아이콘 + 드롭다운 (Figma 280-3043) */}
@@ -109,7 +109,7 @@ export default function LunchRecords() {
               className={`di-header__btn${kebabOpen ? ' lrec-btn--active' : ''}`}
               onClick={() => setKebabOpen(v => !v)}
             >
-              <img src="/assets/icons/Kebab_icon.svg" width="4" height="18" alt="더보기" />
+              <img src="/assets/icons/common/ic-more-vertical.svg" width="4" alt="더보기" />
             </button>
 
             {kebabOpen && (
@@ -162,7 +162,7 @@ export default function LunchRecords() {
       {/* ── 검색 바 ── */}
       {searchOpen && (
         <div className="lrec-search-bar">
-          <img src="/assets/icons/Search.svg" width="17" height="17" alt="" />
+          <img src="/assets/icons/common/ic-search.svg" width="19" height="19" alt="" style={{ filter: 'brightness(0) saturate(100%) invert(9%) sepia(28%) saturate(700%) hue-rotate(340deg)' }} />
           <input
             ref={searchInputRef}
             className="lrec-search-input"

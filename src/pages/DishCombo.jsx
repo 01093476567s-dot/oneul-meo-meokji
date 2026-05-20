@@ -145,7 +145,7 @@ export default function DishCombo() {
     <>
       <header className="di-header">
         <button className="di-header__btn" onClick={() => navigate(-1)}>
-          <img src="/assets/icons/back_icon.svg" width="10" height="17" alt="뒤로" />
+          <img src="/assets/icons/action/ic-chevron-left.svg" height="16" alt="뒤로" />
         </button>
         <span className="di-header__title">오늘의 도시락 조합</span>
         <button className="di-header__btn" style={{ justifyContent: 'flex-end' }} onClick={() => navigate('/')}>

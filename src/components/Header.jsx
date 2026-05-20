@@ -10,11 +10,9 @@ export default function Header({ type = 'main', title = '', onHamburger }) {
       <header className="app-header">
         <button className="app-header__logo" onClick={() => navigate('/')}>
           <img
-            src="/assets/images/logo.png"
-            width="206"
-            height="41"
+            src="/assets/images/brand/img-logo.svg"
+            height="36"
             alt="오늘 머먹지?"
-            onError={(e) => { e.currentTarget.src = '/images/logo.png' }}
           />
         </button>
         <button className="app-header__hamburger" onClick={onHamburger}>
@@ -29,11 +27,9 @@ export default function Header({ type = 'main', title = '', onHamburger }) {
       <header className="app-header">
         <button className="app-header__logo" onClick={() => navigate('/')}>
           <img
-            src="/assets/images/logo.png"
-            width="206"
-            height="41"
+            src="/assets/images/brand/img-logo.svg"
+            height="36"
             alt="오늘 머먹지?"
-            onError={(e) => { e.currentTarget.src = '/images/logo.png' }}
           />
         </button>
         <button className="app-header__cart-btn" onClick={() => navigate('/cart')}>
@@ -55,7 +51,7 @@ export default function Header({ type = 'main', title = '', onHamburger }) {
       </button>
       <span className="app-header__center">{title}</span>
       <button className="app-header__home" onClick={() => navigate('/')}>
-        <img src="/assets/icons/home.svg" width="22" height="20" alt="홈" style={{ filter: 'brightness(0) invert(1)' }} />
+        <img src="/assets/icons/navigation/ic-home.svg" width="22" height="22" alt="홈" style={{ filter: 'brightness(0) invert(1)' }} />
       </button>
     </header>
   )

@@ -148,11 +148,11 @@ function CalendarTab() {
       <div className="cal-box">
         <div className="cal-nav">
           <button className="cal-nav__btn" onClick={() => setCalDate(d => new Date(d.getFullYear(), d.getMonth() - 1, 1))}>
-            <img src="/assets/icons/back_icon.svg" width="10" height="17" alt="이전" />
+            <img src="/assets/icons/action/ic-chevron-left.svg" height="16" alt="이전" />
           </button>
           <span className="cal-month">{month + 1}월</span>
           <button className="cal-nav__btn cal-nav__btn--next" onClick={() => setCalDate(d => new Date(d.getFullYear(), d.getMonth() + 1, 1))}>
-            <img src="/assets/icons/back_icon.svg" width="10" height="17" alt="다음" />
+            <img src="/assets/icons/action/ic-chevron-left.svg" height="16" alt="다음" style={{ transform: 'scaleX(-1)' }} />
           </button>
         </div>
         <p className="cal-record-label">이번달 도시락 기록 {recordCount}회</p>
@@ -219,7 +219,7 @@ function CalendarTab() {
         <img className="savings-bar__char" src="/assets/images/MMG.png" alt=""
           onError={(e) => { e.currentTarget.style.display = 'none' }} />
         <span className="savings-bar__text">이번 달 절감액 {totalSaved.toLocaleString()}원</span>
-        <img src="/assets/icons/btn_open.svg" width="17" height="10" alt="" className="savings-bar__chevron" />
+        <img src="/assets/icons/action/ic-chevron-down.svg" width="17" height="10" alt="" className="savings-bar__chevron" />
       </div>
 
       {/* ── 밑반찬 현황 ── */}
@@ -281,11 +281,9 @@ export default function Home() {
       <header className="home-header">
         <button className="home-header__logo" onClick={() => navigate('/')}>
           <img
-            src="/assets/images/logo.png"
-            width="206"
-            height="41"
+            src="/assets/images/brand/img-logo.svg"
+            height={36}
             alt="오늘 머먹지?"
-            onError={(e) => { e.currentTarget.src = '/images/logo.png' }}
           />
         </button>
         <button className="home-header__cart-btn" onClick={() => navigate('/cart')}>

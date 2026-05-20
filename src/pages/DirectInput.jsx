@@ -153,8 +153,14 @@ export default function DirectInput() {
       const idx = prev.findIndex((s) => s.name === item.name)
       if (idx >= 0) return prev.filter((_, i) => i !== idx)
       if (!selectedOpen) setSelectedOpen(true)
-      return [...prev, { ...item, qty: 1, starred: isFavorite(item.name) }]
+      return [...prev, { ...item, qty: 1, starred: isFavorite(item.name), frozen: false }]
     })
+  }
+
+  function toggleFrozen(i) {
+    setSelectedItems((prev) =>
+      prev.map((item, idx) => idx === i ? { ...item, frozen: !item.frozen } : item)
+    )
   }
 
   function adjustQty(i, delta) {
@@ -198,6 +204,7 @@ export default function DirectInput() {
       category: item.category,
       quantity: item.qty,
       expiryDate: resolveExpiryDate(item.expiry),
+      storageType: item.frozen ? '냉동' : '냉장',
     }))
     navigate('/fridge')
   }
@@ -207,7 +214,7 @@ export default function DirectInput() {
       {/* 헤더 */}
       <header className="di-header">
         <button className="di-header__btn" onClick={() => navigate(-1)}>
-          <img src="/assets/icons/back_icon.svg" width="10" height="17" alt="뒤로" />
+          <img src="/assets/icons/action/ic-chevron-left.svg" height="16" alt="뒤로" />
         </button>
         <span className="di-header__title">직접입력</span>
         <button className="di-header__btn" onClick={() => navigate('/')}>
@@ -218,7 +225,7 @@ export default function DirectInput() {
       <div className="di-content">
         {/* 검색바 */}
         <div className="di-search">
-          <img src="/assets/icons/Add_Ingredient_page/Ic_Search.svg" width="19" height="19" alt="" />
+          <img src="/assets/icons/common/ic-search.svg" width="19" height="19" alt="" />
           <input
             className="di-search__input"
             type="text"
@@ -282,7 +289,7 @@ export default function DirectInput() {
               <p className="di-section__subtitle">자주 쓰는 재료는 즐겨찾기 추가가 가능해요!</p>
             </div>
             <img
-              src="/assets/icons/btn_open.svg" width="17" height="10" alt=""
+              src="/assets/icons/action/ic-chevron-down.svg" width="17" height="10" alt=""
               className={`di-section__chevron${selectedOpen ? ' di-section__chevron--open' : ''}`}
             />
           </div>
@@ -307,6 +314,17 @@ export default function DirectInput() {
                         <span>유통기한 {item.expiry || '미설정'}</span>
                       </div>
                     </div>
+                    <button
+                      className={`di-sel-freeze-btn${item.frozen ? ' di-sel-freeze-btn--active' : ''}`}
+                      onClick={() => toggleFrozen(i)}
+                    >
+                      <img
+                        src="/assets/icons/common/badge-frozen.svg"
+                        width="28" height="28"
+                        alt="냉동"
+                        style={{ filter: item.frozen ? 'none' : 'saturate(0) brightness(1.6)' }}
+                      />
+                    </button>
                     <div className="di-sel-item__qty">
                       <button className="di-sel-qty-btn" onClick={() => adjustQty(i, -1)}>−</button>
                       <span className="di-sel-qty-val">{item.qty}</span>
@@ -314,8 +332,12 @@ export default function DirectInput() {
                     </div>
                     <button className="di-sel-star" onClick={() => toggleStar(i)}>
                       <img
-                        src={item.starred ? '/assets/icons/star.svg' : '/assets/icons/star_gray.svg'}
+                        src="/assets/icons/action/ic-star-fill.svg"
                         width="19" height="18" alt="즐겨찾기"
+                        style={{ filter: item.starred
+                          ? 'brightness(0) invert(1) sepia(1) saturate(10) hue-rotate(5deg)'
+                          : 'saturate(0) brightness(1.35)'
+                        }}
                       />
                     </button>
                   </div>

@@ -11,7 +11,7 @@ export default function Scan() {
 
   return (
     <div className="scan-page" onClick={() => navigate('/scan-complete')}>
-      <img className="scan-receipt" src="/images/Receipt.PNG" alt="" aria-hidden="true" />
+      <img className="scan-receipt" src="/assets/images/sample-receipt.png" alt="" aria-hidden="true" />
 
       <header className="camera-header scan-layer">
         <button
@@ -19,15 +19,20 @@ export default function Scan() {
           onClick={e => { e.stopPropagation(); navigate(-1) }}
         >
           <img
-            src="/assets/icons/back_icon.svg"
-            width="10"
-            height="17"
+            src="/assets/icons/action/ic-chevron-left.svg"
+            height="16"
             alt="뒤로"
             style={{ filter: 'brightness(0) invert(1)' }}
           />
         </button>
         <span className="camera-header__title">자동인식</span>
-        <div className="camera-header__btn" aria-hidden="true" />
+        <div className="camera-header__btn" aria-hidden="true">
+          <img
+            src="/assets/icons/action/ic-flash.svg"
+            width="15" height="20" alt=""
+            style={{ filter: 'brightness(0) invert(1)' }}
+          />
+        </div>
       </header>
 
       <div className="scan-frame scan-layer">

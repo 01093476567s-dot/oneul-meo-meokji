@@ -576,11 +576,18 @@
   font-weight: 300;
 }
 
-/* ── 수량 뱃지 (Figma: Badge — absolute left-0 top-0, 23×23px) ── */
-.ing-badge {
+/* ── 뱃지 래퍼 (냉동 + 수량) ── */
+.ing-badge-row {
   position: absolute;
   top: 0;
   left: 0;
+  display: flex;
+  gap: 3px;
+  z-index: 1;
+}
+
+/* ── 수량 뱃지 (Figma: Badge — 23×23px) ── */
+.ing-badge {
   min-width: 23px;
   height: 23px;
   border-radius: 12px;
@@ -590,7 +597,6 @@
   padding: 0 5px;
   font-size: 12px;
   font-weight: 200;
-  z-index: 1;
   box-sizing: border-box;
   line-height: 1;
   white-space: nowrap;
@@ -604,6 +610,31 @@
 .ing-badge--danger  { background: #ff4444; color: #fff; }
 /* Figma: imgBadgeBg3 → dark + white text */
 .ing-badge--expired { background: #2a2018; color: #fff; }
+/* 냉동 뱃지 */
+.ing-badge--frozen  { background: none; padding: 0; width: 23px; border-radius: 50%; overflow: hidden; }
+
+/* ── 냉장/냉동 상태 버튼 (Figma 296-1406) ── */
+.storage-type-btn {
+  width: 97px;
+  height: 36px;
+  border: 1px solid rgba(42, 32, 24, 0.2);
+  border-radius: 8px;
+  background: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  color: #2a2018;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.storage-type-btn--frozen {
+  background: #3a4d7a;
+  color: #fff;
+  border-color: #3a4d7a;
+}
 
 /* ── 삭제 모드 ── */
 .ingredient-cell--selected {

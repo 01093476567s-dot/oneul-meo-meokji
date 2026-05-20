@@ -61,11 +61,30 @@ function getExpiryStatus(expiryDate) {
 }
 
 function IngredientDetail({ item, onClose }) {
-  const { updateIngredientQty, removeIngredient } = useFridge()
-  const [qty, setQty] = useState(item.quantity)
+  const { updateIngredient, removeIngredient } = useFridge()
+  const [qty, setQty] = useState(String(item.quantity ?? 1))
+  const [storageType, setStorageType] = useState(item.storageType || '냉장')
+  const [expiryDate, setExpiryDate] = useState(item.expiryDate || '')
+  const [expiryEditing, setExpiryEditing] = useState(false)
+  const expiryRef = useRef(null)
+
+  function adjustQty(delta) {
+    const str = String(qty)
+    const hasG = /g/i.test(str)
+    const num = parseFloat(str) || 0
+    if (hasG) {
+      const next = Math.max(0, num + delta * 50)
+      setQty(`${next}g`)
+    } else {
+      const numPart = parseFloat(str) || 0
+      const textPart = str.replace(/^[\d.]+/, '')
+      const next = Math.max(0, numPart + delta)
+      setQty(`${next}${textPart}`)
+    }
+  }
 
   function handleSave() {
-    updateIngredientQty(item.id, qty)
+    updateIngredient(item.id, { quantity: qty, storageType, expiryDate })
     onClose()
   }
 
@@ -85,15 +104,51 @@ function IngredientDetail({ item, onClose }) {
         />
         <div>
           <p style={{ fontSize: 18, fontWeight: 700, margin: 0 }}>{item.name}</p>
-          <p style={{ fontSize: 13, color: 'var(--text-sub)', margin: '4px 0 0' }}>유통기한: {item.expiryDate || '미입력'}</p>
+          {expiryEditing ? (
+            <input
+              ref={expiryRef}
+              type="date"
+              value={expiryDate}
+              autoFocus
+              onChange={e => setExpiryDate(e.target.value)}
+              onBlur={() => setExpiryEditing(false)}
+              style={{
+                fontSize: 13, color: 'var(--text-sub)', background: 'transparent',
+                border: 'none', borderBottom: '1px solid #ff8c66', outline: 'none',
+                margin: '4px 0 0', padding: '0', cursor: 'pointer',
+              }}
+            />
+          ) : (
+            <p
+              style={{ fontSize: 13, color: 'var(--text-sub)', margin: '4px 0 0', cursor: 'pointer', textDecoration: 'underline dotted' }}
+              onClick={() => setExpiryEditing(true)}
+            >
+              유통기한: {expiryDate || '미입력'}
+            </p>
+          )}
         </div>
       </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20 }}>
-        <p style={{ fontSize: 14, fontWeight: 600, margin: 0 }}>수량</p>
-        <div className="quantity-control">
-          <button className="quantity-btn" onClick={() => setQty((q) => Math.max(1, q - 1))}>−</button>
-          <span className="quantity-value">{qty}</span>
-          <button className="quantity-btn" onClick={() => setQty((q) => q + 1)}>+</button>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 30, marginBottom: 20 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          <p style={{ fontSize: 14, fontWeight: 700, margin: 0, color: '#2a2018' }}>수량</p>
+          <div className="quantity-control">
+            <button className="quantity-btn" onClick={() => adjustQty(-1)}>−</button>
+            <input
+              className="quantity-value quantity-value--editable"
+              value={qty}
+              onChange={e => setQty(e.target.value)}
+            />
+            <button className="quantity-btn" onClick={() => adjustQty(1)}>+</button>
+          </div>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          <p style={{ fontSize: 14, fontWeight: 700, margin: 0, color: '#2a2018' }}>상태</p>
+          <button
+            className={`storage-type-btn${storageType === '냉동' ? ' storage-type-btn--frozen' : ''}`}
+            onClick={() => setStorageType(s => s === '냉장' ? '냉동' : '냉장')}
+          >
+            {storageType}
+          </button>
         </div>
       </div>
       <div style={{ display: 'flex', gap: 8 }}>
@@ -111,10 +166,10 @@ function IngredientDetail({ item, onClose }) {
 }
 
 const DRAWER_MENUS = [
-  { icon: '/assets/icons/ic_side_dish.svg',        label: '밑반찬',        route: '/banchan-list' },
-  { icon: '/assets/icons/ic_carrot.svg',            label: '식재료 추가 기록', route: '/direct-input' },
-  { icon: '/assets/icons/ic_order_checklist.svg',   label: '구독 식재료 현황', route: '/subscription' },
-  { icon: '/assets/icons/ic_buy_ingredients.svg',   label: '식재료 구매하기', route: '/cart' },
+  { icon: '/assets/icons/common/ic-storage-box.svg',  label: '밑반찬',        route: '/banchan-list' },
+  { icon: '/assets/icons/common/ic-ingredient.svg',   label: '식재료 추가 기록', route: '/direct-input' },
+  { icon: '/assets/icons/common/ic-checklist.svg',    label: '구독 식재료 현황', route: '/subscription' },
+  { icon: '/assets/icons/common/ic-cart.svg',         label: '식재료 구매하기', route: '/cart' },
 ]
 
 function FridgeDrawer({ open, onClose, userName }) {
@@ -174,6 +229,7 @@ export default function Fridge() {
   const [searchQuery, setSearchQuery] = useState('')
   const [deleteMode, setDeleteMode] = useState(false)
   const [selectedIds, setSelectedIds] = useState(new Set())
+  const [frozenOnly, setFrozenOnly] = useState(false)
   const catListRef = useRef(null)
   const searchInputRef = useRef(null)
 
@@ -221,7 +277,7 @@ export default function Fridge() {
     if (sortMode === 'name') return a.name.localeCompare(b.name, 'ko')
     return 0
   })
-  const filtered = sorted
+  const filtered = frozenOnly ? sorted.filter(i => i.storageType === '냉동') : sorted
 
   function showDetail(item) {
     openSheet(<IngredientDetail item={item} onClose={closeSheet} />)
@@ -255,7 +311,7 @@ export default function Fridge() {
               {/* 검색 필: width 슬라이드 */}
               <div className={`fridge-search-pill-outer${searchOpen ? ' fridge-search-pill-outer--open' : ''}`}>
                 <button className="fridge-search-pill__icon-btn" onClick={handleSearchToggle}>
-                  <img src="/assets/icons/Search.svg" width="19" height="19" alt="검색" />
+                  <img src="/assets/icons/common/ic-search.svg" width="19" height="19" alt="검색" />
                 </button>
                 <input
                   ref={searchInputRef}
@@ -302,7 +358,7 @@ export default function Fridge() {
                   className={`fridge-hint-kebab-btn${fridgeKebabOpen ? ' lrec-btn--active' : ''}`}
                   onClick={() => setFridgeKebabOpen(v => !v)}
                 >
-                  <img src="/assets/icons/Kebab_icon.svg" width="4" height="18" alt="더보기" />
+                  <img src="/assets/icons/common/ic-more-vertical.svg" width="4" alt="더보기" />
                 </button>
                 {fridgeKebabOpen && (
                   <>
@@ -336,6 +392,18 @@ export default function Fridge() {
                       >
                         이름순
                         {sortMode === 'name' && (
+                          <svg width="14" height="11" viewBox="0 0 14 11" fill="none">
+                            <path d="M1 5.5L5.5 10L13 1" stroke="#ff8c66" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        )}
+                      </button>
+                      <div className="lrec-kebab-divider" />
+                      <button
+                        className={`lrec-kebab-item${frozenOnly ? ' lrec-kebab-item--active' : ''}`}
+                        onClick={() => { setFrozenOnly(v => !v); setFridgeKebabOpen(false) }}
+                      >
+                        냉동 식품만 보기
+                        {frozenOnly && (
                           <svg width="14" height="11" viewBox="0 0 14 11" fill="none">
                             <path d="M1 5.5L5.5 10L13 1" stroke="#ff8c66" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                           </svg>
@@ -384,7 +452,14 @@ export default function Fridge() {
                         )}
                       </div>
                     )}
-                    <div className={`ing-badge ing-badge--${status}`}>{item.quantity}</div>
+                    <div className="ing-badge-row">
+                      {item.storageType === '냉동' && (
+                        <div className="ing-badge ing-badge--frozen">
+                          <img src="/assets/icons/common/badge-frozen.svg" width="23" height="23" alt="냉동" />
+                        </div>
+                      )}
+                      <div className={`ing-badge ing-badge--${status}`}>{item.quantity}</div>
+                    </div>
                     <div className="ing-cell__content">
                       <div className="ing-cell__img-wrap">
                         <div className="ing-cell__item-area">
@@ -456,19 +531,19 @@ export default function Fridge() {
             {fabOpen ? (
               <div className="fab-pill">
                 <button className="fab-pill__item" onClick={() => { navigate('/camera'); setFabOpen(false) }}>
-                  <img className="fab-pill__icon" src="/assets/icons/fab-pill_camera_icon.svg" width="28" height="21" alt="사진촬영" />
+                  <img className="fab-pill__icon" src="/assets/icons/action/ic-camera.svg" width="28" height="21" alt="사진촬영" />
                   <span className="fab-pill__label">사진촬영</span>
                 </button>
                 <button className="fab-pill__item" onClick={() => { navigate('/manual-input'); setFabOpen(false) }}>
-                  <img className="fab-pill__icon" src="/assets/icons/fab-pill_pen_icon.svg" width="23" height="29" alt="직접입력" />
+                  <img className="fab-pill__icon" src="/assets/icons/action/ic-edit.svg" width="17" height="22" alt="직접입력" />
                   <span className="fab-pill__label">직접입력</span>
                 </button>
                 <button className="fab-pill__item" onClick={() => { navigate('/favorites'); setFabOpen(false) }}>
-                  <img className="fab-pill__icon" src="/assets/icons/fab-pill_star_icon.svg" width="19" height="18" alt="즐겨찾기" />
+                  <img className="fab-pill__icon" src="/assets/icons/action/ic-star-fill.svg" width="23" height="22" alt="즐겨찾기" />
                   <span className="fab-pill__label">즐겨찾기</span>
                 </button>
                 <button className="fab-pill__item" onClick={() => { navigate('/direct-input'); setFabOpen(false) }}>
-                  <img className="fab-pill__icon" src="/assets/icons/fab-pill_plus_icon.svg" width="17" height="17" alt="선택" />
+                  <img className="fab-pill__icon" src="/assets/icons/action/ic-plus.svg" width="19" height="19" alt="선택" />
                   <span className="fab-pill__label">선택</span>
                 </button>
               </div>
@@ -527,7 +602,7 @@ function ExpiryBanner({ expiring }) {
           {` 유통기한이 얼마 남지 않은 식재료가 있어요!`}
         </p>
         <img
-          src="/assets/icons/btn_open.svg"
+          src="/assets/icons/action/ic-chevron-down.svg"
           width="10" height="17" alt=""
           className={`expiry-banner__chevron${open ? ' expiry-banner__chevron--open' : ''}`}
         />

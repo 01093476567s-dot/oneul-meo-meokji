@@ -89,7 +89,7 @@ export default function Favorites() {
     <>
       <header className="di-header">
         <button className="di-header__btn" onClick={() => navigate(-1)}>
-          <img src="/assets/icons/back_icon.svg" width="10" height="17" alt="뒤로" />
+          <img src="/assets/icons/action/ic-chevron-left.svg" height="16" alt="뒤로" />
         </button>
         <span className="di-header__title">즐겨찾기</span>
         <button className="di-header__btn" onClick={() => navigate('/')}>

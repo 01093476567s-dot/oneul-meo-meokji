@@ -19,13 +19,26 @@ export function FridgeProvider({ children }) {
 
   const addIngredient = useCallback((ingredient) => {
     setIngredients((prev) => {
+      const parseQty = (str) => {
+        const s = String(str ?? 1)
+        const match = s.match(/^(\d+(?:\.\d+)?)\s*(g|kg|ml|l)?$/i)
+        if (match) return { num: parseFloat(match[1]), unit: (match[2] || '').toLowerCase() }
+        return { num: null, unit: s }
+      }
+
       const existing = prev.find((i) => i.name === ingredient.name)
       if (existing) {
-        return prev.map((i) =>
-          i.name === ingredient.name
-            ? { ...i, quantity: i.quantity + (ingredient.quantity ?? 1) }
-            : i
-        )
+        const a = parseQty(existing.quantity)
+        const b = parseQty(ingredient.quantity)
+        if (a.num !== null && b.num !== null && a.unit === b.unit) {
+          const summed = a.num + b.num
+          const newQty = a.unit ? `${summed}${a.unit}` : String(summed)
+          return prev.map((i) =>
+            i.name === ingredient.name ? { ...i, quantity: newQty } : i
+          )
+        }
+        // 단위가 다르면 새 항목으로 추가
+        return [...prev, { ...ingredient, id: Date.now() + Math.random() }]
       }
       return [...prev, { ...ingredient, id: Date.now() + Math.random() }]
     })
@@ -33,9 +46,13 @@ export function FridgeProvider({ children }) {
 
   const updateIngredientQty = useCallback((id, qty) => {
     setIngredients((prev) =>
-      prev
-        .map((i) => (i.id === id ? { ...i, quantity: Math.max(0, qty) } : i))
-        .filter((i) => i.quantity > 0)
+      prev.map((i) => (i.id === id ? { ...i, quantity: qty } : i))
+    )
+  }, [])
+
+  const updateIngredient = useCallback((id, updates) => {
+    setIngredients((prev) =>
+      prev.map((i) => (i.id === id ? { ...i, ...updates } : i))
     )
   }, [])
 
@@ -107,6 +124,7 @@ export function FridgeProvider({ children }) {
         favorites,
         addIngredient,
         updateIngredientQty,
+        updateIngredient,
         removeIngredient,
         removeIngredients,
         getExpiringIngredients,

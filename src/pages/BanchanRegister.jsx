@@ -53,7 +53,7 @@ export default function BanchanRegister() {
       {/* ── 헤더 ── */}
       <header className="di-header lrec-header">
         <button className="di-header__btn" onClick={() => navigate(-1)}>
-          <img src="/assets/icons/back_icon.svg" width="10" height="17" alt="뒤로" />
+          <img src="/assets/icons/action/ic-chevron-left.svg" height="16" alt="뒤로" />
         </button>
         <span className="di-header__title lrec-header__title">반찬등록</span>
         <div style={{ width: 27 }} />
@@ -67,7 +67,7 @@ export default function BanchanRegister() {
               <img src={photo} alt="반찬사진" className="br-photo-img" />
             ) : (
               <img
-                src="/assets/icons/fab-pill_camera_icon.svg"
+                src="/assets/icons/action/ic-camera.svg"
                 width="37" height="27"
                 alt=""
                 className="lr-photo-icon"

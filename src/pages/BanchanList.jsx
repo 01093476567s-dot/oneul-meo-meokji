@@ -11,6 +11,20 @@ export default function BanchanList() {
   const navigate = useNavigate()
   const [dishes, setDishes] = useState(DISHES)
   const [openKebabId, setOpenKebabId] = useState(null)
+  const [editingId, setEditingId] = useState(null)
+  const [editingValue, setEditingValue] = useState('')
+
+  function startEdit(dish, e) {
+    e.stopPropagation()
+    setEditingId(dish.id)
+    setEditingValue(String(dish.progress))
+  }
+
+  function commitEdit(id) {
+    const val = Math.min(100, Math.max(0, parseInt(editingValue, 10) || 0))
+    setDishes(prev => prev.map(d => d.id === id ? { ...d, progress: val } : d))
+    setEditingId(null)
+  }
 
   function handleDelete(id) {
     setDishes(prev => prev.filter(d => d.id !== id))
@@ -22,17 +36,10 @@ export default function BanchanList() {
       {/* ── 헤더 ── */}
       <header className="di-header lrec-header">
         <button className="di-header__btn" onClick={() => navigate(-1)}>
-          <img src="/assets/icons/back_icon.svg" width="10" height="17" alt="뒤로" />
+          <img src="/assets/icons/action/ic-chevron-left.svg" height="16" alt="뒤로" />
         </button>
         <span className="di-header__title lrec-header__title">밑반찬</span>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <button className="di-header__btn" style={{ padding: 4 }}>
-            <img src="/assets/icons/Ic_Search.svg" width="20" height="20" alt="검색" />
-          </button>
-          <button className="di-header__btn" style={{ padding: 4 }}>
-            <img src="/assets/icons/Kebab_icon.svg" width="4" height="18" alt="더보기" />
-          </button>
-        </div>
+        <span style={{ width: 36 }} />
       </header>
 
       <div className="bl-content">
@@ -58,7 +65,24 @@ export default function BanchanList() {
                   <p className="bl-item__name">{dish.name}</p>
                   <p className="bl-item__date">{dish.date}</p>
                 </div>
-                <span className="bl-item__progress">{dish.progress}%</span>
+                {editingId === dish.id ? (
+                  <input
+                    className="bl-item__progress-input"
+                    type="number"
+                    min="0"
+                    max="100"
+                    value={editingValue}
+                    onChange={e => setEditingValue(e.target.value)}
+                    onBlur={() => commitEdit(dish.id)}
+                    onKeyDown={e => { if (e.key === 'Enter') commitEdit(dish.id) }}
+                    autoFocus
+                    onClick={e => e.stopPropagation()}
+                  />
+                ) : (
+                  <span className="bl-item__progress" onClick={e => startEdit(dish, e)}>
+                    {dish.progress}%
+                  </span>
+                )}
 
                 {/* 아이템 케밥 */}
                 <div className="lrec-kebab-wrap">

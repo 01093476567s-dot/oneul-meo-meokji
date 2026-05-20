@@ -87,12 +87,32 @@
   color: rgba(42, 32, 24, 0.5);
   letter-spacing: -0.36px;
   flex-shrink: 0;
+  cursor: pointer;
+}
+
+.bl-item__progress-input {
+  width: 60px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #FF8C66;
+  letter-spacing: -0.36px;
+  border: none;
+  border-bottom: 1.5px solid #FF8C66;
+  background: transparent;
+  text-align: center;
+  outline: none;
+  flex-shrink: 0;
+  -moz-appearance: textfield;
+}
+.bl-item__progress-input::-webkit-inner-spin-button,
+.bl-item__progress-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
 }
 
 /* 아이템 케밥 버튼 */
 .bl-item__kebab {
-  padding: 6px 4px;
   flex-shrink: 0;
+  margin-left: 20px;
 }
 
 /* 아이템 케밥 메뉴 위치 */
