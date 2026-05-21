@@ -69,7 +69,7 @@
   background: #fff0e8;
   border-radius: 50px;
   padding: 4px;
-  margin: 16px auto;
+  margin: 0 auto 40px;
   height: 45px;
   box-sizing: border-box;
   align-items: center;
@@ -528,8 +528,7 @@
 }
 
 .savings-bar__char {
-  width: 36px;
-  height: 36px;
+  width: 69px;
   object-fit: contain;
   flex-shrink: 0;
 }
@@ -679,4 +678,422 @@
   align-items: center;
   justify-content: center;
   font-family: var(--font-family);
+}
+
+/* ── 인사 섹션 ── */
+.home-greeting {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  padding: 0 20px;
+  background: #fffaf5;
+  margin-bottom: 30px;
+}
+
+.home-greeting__left {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.home-greeting__name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.home-greeting__name {
+  font-size: 24px;
+  font-weight: 700;
+  color: #2a2018;
+}
+
+.home-greeting__badge {
+  background: #ff8c66;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 500;
+  border-radius: 11px;
+  padding: 2px 7px;
+  text-align: center;
+}
+
+.home-greeting__sub {
+  font-size: 20px;
+  font-weight: 500;
+  color: #2A2018;
+  margin: 0;
+}
+
+.home-greeting__char {
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+/* ── 홈 절감액 바 (탭 위) ── */
+.home-savings-bar {
+  margin: 0 20px 30px;
+
+}
+
+/* ── 메뉴추천 섹션 ── */
+.hmenu-section {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  padding-bottom: 100px;
+}
+
+.hmenu-hd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 20px 0;
+}
+
+.hmenu-hd__left {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.hmenu-hd__title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #2a2018;
+  letter-spacing: -0.36px;
+}
+
+.hmenu-hd__date {
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(42, 32, 24, 0.4);
+  letter-spacing: -0.24px;
+}
+
+.hmenu-hd__indicator {
+  font-size: 14px;
+  color: rgba(42, 32, 24, 0.3);
+  letter-spacing: -0.28px;
+}
+
+.hmenu-hd__indicator strong {
+  font-weight: 700;
+  color: #2a2018;
+}
+
+/* ── 메뉴 카드 (hmc) ── */
+.hmc {
+  flex-shrink: 0;
+  width: 254px;
+  height: 337px;
+  border-radius: 15px;
+  overflow: hidden;
+  scroll-snap-align: start;
+  cursor: pointer;
+  position: relative;
+  background: #c4a882;
+  transition: transform 0.1s ease;
+}
+
+.hmc:active {
+  transform: scale(0.98);
+}
+
+.hmc__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hmc__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.5) 0%,
+    rgba(0, 0, 0, 0.3) 32.7%,
+    transparent 74%,
+    rgba(0, 0, 0, 0.3) 100%
+  );
+}
+
+.hmc__title {
+  position: absolute;
+  top: 31px;
+  left: 18px;
+  right: 18px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: -0.48px;
+  line-height: 1.25;
+}
+
+.hmc__title p {
+  margin: 0;
+}
+
+.hmc__badge {
+  position: absolute;
+  top: 98px;
+  left: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 5px;
+  font-size: 10px;
+  font-weight: 500;
+  color: #fff;
+  padding: 2px 8px;
+  letter-spacing: -0.2px;
+}
+
+.hmc__desc {
+  position: absolute;
+  top: 270px;
+  left: 12px;
+  right: 12px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.5;
+  letter-spacing: -0.22px;
+}
+
+.hmc__desc p {
+  margin: 0;
+}
+
+/* ── CTA 버튼 ── */
+.home-cta-btn {
+  display: block;
+  width: calc(100% - 40px);
+  margin: 0 20px;
+  padding: 18px 0;
+  background: #ff8c66;
+  color: #fff;
+  border: none;
+  border-radius: 17px;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.36px;
+  cursor: pointer;
+  font-family: var(--font-family);
+  text-align: center;
+  transition: opacity 0.1s ease;
+}
+
+.home-cta-btn:active {
+  opacity: 0.88;
+}
+
+/* ── 밑반찬 카드 (메뉴추천 탭) ── */
+.hbanchan-card {
+  margin: 0 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.hbanchan-card__hd {
+  margin-bottom: 14px;
+}
+
+.hbanchan-card__title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2a2018;
+  margin: 0 0 2px;
+  letter-spacing: -0.32px;
+}
+
+.hbanchan-card__sub {
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(42, 32, 24, 0.5);
+  margin: 0;
+  letter-spacing: -0.24px;
+}
+
+.hbanchan-list {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.hbanchan-item {
+  flex-shrink: 0;
+  width: 95px;
+  height: 95px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px;
+  box-sizing: border-box;
+  transition: height 0.25s ease;
+}
+
+.hbanchan-item--exp {
+  height: auto;
+  border-radius: 20px;
+  overflow: visible;
+  padding-bottom: 8px;
+}
+
+.hbanchan-item__img-wrap {
+  width: 85px;
+  height: 84px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.hbanchan-item__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hbanchan-item__ov {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: inherit;
+}
+
+.hbanchan-item__pct {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.28px;
+}
+
+.hbanchan-item__meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  margin-top: 6px;
+  width: 85px;
+}
+
+.hbanchan-item__name {
+  font-size: 12px;
+  font-weight: 700;
+  color: #2a2018;
+  text-align: center;
+  margin: 0;
+  letter-spacing: -0.24px;
+}
+
+.hbanchan-item__date {
+  font-size: 9px;
+  color: rgba(0, 0, 0, 0.5);
+  text-align: center;
+  margin: 0;
+  letter-spacing: -0.18px;
+}
+
+.hbanchan-add {
+  flex-shrink: 0;
+  width: 95px;
+  height: 95px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 140, 102, 0.15);
+  font-size: 26px;
+  color: #ff8c66;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-family);
+}
+
+/* ── 도시락 기록 카드 (메뉴추천 탭) ── */
+.hrecords-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 20px;
+  padding: 16px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: opacity 0.1s ease;
+}
+
+.hrecords-card:active {
+  opacity: 0.85;
+}
+
+.hrecords-card__char {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.hrecords-card__texts {
+  flex: 1;
+}
+
+.hrecords-card__title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2a2018;
+  margin: 0 0 2px;
+  letter-spacing: -0.32px;
+}
+
+.hrecords-card__sub {
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(42, 32, 24, 0.5);
+  margin: 0;
+  letter-spacing: -0.24px;
+}
+
+/* ── 도시락 기록 카드 (캘린더 탭) ── */
+.home-records-card {
+  display: flex;
+  align-items: center;
+  margin: 0 20px;
+  padding: 16px 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+}
+
+.home-records-card__texts {
+  flex: 1;
+}
+
+.home-records-card__title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2a2018;
+  margin: 0 0 2px;
+  letter-spacing: -0.32px;
+}
+
+.home-records-card__sub {
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(42, 32, 24, 0.5);
+  margin: 0;
+  letter-spacing: -0.24px;
 }

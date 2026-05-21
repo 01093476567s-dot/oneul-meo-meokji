@@ -2,83 +2,40 @@ import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useFridge } from '../context/FridgeContext'
 
-const MENU_ITEMS = [
+// Figma 임시 에셋 (7일 후 만료 예정 - 로컬 파일로 교체 필요)
+const IMG_WELCOME      = 'https://www.figma.com/api/mcp/asset/14b1660e-38ea-4029-9fb5-2157971514f8'
+const IMG_SAVINGS_CHAR = 'https://www.figma.com/api/mcp/asset/33957a6d-dba7-4bba-a53e-d73c2afe97f7'
+const IMG_MMG_NOTE     = 'https://www.figma.com/api/mcp/asset/3e6a95a4-310f-4b34-aac1-60134982c367'
+
+const MENU_CARDS = [
   {
     id: 1,
-    sublabel: '오늘 AI추천 메인메뉴',
-    title: '영양만점 소불고기',
-    cta: '도시락 조합 시작!',
+    badge: 'AI 추천메뉴',
+    title: ['영양만점', '소불고기 도시락'],
+    desc: ['가나다님의 냉장고에서 발견한', '식재료로 도시락 메뉴를 준비했어요.', '오늘은 달콤짭짤한 소불고기 도시락 어떠세요?'],
     image: '/images/소불고기.jpg',
   },
   {
     id: 2,
-    sublabel: '오늘 AI추천 건강식 메뉴',
-    title: '두부 스테이크',
-    cta: '도시락 조합 시작!',
+    badge: 'AI 추천메뉴',
+    title: ['건강한 한 끼', '두부 스테이크'],
+    desc: ['담백한 두부스테이크에', '신선한 채소를 곁들여 준비했어요.', '오늘은 건강한 도시락 한 끼 어떠세요?'],
     image: '/images/두부스테이크.jpg',
   },
   {
     id: 3,
-    sublabel: '오늘 AI추천 초간단 메뉴',
-    title: '계란간장버터 밥',
-    cta: '도시락 조합 시작!',
+    badge: '초간단메뉴',
+    title: ['초간단 메뉴', '계란간장버터 밥'],
+    desc: ['냉장고 속 계란 하나로 만들 수 있어요.', '5분 만에 완성되는 초간단 메뉴!', '오늘은 짭조름한 계란간장버터밥 어때요?'],
     image: '/images/간장계란버터밥.jpg',
   },
 ]
 
-function MenuTab() {
-  const navigate = useNavigate()
-  const scrollRef = useRef(null)
-  const [activeIndex, setActiveIndex] = useState(0)
-
-  function handleScroll(e) {
-    const el = e.currentTarget
-    const firstCard = el.firstChild
-    if (!firstCard) return
-    const cardWidth = firstCard.offsetWidth + 12
-    const index = Math.round(el.scrollLeft / cardWidth)
-    setActiveIndex(Math.max(0, Math.min(MENU_ITEMS.length - 1, index)))
-  }
-
-  return (
-    <div className="home-menu-wrap">
-      <div className="home-card-scroll" ref={scrollRef} onScroll={handleScroll}>
-        {MENU_ITEMS.map((item) => (
-          <div
-            key={item.id}
-            className="home-menu-card"
-            onClick={() => navigate('/dish-combo', { state: { menuItem: item } })}
-          >
-            <div className="home-menu-card__photo-wrap">
-              <img
-                className="home-menu-card__photo"
-                src={item.image}
-                alt={item.title}
-                onError={(e) => { e.currentTarget.parentElement.style.background = '#d4a88a' }}
-              />
-            </div>
-            <div className="home-menu-card__info">
-              <p className="home-menu-card__sublabel">{item.sublabel}</p>
-              <p className="home-menu-card__title">{item.title}</p>
-              <div className="home-menu-card__rule" />
-              <p className="home-menu-card__cta">{item.cta}</p>
-            </div>
-          </div>
-        ))}
-        {/* 직접 만들래요 카드 */}
-        <div className="home-menu-card home-menu-card--custom" onClick={() => navigate('/fridge')}>
-          <p className="home-menu-card--custom__text">내가 직접 만들래요!</p>
-        </div>
-      </div>
-
-      <div className="home-dots">
-        {[...MENU_ITEMS, { id: 'custom' }].map((_, i) => (
-          <span key={i} className={`home-dot${i === activeIndex ? ' home-dot--active' : ''}`} />
-        ))}
-      </div>
-    </div>
-  )
-}
+const BANCHAN_LIST = [
+  { name: '장조림',   bg: '#d4f0b1', img: '/assets/images/장조림.png',   progress: null, date: '' },
+  { name: '우엉조림', bg: '#bce2f9', img: '/assets/images/우엉조림.png', progress: null, date: '' },
+  { name: '연근조림', bg: '#dfcffa', img: '/assets/images/연근.png',     progress: 80,   date: '2026.05.14 ~' },
+]
 
 const DISHES = [
   { name: '장조림',   bg: '#d4f0b1', barColor: 'rgba(169,231,110,0.5)', img: '/assets/images/장조림.png',   progress: 70, date: '2026.05.06 ~', dateRange: { start: '2026-05-06', end: null } },
@@ -86,6 +43,107 @@ const DISHES = [
   { name: '연근조림', bg: '#dfcffa', barColor: 'rgba(191,165,255,0.5)', img: '/assets/images/연근.png',     progress: 80, date: '2026.05.14 ~', dateRange: { start: '2026-05-14', end: null } },
 ]
 
+/* ── 메뉴추천 탭 ── */
+function MenuRecommendTab() {
+  const navigate = useNavigate()
+  const scrollRef = useRef(null)
+  const [activeIdx, setActiveIdx] = useState(0)
+
+  const today = new Date()
+  const dateStr = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`
+
+  function handleScroll(e) {
+    const el = e.currentTarget
+    setActiveIdx(Math.max(0, Math.min(MENU_CARDS.length - 1, Math.round(el.scrollLeft / (254 + 12)))))
+  }
+
+  return (
+    <div className="hmenu-section">
+      {/* 섹션 헤더 */}
+      <div className="hmenu-hd">
+        <div className="hmenu-hd__left">
+          <span className="hmenu-hd__title">오늘의 도시락</span>
+          <span className="hmenu-hd__date">{dateStr}</span>
+        </div>
+        <span className="hmenu-hd__indicator">
+          <strong>{activeIdx + 1}</strong><span> / {MENU_CARDS.length}</span>
+        </span>
+      </div>
+
+      {/* 카드 스크롤 */}
+      <div className="home-card-scroll" ref={scrollRef} onScroll={handleScroll}>
+        {MENU_CARDS.map((card) => (
+          <div
+            key={card.id}
+            className="hmc"
+            onClick={() => navigate('/dish-combo', { state: { menuItem: card } })}
+          >
+            <img className="hmc__img" src={card.image} alt={card.title.join(' ')}
+              onError={e => { e.currentTarget.style.opacity = '0' }} />
+            <div className="hmc__overlay" />
+            <div className="hmc__title">
+              {card.title.map((line, i) => <p key={i}>{line}</p>)}
+            </div>
+            <span className="hmc__badge">{card.badge}</span>
+            <div className="hmc__desc">
+              {card.desc.map((line, i) => <p key={i}>{line}</p>)}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* CTA */}
+      <button className="home-cta-btn" onClick={() => navigate('/fridge')}>직접 만들래요!</button>
+
+      {/* 밑반찬 현황 */}
+      <div className="hbanchan-card">
+        <div className="hbanchan-card__hd">
+          <p className="hbanchan-card__title">밑반찬 현황</p>
+          <p className="hbanchan-card__sub">만들어둔 밑반찬을 확인해보세요!</p>
+        </div>
+        <div className="hbanchan-list">
+          {BANCHAN_LIST.map((dish) => (
+            <div
+              key={dish.name}
+              className={`hbanchan-item${dish.progress !== null ? ' hbanchan-item--exp' : ''}`}
+              style={{ background: dish.bg }}
+            >
+              <div className="hbanchan-item__img-wrap">
+                <img className="hbanchan-item__img" src={dish.img} alt={dish.name}
+                  onError={e => { e.currentTarget.style.opacity = '0' }} />
+                {dish.progress !== null && (
+                  <div className="hbanchan-item__ov">
+                    <span className="hbanchan-item__pct">{dish.progress}%</span>
+                  </div>
+                )}
+              </div>
+              {dish.progress !== null && (
+                <div className="hbanchan-item__meta">
+                  <p className="hbanchan-item__name">{dish.name}</p>
+                  <p className="hbanchan-item__date">{dish.date}</p>
+                </div>
+              )}
+            </div>
+          ))}
+          <button className="hbanchan-add" onClick={() => navigate('/banchan-register')}>+</button>
+        </div>
+      </div>
+
+      {/* 도시락 기록 모아보기 */}
+      <div className="hrecords-card" onClick={() => navigate('/lunch-records')}>
+        <img className="hrecords-card__char" src={IMG_MMG_NOTE} alt=""
+          onError={e => { e.currentTarget.style.display = 'none' }} />
+        <div className="hrecords-card__texts">
+          <p className="hrecords-card__title">도시락 기록 모아보기</p>
+          <p className="hrecords-card__sub">도시락 기록을 추가 할 수 있어요!</p>
+        </div>
+        <img src="/assets/icons/action/ic-chevron-right.svg" width="9" height="17" alt="" style={{ marginRight: 20, flexShrink: 0 }} />
+      </div>
+    </div>
+  )
+}
+
+/* ── 도시락 기록 탭 (캘린더) ── */
 function CalendarTab() {
   const navigate = useNavigate()
   const { records } = useFridge()
@@ -122,11 +180,10 @@ function CalendarTab() {
 
   function getBarsForWeek(weekIdx) {
     const bars = []
-    const todayStr = today
     DISHES.forEach((dish) => {
       if (!dish.dateRange) return
       const rangeStart = new Date(dish.dateRange.start)
-      const rangeEnd = dish.dateRange.end ? new Date(dish.dateRange.end) : todayStr
+      const rangeEnd = dish.dateRange.end ? new Date(dish.dateRange.end) : today
       let firstCol = -1, lastCol = -1
       for (let col = 0; col < 7; col++) {
         const cell = cells[weekIdx * 7 + col]
@@ -144,7 +201,6 @@ function CalendarTab() {
 
   return (
     <div className="cal-page">
-      {/* ── 캘린더 ── */}
       <div className="cal-box">
         <div className="cal-nav">
           <button className="cal-nav__btn" onClick={() => setCalDate(d => new Date(d.getFullYear(), d.getMonth() - 1, 1))}>
@@ -200,10 +256,7 @@ function CalendarTab() {
                       <div
                         key={dish.name}
                         className="cal-week__bar"
-                        style={{
-                          background: dish.barColor,
-                          gridColumn: `${firstCol + 1} / ${lastCol + 2}`,
-                        }}
+                        style={{ background: dish.barColor, gridColumn: `${firstCol + 1} / ${lastCol + 2}` }}
                       />
                     ))}
                   </div>
@@ -214,15 +267,13 @@ function CalendarTab() {
         </div>
       </div>
 
-      {/* ── 절감액 바 ── */}
       <div className="savings-bar">
         <img className="savings-bar__char" src="/assets/images/MMG.png" alt=""
-          onError={(e) => { e.currentTarget.style.display = 'none' }} />
+          onError={e => { e.currentTarget.style.display = 'none' }} />
         <span className="savings-bar__text">이번 달 절감액 {totalSaved.toLocaleString()}원</span>
         <img src="/assets/icons/action/ic-chevron-down.svg" width="17" height="10" alt="" className="savings-bar__chevron" />
       </div>
 
-      {/* ── 밑반찬 현황 ── */}
       <div className="banchan-card">
         <div className="banchan-card__hd">
           <p className="banchan-card__title">밑반찬 현황</p>
@@ -240,7 +291,7 @@ function CalendarTab() {
               >
                 <div className="banchan-item__img-wrap">
                   <img className="banchan-item__img" src={dish.img} alt={dish.name}
-                    onError={(e) => { e.currentTarget.style.opacity = '0' }} />
+                    onError={e => { e.currentTarget.style.opacity = '0' }} />
                   {isExp && dish.progress !== null && (
                     <div className="banchan-item__overlay">
                       <span className="banchan-item__pct">{dish.progress}%</span>
@@ -260,7 +311,6 @@ function CalendarTab() {
         </div>
       </div>
 
-      {/* ── 도시락 기록 모아보기 카드 (Figma 280-1790) ── */}
       <div className="home-records-card" onClick={() => navigate('/lunch-records')}>
         <div className="home-records-card__texts">
           <p className="home-records-card__title">도시락 기록 모아보기</p>
@@ -271,45 +321,60 @@ function CalendarTab() {
   )
 }
 
+/* ── 홈 메인 ── */
 export default function Home() {
   const navigate = useNavigate()
-  const { cart } = useFridge()
+  const { cart, records } = useFridge()
   const [activeTab, setActiveTab] = useState('menu')
+  const totalSaved = records.reduce((sum, r) => sum + (r.savedAmount || 0), 0)
 
   return (
     <>
+      {/* 헤더 */}
       <header className="home-header">
         <button className="home-header__logo" onClick={() => navigate('/')}>
-          <img
-            src="/assets/images/brand/img-logo.svg"
-            height={36}
-            alt="오늘 머먹지?"
-          />
+          <img src="/assets/images/brand/img-logo.svg" height={36} alt="오늘 머먹지?" />
         </button>
         <button className="home-header__cart-btn" onClick={() => navigate('/cart')}>
           <img src="/assets/icons/Ic_Cart.svg" width="35" height="30" alt="장바구니" className="home-header__cart-icon" />
-          {cart.length > 0 && (
-            <span className="home-header__badge">{cart.length}</span>
-          )}
+          {cart.length > 0 && <span className="home-header__badge">{cart.length}</span>}
         </button>
       </header>
 
+      {/* 인사 섹션 */}
+      <div className="home-greeting">
+        <div className="home-greeting__left">
+          <div className="home-greeting__name-row">
+            <span className="home-greeting__name">가나다님!</span>
+            <span className="home-greeting__badge">구독중</span>
+          </div>
+          <p className="home-greeting__sub">오늘도 든든한 하루</p>
+        </div>
+        <img className="home-greeting__char" src={IMG_WELCOME} alt=""
+          onError={e => { e.currentTarget.style.display = 'none' }} />
+      </div>
+
+      {/* 절감액 바 */}
+      <div className="savings-bar home-savings-bar">
+        <img className="savings-bar__char" src={IMG_SAVINGS_CHAR} alt=""
+          onError={e => { e.currentTarget.style.opacity = '0' }} />
+        <span className="savings-bar__text">이번 달 절감액 {totalSaved.toLocaleString()}원</span>
+        <img src="/assets/icons/action/ic-chevron-down.svg" width="17" height="10" alt="" className="savings-bar__chevron" />
+      </div>
+
+      {/* 탭 */}
       <div className="home-tab-seg">
         <button
           className={`home-tab-seg__btn${activeTab === 'menu' ? ' home-tab-seg__btn--active' : ''}`}
           onClick={() => setActiveTab('menu')}
-        >
-          메뉴추천
-        </button>
+        >메뉴추천</button>
         <button
           className={`home-tab-seg__btn${activeTab === 'calendar' ? ' home-tab-seg__btn--active' : ''}`}
           onClick={() => setActiveTab('calendar')}
-        >
-          도시락 기록
-        </button>
+        >도시락 기록</button>
       </div>
 
-      {activeTab === 'menu' ? <MenuTab /> : <CalendarTab />}
+      {activeTab === 'menu' ? <MenuRecommendTab /> : <CalendarTab />}
     </>
   )
 }
