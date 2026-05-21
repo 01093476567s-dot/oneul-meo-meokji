@@ -3,12 +3,8 @@ import react from '@vitejs/plugin-react'
 import fs from 'fs'
 import path from 'path'
 
-const REPO = 'oneul-meo-meokji'
-
 function serveAssetsPlugin() {
   const root = process.cwd()
-  let base = '/'
-  let isBuild = false
 
   function copyDir(src, dest) {
     if (!fs.existsSync(src)) return
@@ -22,16 +18,6 @@ function serveAssetsPlugin() {
 
   return {
     name: 'serve-assets-icons',
-    configResolved(config) {
-      base = config.base        // '/' in dev, '/oneul-meo-meokji/' in build
-      isBuild = config.command === 'build'
-    },
-    // 빌드 시 JSX/JS 내 하드코딩된 '/assets/' 경로에 base 접두어 삽입
-    transform(code, id) {
-      if (!isBuild || !/\.(jsx?|tsx?)$/.test(id)) return null
-      const updated = code.replace(/(['"`])\/assets\//g, (_, q) => `${q}${base}assets/`)
-      return updated !== code ? { code: updated, map: null } : null
-    },
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
         const url = (req.url || '').split('?')[0]
@@ -55,8 +41,8 @@ function serveAssetsPlugin() {
   }
 }
 
-export default defineConfig(({ command }) => ({
-  base: command === 'build' ? `/${REPO}/` : '/',
+export default defineConfig({
+  base: '/',
   plugins: [react(), serveAssetsPlugin()],
   publicDir: 'public',
-}))
+})

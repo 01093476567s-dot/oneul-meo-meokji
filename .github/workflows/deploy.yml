@@ -1,8 +1,8 @@
-name: Deploy to GitHub Pages
-
-on:
-  push:
-    branches: [master]
+# GitHub Pages 배포 비활성화 (Vercel로 이전)
+# on:
+#   push:
+#     branches: [master]
+on: workflow_dispatch
 
 permissions:
   contents: write
@@ -12,16 +12,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-
       - run: npm install
-
       - run: npm run build
-
       - uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

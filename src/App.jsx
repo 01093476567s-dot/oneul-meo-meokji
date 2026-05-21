@@ -61,7 +61,7 @@ function AppShell() {
 export default function App() {
   return (
     <FridgeProvider>
-      <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '')}>
+      <BrowserRouter>
         <BottomSheetProvider>
           <AppShell />
         </BottomSheetProvider>
