@@ -1,0 +1,15 @@
+{
+  "name": "오늘 머먹지?",
+  "short_name": "머먹지",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFAF5",
+  "theme_color": "#FFFAF5",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
