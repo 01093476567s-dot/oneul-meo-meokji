@@ -53,14 +53,13 @@
   display: flex;
   gap: 8px;
   padding: 0 20px;
-  margin-top: 20px;
   flex-shrink: 0;
 }
 
 .chatbot-filter__pill {
   height: 40px;
   border-radius: 20px;
-  border: 1px solid #fff0e8;
+  border: 1px solid #FFC3AD;
   background: #fffaf5;
   color: #2a2018;
   font-size: 14px;
@@ -89,6 +88,7 @@
 
 .chatbot-filter__warn {
   color: #ff5555;
+  margin-right: 5px;
 }
 
 .chatbot-filter__pill.active .chatbot-filter__warn {
@@ -110,7 +110,8 @@
   display: flex;
   flex-direction: column;
   gap: 21px;
-  padding: 49px 20px 80px;
+  padding: 0 20px;
+  margin-top: 20px;
 }
 
 /* ── 아이템 행 (Figma: flex gap-13px items-center) ── */

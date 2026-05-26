@@ -129,13 +129,13 @@
 .cd-msg--bot .cd-msg__tail {
   width: 32px;
   height: 28px;
-  margin-right: -24px;
+  margin-right: -22px;
 }
 
 .cd-msg--user .cd-msg__tail {
   width: 28px;
   height: 28px;
-  margin-left: -20px;
+  margin-left: -22px;
 }
 
 /* ── 말풍선 공통 ── */
