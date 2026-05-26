@@ -1,0 +1,336 @@
+/* ===========================
+   밥 현황 페이지
+   =========================== */
+
+.rs-page {
+  min-height: 100vh;
+  background: #fffaf5;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── 헤더 ── */
+.rs-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background: #fffaf5;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: 56px;
+  box-sizing: border-box;
+}
+
+.rs-header__back,
+.rs-header__home {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+}
+
+.rs-header__title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2a2018;
+  letter-spacing: -0.36px;
+}
+
+/* ── 인트로 ── */
+.rs-intro {
+  padding: 32px 20px 24px;
+}
+
+.rs-intro__title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #000;
+  letter-spacing: -0.36px;
+  margin: 0 0 8px;
+}
+
+.rs-intro__sub {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.7);
+  letter-spacing: -0.28px;
+  margin: 0;
+}
+
+/* ── 목록 컨테이너 ── */
+.rs-list {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* ── 구분선 ── */
+.rs-divider {
+  height: 1px;
+  background: rgba(0, 0, 0, 0.08);
+  margin: 0 20px;
+}
+
+/* ── 밥 아이템 (피그마 301:7005 절대 레이아웃) ── */
+.rs-item {
+  position: relative;
+  height: 90px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+}
+
+.rs-item__icon {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 70px;
+  height: 59px;
+  object-fit: contain;
+  z-index: 1;
+}
+
+.rs-item__info {
+  position: absolute;
+  left: 96px;
+  top: 22px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rs-item__name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #2a2018;
+  letter-spacing: -0.28px;
+}
+
+.rs-item__date {
+  font-size: 10px;
+  font-weight: 500;
+  color: rgba(42, 32, 24, 0.5);
+  letter-spacing: -0.2px;
+}
+
+.rs-item__bar-row {
+  position: absolute;
+  left: 60px;
+  top: 45px;
+  right: 52px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rs-item__count {
+  font-size: 0;
+  color: #2a2018;
+  letter-spacing: -0.2px;
+  margin: 0;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.rs-item__count strong {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.rs-item__count span {
+  font-size: 10px;
+  color: rgba(42, 32, 24, 0.5);
+}
+
+.rs-item__more {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── 세그먼트 바 ── */
+.rs-seg-bar {
+  flex: 1;
+  display: flex;
+  height: 25px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff0e8;
+}
+
+.rs-seg-bar__seg {
+  flex: 1;
+  height: 100%;
+}
+
+/* ── 추가 버튼 ── */
+.rs-add-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin: 32px auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* ===========================
+   밥 등록 페이지 (RiceRegister)
+   =========================== */
+
+.rr-page {
+  min-height: 100vh;
+  background: #fffaf5;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 100px;
+  box-sizing: border-box;
+}
+
+/* ── 헤더 ── */
+.rr-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  height: 56px;
+  box-sizing: border-box;
+}
+
+.rr-header__back {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  width: 36px;
+}
+
+.rr-header__title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2a2018;
+  letter-spacing: -0.36px;
+}
+
+/* ── 밥 종류 선택 ── */
+.rr-types {
+  display: flex;
+  gap: 24px;
+  padding: 28px 20px 32px;
+}
+
+.rr-type-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 11px;
+  background: none;
+  border: 2px solid transparent;
+  border-radius: 16px;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.rr-type-item--selected {
+  border-color: #ff8c66;
+  background: rgba(255, 140, 102, 0.06);
+}
+
+.rr-type-item__icon {
+  width: 70px;
+  height: 59px;
+  object-fit: contain;
+}
+
+.rr-type-item__label {
+  font-size: 14px;
+  font-weight: 400;
+  color: #2a2018;
+  text-align: center;
+}
+
+/* ── 폼 ── */
+.rr-form {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.rr-form__divider {
+  height: 1px;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.rr-form__row {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.rr-form__input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-family: var(--font-family);
+  color: #2a2018;
+  outline: none;
+  letter-spacing: -0.28px;
+}
+
+.rr-form__input::placeholder {
+  color: rgba(42, 32, 24, 0.2);
+}
+
+/* ── CTA ── */
+.rr-cta-wrap {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 430px;
+  padding: 16px 20px 24px;
+  background: #fffaf5;
+  box-sizing: border-box;
+}
+
+.rr-cta-btn {
+  width: 100%;
+  padding: 18px 0;
+  background: #ff8c66;
+  color: #fff;
+  border: none;
+  border-radius: 17px;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.36px;
+  cursor: pointer;
+  font-family: var(--font-family);
+  transition: opacity 0.1s ease;
+}
+
+.rr-cta-btn:active {
+  opacity: 0.88;
+}

@@ -19,6 +19,9 @@ import '../css/pages/ingredient-select.css'
 import '../css/pages/lunch-records.css'
 import '../css/pages/banchan-register.css'
 import '../css/pages/banchan-list.css'
+import '../css/pages/rice-status.css'
+import '../css/pages/chatbot.css'
+import '../css/pages/chat-detail.css'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

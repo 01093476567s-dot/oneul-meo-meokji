@@ -1,0 +1,266 @@
+/* ══════════════════════════════
+   챗봇 (채팅 목록) 화면
+   Figma 304:1684 / 308:1473
+══════════════════════════════ */
+
+.chatbot-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #fffaf5;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── 헤더 (Figma: h-61px, px-16px) ── */
+.chatbot-header {
+  height: 61px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  flex-shrink: 0;
+}
+
+.chatbot-header__title {
+  font-size: 20px;
+  font-weight: 500;
+  color: #ff8c66;
+  margin: 0;
+  font-family: var(--font-family);
+  letter-spacing: -0.4px;
+}
+
+.chatbot-header__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 63px;
+}
+
+.chatbot-header__icon-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── 필터 탭 (Figma: px-20px, gap-8px, top-81px) ── */
+.chatbot-filter {
+  display: flex;
+  gap: 8px;
+  padding: 0 20px;
+  margin-top: 20px;
+  flex-shrink: 0;
+}
+
+.chatbot-filter__pill {
+  height: 40px;
+  border-radius: 20px;
+  border: 1px solid #fff0e8;
+  background: #fffaf5;
+  color: #2a2018;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: var(--font-family);
+  cursor: pointer;
+  white-space: nowrap;
+  letter-spacing: -0.28px;
+  transition: background 0.15s, color 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Figma 실측 너비 */
+.chatbot-filter__pill:nth-child(1) { width: 57px; }
+.chatbot-filter__pill:nth-child(2) { width: 99px; }
+.chatbot-filter__pill:nth-child(3) { width: 127px; }
+
+.chatbot-filter__pill.active {
+  background: #ff8c66;
+  border-color: #ff8c66;
+  color: #fff;
+}
+
+.chatbot-filter__warn {
+  color: #ff5555;
+}
+
+.chatbot-filter__pill.active .chatbot-filter__warn {
+  color: #fff;
+}
+
+/* ── 구분선 (Figma: flex-col gap-17px 내 배치) ── */
+.chatbot-list-divider {
+  height: 1px;
+  background: #ece4da;
+  margin-top: 17px;
+  flex-shrink: 0;
+}
+
+/* ── 채팅 목록 (Figma: flex-col gap-21px) ── */
+.chatbot-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 21px;
+  padding: 49px 20px 80px;
+}
+
+/* ── 아이템 행 (Figma: flex gap-13px items-center) ── */
+.chatbot-item {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+/* ── 썸네일 (Figma: size-49px, border-radius-15px) ── */
+.chatbot-item__thumb {
+  width: 49px;
+  height: 49px;
+  border-radius: 15px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.chatbot-item__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 항목 3: 칼로리 계산 — 이미지 40×40px (contain) */
+.chatbot-item__thumb--contain img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+/* ── 텍스트 영역 (Figma: w-328px, flex justify-between) ── */
+.chatbot-item__content {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+}
+
+/* ── 본문 왼쪽 (Figma: w-275px, h-35px, flex-col justify-between) ── */
+.chatbot-item__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 35px;
+  min-width: 0;
+}
+
+/* 항목 3: 칼로리 계산 — height auto, gap-3px */
+.chatbot-item__body--multi {
+  height: auto;
+  justify-content: flex-start;
+  gap: 3px;
+}
+
+.chatbot-item__title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #2a2018;
+  font-family: var(--font-family);
+  letter-spacing: -0.28px;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chatbot-item__warn {
+  color: #ff5555;
+  margin-right: 2px;
+}
+
+.chatbot-item__preview {
+  font-size: 12px;
+  color: rgba(42, 32, 24, 0.6);
+  margin: 0;
+  font-family: var(--font-family);
+  letter-spacing: -0.24px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 항목 3 2줄 미리보기 */
+.chatbot-item__preview-line {
+  font-size: 12px;
+  color: rgba(42, 32, 24, 0.6);
+  margin: 0;
+  font-family: var(--font-family);
+  letter-spacing: -0.24px;
+  line-height: normal;
+}
+
+/* ── 우측 메타 (날짜 + 배지) ── */
+.chatbot-item__meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+/* 배지 있는 경우: h-35px, justify-between (Figma: date 상단 / badge 하단) */
+.chatbot-item__meta--badge {
+  justify-content: space-between;
+  height: 35px;
+}
+
+.chatbot-item__date {
+  font-size: 11px;
+  color: #2a2018;
+  white-space: nowrap;
+  font-family: var(--font-family);
+}
+
+/* Figma: size-19px, bg-#ff8c66, border-radius-9.5px */
+.chatbot-item__badge {
+  width: 19px;
+  height: 19px;
+  background: #ff8c66;
+  border-radius: 9.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #fff;
+  font-family: var(--font-family);
+}
+
+/* ── 플로팅 마스코트 ── */
+@keyframes mascot-float {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-8px); }
+  100% { transform: translateY(0); }
+}
+
+.chatbot-mascot {
+  position: absolute;
+  right: 20px;
+  bottom: 16px;
+  width: 68px;
+  height: auto;
+  pointer-events: none;
+  z-index: 5;
+  animation: mascot-float 2.4s ease-in-out infinite;
+}

@@ -7,14 +7,14 @@ export default function BottomNav() {
         <NavLink
           to="/"
           end
-          className={({ isActive }) => `bottom-nav__item${isActive ? ' active' : ''}`}
+          className={({ isActive }) => `bottom-nav__item bottom-nav__item--home${isActive ? ' active' : ''}`}
         >
           {({ isActive }) => (
             <>
               <span className="bottom-nav__icon">
                 <img
                   src={isActive ? '/assets/icons/navigation/ic-home-fill.svg' : '/assets/icons/navigation/ic-home.svg'}
-                  width="26" height="26" alt=""
+                  alt=""
                 />
               </span>
               <span>홈</span>
@@ -24,14 +24,14 @@ export default function BottomNav() {
 
         <NavLink
           to="/fridge"
-          className={({ isActive }) => `bottom-nav__item${isActive ? ' active' : ''}`}
+          className={({ isActive }) => `bottom-nav__item bottom-nav__item--fridge${isActive ? ' active' : ''}`}
         >
           {({ isActive }) => (
             <>
               <span className="bottom-nav__icon">
                 <img
                   src={isActive ? '/assets/icons/navigation/ic-fridge-fill.svg' : '/assets/icons/navigation/ic-fridge.svg'}
-                  width="26" height="26" alt=""
+                  alt=""
                 />
               </span>
               <span>냉장고</span>
@@ -40,15 +40,32 @@ export default function BottomNav() {
         </NavLink>
 
         <NavLink
+          to="/chatbot"
+          className={({ isActive }) => `bottom-nav__item bottom-nav__item--chat${isActive ? ' active' : ''}`}
+        >
+          {({ isActive }) => (
+            <>
+              <span className="bottom-nav__icon">
+                <img
+                  src={isActive ? '/assets/icons/navigation/ic-chat-fill.svg' : '/assets/icons/navigation/ic-chat.svg'}
+                  alt=""
+                />
+              </span>
+              <span>챗봇</span>
+            </>
+          )}
+        </NavLink>
+
+        <NavLink
           to="/mypage"
-          className={({ isActive }) => `bottom-nav__item${isActive ? ' active' : ''}`}
+          className={({ isActive }) => `bottom-nav__item bottom-nav__item--mypage${isActive ? ' active' : ''}`}
         >
           {({ isActive }) => (
             <>
               <span className="bottom-nav__icon">
                 <img
                   src={isActive ? '/assets/icons/navigation/ic-user-fill.svg' : '/assets/icons/navigation/ic-user.svg'}
-                  width="26" height="26" alt=""
+                  alt=""
                 />
               </span>
               <span>마이페이지</span>

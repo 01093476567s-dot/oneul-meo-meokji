@@ -166,6 +166,7 @@ function IngredientDetail({ item, onClose }) {
 }
 
 const DRAWER_MENUS = [
+  { icon: '/assets/icons/common/ic-rice.svg',           label: '밥',            route: '/rice-status',  iconH: 21 },
   { icon: '/assets/icons/common/ic-storage-box.svg',  label: '밑반찬',        route: '/banchan-list' },
   { icon: '/assets/icons/common/ic-ingredient.svg',   label: '식재료 추가 기록', route: '/direct-input' },
   { icon: '/assets/icons/common/ic-checklist.svg',    label: '구독 식재료 현황', route: '/subscription' },
@@ -196,13 +197,13 @@ function FridgeDrawer({ open, onClose, userName }) {
 
         {/* 메뉴 목록 */}
         <div className="fridge-drawer__menu">
-          {DRAWER_MENUS.map(({ icon, label, route }) => (
+          {DRAWER_MENUS.map(({ icon, label, route, iconH }) => (
             <button
               key={label}
               className="fridge-drawer__menu-item"
               onClick={() => { onClose(); navigate(route) }}
             >
-              <img src={icon} width="34" height="24" alt="" className="fridge-drawer__menu-icon"
+              <img src={icon} width="34" height={iconH ?? 24} alt="" className="fridge-drawer__menu-icon"
                 onError={e => { e.currentTarget.style.opacity = '0' }} />
               <span className="fridge-drawer__menu-label">{label}</span>
             </button>
@@ -245,6 +246,17 @@ export default function Fridge() {
   }
 
   const isEmpty = ingredients.length === 0
+
+  useEffect(() => {
+    const el = document.getElementById('app-content')
+    if (!el) return
+    el.style.overflowY = isEmpty ? 'hidden' : 'auto'
+    el.style.touchAction = isEmpty ? 'none' : ''
+    return () => {
+      el.style.overflowY = 'auto'
+      el.style.touchAction = ''
+    }
+  }, [isEmpty])
   const expiring = getExpiringIngredients()
 
   // 재료에서 커스텀 카테고리(고정 목록에 없는 것) 추출해서 맨 끝에 추가
@@ -304,9 +316,9 @@ export default function Fridge() {
 
         {!isEmpty && (
           <div className="fridge-filled">
+            {/* 카테고리 탭 + 검색 + 힌트행 — sticky 고정 */}
+            <div className="fridge-sticky-top">
             {expiring.length > 0 && <ExpiryBanner expiring={expiring} />}
-
-            {/* 카테고리 탭 + 검색 (Figma 286-1575) */}
             <div className="fridge-cat-wrap">
               {/* 검색 필: width 슬라이드 */}
               <div className={`fridge-search-pill-outer${searchOpen ? ' fridge-search-pill-outer--open' : ''}`}>
@@ -421,6 +433,7 @@ export default function Fridge() {
                 )}
               </div>
             </div>
+            </div>{/* /fridge-sticky-top */}
 
             {/* 식재료 그리드 */}
             <div className="ingredient-grid">

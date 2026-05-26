@@ -5,7 +5,7 @@ import { useFridge } from '../context/FridgeContext'
 // Figma 임시 에셋 (7일 후 만료 예정 - 로컬 파일로 교체 필요)
 const IMG_WELCOME      = 'https://www.figma.com/api/mcp/asset/14b1660e-38ea-4029-9fb5-2157971514f8'
 const IMG_SAVINGS_CHAR = 'https://www.figma.com/api/mcp/asset/33957a6d-dba7-4bba-a53e-d73c2afe97f7'
-const IMG_MMG_NOTE     = 'https://www.figma.com/api/mcp/asset/3e6a95a4-310f-4b34-aac1-60134982c367'
+const IMG_MMG_NOTE     = '/assets/images/mmg-note.png'
 
 const MENU_CARDS = [
   {
@@ -31,19 +31,41 @@ const MENU_CARDS = [
   },
 ]
 
+const RICE_LIST = [
+  { name: '흰쌀밥 200g 소분', date: '2026.05.08 ~', icon: '/assets/icons/Ingradient/흰쌀밥.svg', total: 4, filled: 1 },
+  { name: '현미밥 200g 소분',  date: '2026.05.20 ~', icon: '/assets/icons/Ingradient/현미밥.svg',  total: 5, filled: 3 },
+]
+
+function SegBar({ total, filled }) {
+  return (
+    <div className="seg-bar">
+      {Array.from({ length: total }).map((_, i) => (
+        <div
+          key={i}
+          className="seg-bar__seg"
+          style={{
+            background: i < filled ? '#ff8c66' : '#fff0e8',
+            borderRight: i < total - 1 ? '1px solid #ffccb9' : 'none',
+          }}
+        />
+      ))}
+    </div>
+  )
+}
+
 const BANCHAN_LIST = [
-  { name: '장조림',   bg: '#d4f0b1', img: '/assets/images/장조림.png',   progress: null, date: '' },
-  { name: '우엉조림', bg: '#bce2f9', img: '/assets/images/우엉조림.png', progress: null, date: '' },
-  { name: '연근조림', bg: '#dfcffa', img: '/assets/images/연근.png',     progress: 80,   date: '2026.05.14 ~' },
+  { name: '장조림',   bg: '#d4f0b1', img: '/assets/images/장조림.png',   progress: 70, date: '2026.05.06 ~' },
+  { name: '우엉조림', bg: '#bce2f9', img: '/assets/images/우엉조림.png', progress: 50, date: '2026.05.12 ~' },
+  { name: '연근조림', bg: '#dfcffa', img: '/assets/images/연근.png',     progress: 80, date: '2026.05.14 ~' },
 ]
 
 const DISHES = [
-  { name: '장조림',   bg: '#d4f0b1', barColor: 'rgba(169,231,110,0.5)', img: '/assets/images/장조림.png',   progress: 70, date: '2026.05.06 ~', dateRange: { start: '2026-05-06', end: null } },
-  { name: '우엉조림', bg: '#bce2f9', barColor: 'rgba(122,202,252,0.5)', img: '/assets/images/우엉조림.png', progress: 50, date: '2026.05.12 ~', dateRange: { start: '2026-05-12', end: null } },
-  { name: '연근조림', bg: '#dfcffa', barColor: 'rgba(191,165,255,0.5)', img: '/assets/images/연근.png',     progress: 80, date: '2026.05.14 ~', dateRange: { start: '2026-05-14', end: null } },
+  { name: '장조림',   barColor: 'rgba(169,231,110,0.5)', dateRange: { start: '2026-05-06', end: null } },
+  { name: '우엉조림', barColor: 'rgba(122,202,252,0.5)', dateRange: { start: '2026-05-12', end: null } },
+  { name: '연근조림', barColor: 'rgba(191,165,255,0.5)', dateRange: { start: '2026-05-14', end: null } },
 ]
 
-/* ── 메뉴추천 탭 ── */
+/* ── 메뉴추천 탭 (카드 스크롤 + CTA만) ── */
 function MenuRecommendTab() {
   const navigate = useNavigate()
   const scrollRef = useRef(null)
@@ -59,7 +81,6 @@ function MenuRecommendTab() {
 
   return (
     <div className="hmenu-section">
-      {/* 섹션 헤더 */}
       <div className="hmenu-hd">
         <div className="hmenu-hd__left">
           <span className="hmenu-hd__title">오늘의 도시락</span>
@@ -70,7 +91,6 @@ function MenuRecommendTab() {
         </span>
       </div>
 
-      {/* 카드 스크롤 */}
       <div className="home-card-scroll" ref={scrollRef} onScroll={handleScroll}>
         {MENU_CARDS.map((card) => (
           <div
@@ -92,69 +112,26 @@ function MenuRecommendTab() {
         ))}
       </div>
 
-      {/* CTA */}
       <button className="home-cta-btn" onClick={() => navigate('/fridge')}>직접 만들래요!</button>
-
-      {/* 밑반찬 현황 */}
-      <div className="hbanchan-card">
-        <div className="hbanchan-card__hd">
-          <p className="hbanchan-card__title">밑반찬 현황</p>
-          <p className="hbanchan-card__sub">만들어둔 밑반찬을 확인해보세요!</p>
-        </div>
-        <div className="hbanchan-list">
-          {BANCHAN_LIST.map((dish) => (
-            <div
-              key={dish.name}
-              className={`hbanchan-item${dish.progress !== null ? ' hbanchan-item--exp' : ''}`}
-              style={{ background: dish.bg }}
-            >
-              <div className="hbanchan-item__img-wrap">
-                <img className="hbanchan-item__img" src={dish.img} alt={dish.name}
-                  onError={e => { e.currentTarget.style.opacity = '0' }} />
-                {dish.progress !== null && (
-                  <div className="hbanchan-item__ov">
-                    <span className="hbanchan-item__pct">{dish.progress}%</span>
-                  </div>
-                )}
-              </div>
-              {dish.progress !== null && (
-                <div className="hbanchan-item__meta">
-                  <p className="hbanchan-item__name">{dish.name}</p>
-                  <p className="hbanchan-item__date">{dish.date}</p>
-                </div>
-              )}
-            </div>
-          ))}
-          <button className="hbanchan-add" onClick={() => navigate('/banchan-register')}>+</button>
-        </div>
-      </div>
-
-      {/* 도시락 기록 모아보기 */}
-      <div className="hrecords-card" onClick={() => navigate('/lunch-records')}>
-        <img className="hrecords-card__char" src={IMG_MMG_NOTE} alt=""
-          onError={e => { e.currentTarget.style.display = 'none' }} />
-        <div className="hrecords-card__texts">
-          <p className="hrecords-card__title">도시락 기록 모아보기</p>
-          <p className="hrecords-card__sub">도시락 기록을 추가 할 수 있어요!</p>
-        </div>
-        <img src="/assets/icons/action/ic-chevron-right.svg" width="9" height="17" alt="" style={{ marginRight: 20, flexShrink: 0 }} />
-      </div>
     </div>
   )
 }
 
-/* ── 도시락 기록 탭 (캘린더) ── */
+// 데모용 도시락 기록 날짜 (5월 평일 5개)
+const DEMO_RECORD_DATES = ['2026-05-04', '2026-05-08', '2026-05-14', '2026-05-20', '2026-05-27']
+
+/* ── 도시락 기록 탭 (캘린더만) ── */
 function CalendarTab() {
   const navigate = useNavigate()
   const { records } = useFridge()
   const [calDate, setCalDate] = useState(new Date())
-  const [expandedMap, setExpandedMap] = useState({})
 
   const year = calDate.getFullYear()
   const month = calDate.getMonth()
-  const totalSaved = records.reduce((sum, r) => sum + (r.savedAmount || 0), 0)
-  const recordCount = records.length
+  const monthPrefix = `${year}-${String(month + 1).padStart(2, '0')}`
   const recordDates = new Set(records.map((r) => r.date))
+  const demoThisMonth = DEMO_RECORD_DATES.filter(d => d.startsWith(monthPrefix))
+  const recordCount = records.filter(r => r.date.startsWith(monthPrefix)).length + demoThisMonth.length
 
   const DAYS = ['일', '월', '화', '수', '목', '금', '토']
   const firstDay = new Date(year, month, 1).getDay()
@@ -175,7 +152,8 @@ function CalendarTab() {
   }
   function hasRecord(cell) {
     if (cell.type !== 'cur') return false
-    return recordDates.has(`${year}-${String(month + 1).padStart(2, '0')}-${String(cell.d).padStart(2, '0')}`)
+    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(cell.d).padStart(2, '0')}`
+    return recordDates.has(dateStr) || DEMO_RECORD_DATES.includes(dateStr)
   }
 
   function getBarsForWeek(weekIdx) {
@@ -207,7 +185,7 @@ function CalendarTab() {
             <img src="/assets/icons/action/ic-chevron-left.svg" height="16" alt="이전" />
           </button>
           <span className="cal-month">{month + 1}월</span>
-          <button className="cal-nav__btn cal-nav__btn--next" onClick={() => setCalDate(d => new Date(d.getFullYear(), d.getMonth() + 1, 1))}>
+          <button className="cal-nav__btn" onClick={() => setCalDate(d => new Date(d.getFullYear(), d.getMonth() + 1, 1))}>
             <img src="/assets/icons/action/ic-chevron-left.svg" height="16" alt="다음" style={{ transform: 'scaleX(-1)' }} />
           </button>
         </div>
@@ -242,9 +220,11 @@ function CalendarTab() {
                           navigate('/lunch-record', { state: { date: d } })
                         }}
                       >
-                        {hasRec && <span className="cal-cell__dot" />}
-                        <span className={`cal-cell__num${isT ? ' today' : ''}${isSun ? ' sun' : ''}${isSat ? ' sat' : ''}${isDim ? ' dim' : ''}`}>
-                          {cell.d}
+                        <span className="cal-cell__num-wrap">
+                          <span className={`cal-cell__num${isT ? ' today' : ''}${isSun ? ' sun' : ''}${isSat ? ' sat' : ''}${isDim ? ' dim' : ''}`}>
+                            {cell.d}
+                          </span>
+                          {hasRec && <span className="cal-cell__dot" />}
                         </span>
                       </div>
                     )
@@ -266,57 +246,6 @@ function CalendarTab() {
           })}
         </div>
       </div>
-
-      <div className="savings-bar">
-        <img className="savings-bar__char" src="/assets/images/MMG.png" alt=""
-          onError={e => { e.currentTarget.style.display = 'none' }} />
-        <span className="savings-bar__text">이번 달 절감액 {totalSaved.toLocaleString()}원</span>
-        <img src="/assets/icons/action/ic-chevron-down.svg" width="17" height="10" alt="" className="savings-bar__chevron" />
-      </div>
-
-      <div className="banchan-card">
-        <div className="banchan-card__hd">
-          <p className="banchan-card__title">밑반찬 현황</p>
-          <p className="banchan-card__sub">만들어둔 밑반찬을 확인해보세요!</p>
-        </div>
-        <div className="banchan-list">
-          {DISHES.map((dish) => {
-            const isExp = !!expandedMap[dish.name]
-            return (
-              <div
-                key={dish.name}
-                className={`banchan-item${isExp ? ' banchan-item--expanded' : ''}`}
-                style={{ background: dish.bg }}
-                onClick={() => setExpandedMap(p => ({ ...p, [dish.name]: !p[dish.name] }))}
-              >
-                <div className="banchan-item__img-wrap">
-                  <img className="banchan-item__img" src={dish.img} alt={dish.name}
-                    onError={e => { e.currentTarget.style.opacity = '0' }} />
-                  {isExp && dish.progress !== null && (
-                    <div className="banchan-item__overlay">
-                      <span className="banchan-item__pct">{dish.progress}%</span>
-                    </div>
-                  )}
-                </div>
-                {isExp && (
-                  <div className="banchan-item__meta">
-                    <p className="banchan-item__name">{dish.name}</p>
-                    <p className="banchan-item__date">{dish.date}</p>
-                  </div>
-                )}
-              </div>
-            )
-          })}
-          <button className="banchan-add" onClick={() => navigate('/banchan-register')}>+</button>
-        </div>
-      </div>
-
-      <div className="home-records-card" onClick={() => navigate('/lunch-records')}>
-        <div className="home-records-card__texts">
-          <p className="home-records-card__title">도시락 기록 모아보기</p>
-          <p className="home-records-card__sub">도시락 기록을 모아봐요</p>
-        </div>
-      </div>
     </div>
   )
 }
@@ -326,6 +255,7 @@ export default function Home() {
   const navigate = useNavigate()
   const { cart, records } = useFridge()
   const [activeTab, setActiveTab] = useState('menu')
+  const [expandedMap, setExpandedMap] = useState({})
   const totalSaved = records.reduce((sum, r) => sum + (r.savedAmount || 0), 0)
 
   return (
@@ -374,7 +304,95 @@ export default function Home() {
         >도시락 기록</button>
       </div>
 
+      {/* 탭별 고유 콘텐츠 */}
       {activeTab === 'menu' ? <MenuRecommendTab /> : <CalendarTab />}
+
+      {/* 공통: 밥 현황 */}
+      <div className="hrice-card">
+        <div className="hrice-card__hd">
+          <div>
+            <p className="hrice-card__title">밥 현황</p>
+            <p className="hrice-card__sub">소분한 밥이 얼마나 남았나요?</p>
+          </div>
+          <button className="hrice-more-btn" onClick={() => navigate('/rice-status')}>
+            더보기
+            <img src="/assets/icons/action/ic-chevron-right.svg" width="4" height="10" alt="" />
+          </button>
+        </div>
+        <div className="hrice-list">
+          {RICE_LIST.map((item) => (
+            <div key={item.name} className="hrice-item">
+              <img className="hrice-item__icon" src={item.icon} alt={item.name}
+                onError={e => { e.currentTarget.style.opacity = '0' }} />
+              <div className="hrice-item__info">
+                <span className="hrice-item__name">{item.name}</span>
+                <span className="hrice-item__date">{item.date}</span>
+              </div>
+              <div className="hrice-item__bar-row">
+                <SegBar total={item.total} filled={item.filled} />
+                <p className="hrice-item__count">
+                  <strong>{item.filled}</strong>
+                  <span> / {item.total}</span>
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 공통: 밑반찬 현황 */}
+      <div className="hbanchan-card">
+        <div className="hbanchan-card__hd">
+          <p className="hbanchan-card__title">밑반찬 현황</p>
+          <p className="hbanchan-card__sub">만들어둔 밑반찬을 확인해보세요!</p>
+        </div>
+        <div className="hbanchan-list">
+          {BANCHAN_LIST.map((dish) => {
+            const isExp = !!expandedMap[dish.name]
+            return (
+              <div
+                key={dish.name}
+                className={`hbanchan-item${isExp ? ' hbanchan-item--exp' : ''}`}
+                style={{ background: dish.bg }}
+                onClick={() => {
+                  if (dish.progress !== null) setExpandedMap(p => ({ ...p, [dish.name]: !p[dish.name] }))
+                }}
+              >
+                <div className="hbanchan-item__img-wrap">
+                  <img className="hbanchan-item__img" src={dish.img} alt={dish.name}
+                    onError={e => { e.currentTarget.style.opacity = '0' }} />
+                  {isExp && (
+                    <div className="hbanchan-item__ov">
+                      <span className="hbanchan-item__pct">{dish.progress}%</span>
+                    </div>
+                  )}
+                </div>
+                {isExp && (
+                  <div className="hbanchan-item__meta">
+                    <p className="hbanchan-item__name">{dish.name}</p>
+                    <p className="hbanchan-item__date">{dish.date}</p>
+                  </div>
+                )}
+              </div>
+            )
+          })}
+          <button className="hbanchan-add" onClick={() => navigate('/banchan-register')}>+</button>
+        </div>
+      </div>
+
+      {/* 공통: 도시락 기록 모아보기 (햄스터가 카드 위로 넘어오는 구조) */}
+      <div className="hrecords-wrap" onClick={() => navigate('/lunch-records')}>
+        <img className="hrecords-char" src={IMG_MMG_NOTE} alt=""
+          onError={e => { e.currentTarget.style.display = 'none' }} />
+        <div className="hrecords-card">
+          <div className="hrecords-card__texts">
+            <p className="hrecords-card__title">도시락 기록 모아보기</p>
+            <p className="hrecords-card__sub">도시락 기록을 추가 할 수 있어요!</p>
+          </div>
+          <img src="/assets/icons/action/ic-chevron-right.svg" width="9" height="17" alt="" style={{ marginRight: 20, flexShrink: 0 }} />
+        </div>
+      </div>
+
     </>
   )
 }

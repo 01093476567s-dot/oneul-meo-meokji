@@ -21,8 +21,12 @@ import LunchRecords from './pages/LunchRecords'
 import LunchRecordDetail from './pages/LunchRecordDetail'
 import BanchanRegister from './pages/BanchanRegister'
 import BanchanList from './pages/BanchanList'
+import RiceStatus from './pages/RiceStatus'
+import RiceRegister from './pages/RiceRegister'
+import Chatbot from './pages/Chatbot'
+import ChatDetail from './pages/ChatDetail'
 
-const NAV_ROUTES = ['/', '/fridge', '/mypage']
+const NAV_ROUTES = ['/', '/fridge', '/chatbot', '/mypage']
 
 function AppShell() {
   const location = useLocation()
@@ -50,6 +54,10 @@ function AppShell() {
           <Route path="/lunch-record-detail" element={<LunchRecordDetail />} />
           <Route path="/banchan-register"    element={<BanchanRegister />} />
           <Route path="/banchan-list"        element={<BanchanList />} />
+          <Route path="/rice-status"         element={<RiceStatus />} />
+          <Route path="/rice-register"       element={<RiceRegister />} />
+          <Route path="/chatbot"             element={<Chatbot />} />
+          <Route path="/chat-detail"         element={<ChatDetail />} />
           <Route path="*"              element={<Navigate to="/" replace />} />
         </Routes>
       </div>

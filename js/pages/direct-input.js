@@ -51,16 +51,7 @@ let diSelectedOpen   = false;
 
 function renderDirectInputPage() {
   return `
-    <!-- 상태바 -->
-    <div class="di-statusbar" aria-hidden="true">
-      <span class="di-statusbar__time">9:41</span>
-      <div class="di-statusbar__icons">
-        <img src="assets/icons/Cellular Connection.svg" width="18" height="12" alt="">
-        <img src="assets/icons/Wifi.svg" width="16" height="12" alt="">
-        <img src="assets/icons/Vector-1.svg" width="26" height="12" alt="">
-      </div>
-    </div>
-
+    
     <!-- 헤더 -->
     <header class="di-header">
       <button class="di-header__btn" onclick="Router.back()">
