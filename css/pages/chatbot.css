@@ -18,7 +18,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 16px;
+  padding: 0 20px;
   flex-shrink: 0;
 }
 
@@ -261,7 +261,7 @@
   bottom: 16px;
   width: 68px;
   height: auto;
-  pointer-events: none;
+  pointer-events: auto;
   z-index: 5;
   animation: mascot-float 2.4s ease-in-out infinite;
 }

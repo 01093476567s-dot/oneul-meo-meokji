@@ -1,0 +1,331 @@
+/* ══════════════════════════════
+   도시락 담기 — LunchboxPack
+   Figma 312:1960
+══════════════════════════════ */
+
+.lbp-page {
+  display: flex;
+  flex-direction: column;
+  background: #fffaf5;
+  min-height: 100%;
+}
+
+/* ── 헤더 ── */
+.lbp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background: #fffaf5;
+  flex-shrink: 0;
+}
+
+.lbp-header__btn {
+  width: 27px;
+  height: 27px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  flex-shrink: 0;
+}
+
+.lbp-header__title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2a2018;
+  margin: 0;
+  font-family: 'Pretendard', sans-serif;
+  letter-spacing: -0.36px;
+}
+
+/* ── 스크롤 콘텐츠 ── */
+.lbp-content {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 20px 0 10px;
+}
+
+/* ── 섹션 공통 ── */
+.lbp-section {
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+}
+
+.lbp-section__header {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 0 20px;
+}
+
+.lbp-section__title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2a2018;
+  font-family: 'Pretendard', sans-serif;
+  margin: 0;
+}
+
+.lbp-accent {
+  color: #ff8c66;
+}
+
+.lbp-section__sub {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(42, 32, 24, 0.7);
+  font-family: 'Pretendard', sans-serif;
+  line-height: 21px;
+  margin: 0;
+}
+
+/* ── 밥 선택 카드 ── */
+.lbp-rice-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 20px;
+}
+
+.lbp-rice-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  height: 70px;
+  padding: 0 15px 0 12px;
+  background: #fffaf5;
+  border: 1px solid rgba(42, 32, 24, 0.2);
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+}
+
+.lbp-rice-card--selected {
+  border-color: #ff8c66;
+}
+
+.lbp-rice-card--disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.lbp-radio {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(42, 32, 24, 0.25);
+  flex-shrink: 0;
+  background: #fff;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.lbp-radio--on {
+  background: #ff8c66;
+  border-color: #ff8c66;
+}
+
+.lbp-rice-icon {
+  width: 46px;
+  height: 39px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.lbp-rice-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.lbp-rice-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #2a2018;
+  font-family: 'Pretendard', sans-serif;
+  letter-spacing: -0.28px;
+}
+
+.lbp-rice-sub {
+  font-size: 10px;
+  color: rgba(42, 32, 24, 0.5);
+  font-family: 'Pretendard', sans-serif;
+  letter-spacing: -0.2px;
+}
+
+.lbp-rice-count {
+  margin: 0;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-family: 'Pretendard', sans-serif;
+  letter-spacing: -0.2px;
+}
+
+.lbp-rice-count__cur {
+  font-size: 12px;
+  font-weight: 700;
+  color: #2a2018;
+}
+
+.lbp-rice-count__total {
+  font-size: 10px;
+  color: rgba(42, 32, 24, 0.5);
+}
+
+/* ── 밑반찬 선택 카드 ── */
+.lbp-dish-list {
+  display: flex;
+  gap: 10px;
+  padding: 0 20px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.lbp-dish-list::-webkit-scrollbar {
+  display: none;
+}
+
+.lbp-dish-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+  width: 115px;
+  padding: 8px 9px 11px 10px;
+  background: #fffaf5;
+  border: 1px solid rgba(42, 32, 24, 0.2);
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: left;
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+}
+
+.lbp-dish-card--selected {
+  border-color: #ff8c66;
+}
+
+.lbp-dish-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.lbp-dish-img-wrap {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.lbp-dish-img {
+  width: 60px;
+  height: 59px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.lbp-dish-radio {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(42, 32, 24, 0.25);
+  background: #fff;
+  flex-shrink: 0;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.lbp-dish-radio--on {
+  background: #ff8c66;
+  border-color: #ff8c66;
+}
+
+.lbp-dish-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.lbp-dish-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #2a2018;
+  font-family: 'Pretendard', sans-serif;
+  letter-spacing: -0.28px;
+}
+
+.lbp-dish-bar {
+  width: 91px;
+  height: 6px;
+  background: #fff0e8;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.lbp-dish-bar__fill {
+  height: 100%;
+  border-radius: 5px;
+}
+
+.lbp-dish-pct {
+  font-size: 10px;
+  color: rgba(42, 32, 24, 0.5);
+  font-family: 'Pretendard', sans-serif;
+  letter-spacing: -0.2px;
+}
+
+/* ── 밑반찬 추가 카드 ── */
+.lbp-dish-add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 115px;
+  height: 146px;
+  background: #fffaf5;
+  border: 1px solid rgba(42, 32, 24, 0.15);
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+/* ── CTA 버튼 ── */
+.lbp-cta {
+  padding: 16px 20px 20px;
+  flex-shrink: 0;
+}
+
+.lbp-cta-btn {
+  width: 100%;
+  padding: 18px 0;
+  background: #ff8c66;
+  border: none;
+  border-radius: 17px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #fff;
+  font-family: 'Pretendard', sans-serif;
+  letter-spacing: -0.36px;
+  cursor: pointer;
+}
+
+.lbp-cta-btn:disabled {
+  background: rgba(42, 32, 24, 0.15);
+  cursor: default;
+}

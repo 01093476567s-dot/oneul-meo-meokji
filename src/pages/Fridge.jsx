@@ -233,6 +233,11 @@ export default function Fridge() {
   const [frozenOnly, setFrozenOnly] = useState(false)
   const catListRef = useRef(null)
   const searchInputRef = useRef(null)
+  const gridRef = useRef(null)
+  const touchStartX = useRef(null)
+  const [dragX, setDragX] = useState(0)
+  const [isDragging, setIsDragging] = useState(false)
+  const [slideDir, setSlideDir] = useState(null) // 'left' | 'right' | null
 
   useEffect(() => {
     if (searchOpen) searchInputRef.current?.focus()
@@ -271,6 +276,46 @@ export default function Fridge() {
     const el = catListRef.current
     if (!el) return
     setCatFade(el.scrollLeft + el.clientWidth < el.scrollWidth - 4)
+  }
+
+  // 카테고리 변경 시 해당 칩을 가운데로 스크롤
+  useEffect(() => {
+    const el = catListRef.current
+    if (!el) return
+    const chip = el.querySelector('.fridge-cat-chip--active')
+    if (chip) chip.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+  }, [activeCategory])
+
+  function handleGridTouchStart(e) {
+    touchStartX.current = e.touches[0].clientX
+    setIsDragging(true)
+  }
+
+  function handleGridTouchMove(e) {
+    if (touchStartX.current === null) return
+    const raw = e.touches[0].clientX - touchStartX.current
+    const idx = fridgeCategories.indexOf(activeCategory)
+    const atEdge = (idx === 0 && raw > 0) || (idx === fridgeCategories.length - 1 && raw < 0)
+    setDragX(atEdge ? raw * 0.15 : raw)
+  }
+
+  function handleGridTouchEnd() {
+    if (touchStartX.current === null) return
+    const finalDx = dragX
+    touchStartX.current = null
+    setIsDragging(false)
+    setDragX(0)
+    if (Math.abs(finalDx) < 60) return
+    const idx = fridgeCategories.indexOf(activeCategory)
+    if (finalDx < 0 && idx < fridgeCategories.length - 1) {
+      setSlideDir('left')
+      setActiveCategory(fridgeCategories[idx + 1])
+      setTimeout(() => setSlideDir(null), 280)
+    } else if (finalDx > 0 && idx > 0) {
+      setSlideDir('right')
+      setActiveCategory(fridgeCategories[idx - 1])
+      setTimeout(() => setSlideDir(null), 280)
+    }
   }
 
   const baseFiltered = activeCategory === '전체'
@@ -435,8 +480,19 @@ export default function Fridge() {
             </div>
             </div>{/* /fridge-sticky-top */}
 
-            {/* 식재료 그리드 */}
-            <div className="ingredient-grid">
+            {/* 식재료 그리드 — viewport로 overflow:hidden 차단, track이 손가락과 함께 이동 */}
+            <div className="fridge-grid-viewport">
+              <div
+                className={`fridge-grid-track${slideDir ? ` fridge-grid-track--${slideDir}` : ''}`}
+                style={{
+                  transform: isDragging ? `translateX(${dragX}px)` : 'translateX(0)',
+                  transition: isDragging ? 'none' : 'transform 0.22s ease',
+                }}
+                onTouchStart={handleGridTouchStart}
+                onTouchMove={handleGridTouchMove}
+                onTouchEnd={handleGridTouchEnd}
+              >
+              <div ref={gridRef} className="ingredient-grid">
               {filtered.map((item) => {
                 const status = getExpiryStatus(item.expiryDate)
                 const isSelected = selectedIds.has(item.id)
@@ -468,7 +524,7 @@ export default function Fridge() {
                     <div className="ing-badge-row">
                       {item.storageType === '냉동' && (
                         <div className="ing-badge ing-badge--frozen">
-                          <img src="/assets/icons/common/badge-frozen.svg" width="23" height="23" alt="냉동" />
+                          <img src="/assets/icons/common/badge-frozen.svg" width="20" height="20" alt="냉동" />
                         </div>
                       )}
                       <div className={`ing-badge ing-badge--${status}`}>{item.quantity}</div>
@@ -509,7 +565,9 @@ export default function Fridge() {
                   </div>
                 </div>
               )}
-            </div>
+            </div>{/* /ingredient-grid */}
+              </div>{/* /fridge-grid-track */}
+            </div>{/* /fridge-grid-viewport */}
 
             {/* 삭제 모드 하단 액션 바 */}
             {deleteMode && (
@@ -552,7 +610,9 @@ export default function Fridge() {
                   <span className="fab-pill__label">직접입력</span>
                 </button>
                 <button className="fab-pill__item" onClick={() => { navigate('/favorites'); setFabOpen(false) }}>
-                  <img className="fab-pill__icon" src="/assets/icons/action/ic-star-fill.svg" width="23" height="22" alt="즐겨찾기" />
+                  <svg className="fab-pill__icon" width="23" height="22" viewBox="0 0 23 22" fill="none">
+                    <path d="M4.21638 20.9552C4.39056 18.6865 5.03103 17.1043 5.51339 15.4845C5.81352 14.4735 5.60986 13.8085 4.69606 13.2373C3.2195 12.3147 1.82333 11.2635 0.612075 10.0058C-0.40892 8.9465 -0.138263 7.96231 1.31686 7.73437C2.98368 7.47156 4.68266 7.37234 6.3736 7.31334C7.32492 7.27848 7.79656 6.92985 8.09937 6.01807C8.63265 4.41172 9.30528 2.85364 9.94038 1.28215C10.1976 0.643901 10.5648 0.0136972 11.3339 0.000288556C12.1137 -0.0158018 12.4835 0.643901 12.7434 1.25802C13.3651 2.73564 13.9949 4.21863 14.4853 5.74185C14.7881 6.68582 15.1847 7.11221 16.2593 7.09076C17.9476 7.05857 19.6412 7.22752 21.3294 7.35356C21.9485 7.39915 22.6291 7.50642 22.9105 8.17149C23.216 8.89019 22.6774 9.34876 22.2272 9.77248C21.0909 10.8398 19.9467 11.9018 18.7649 12.9208C18.0199 13.5617 17.8645 14.267 18.1593 15.1842C18.6684 16.753 19.0945 18.3486 19.3464 19.9845C19.4429 20.6173 19.459 21.2663 18.9042 21.7115C18.2879 22.2022 17.6823 21.8241 17.1785 21.4916C15.7635 20.561 14.3701 19.5983 13.0087 18.59C12.2209 18.0054 11.5724 18.1341 10.8327 18.6651C9.34815 19.727 7.98146 20.974 6.30124 21.7383C4.95064 22.3497 4.16814 21.808 4.21638 20.9552Z" fill="#FF8C66" />
+                  </svg>
                   <span className="fab-pill__label">즐겨찾기</span>
                 </button>
                 <button className="fab-pill__item" onClick={() => { navigate('/direct-input'); setFabOpen(false) }}>

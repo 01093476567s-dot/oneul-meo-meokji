@@ -65,8 +65,8 @@
 /* ── 탭 세그먼트 — 피그마 274:1450 ── */
 .home-tab-seg {
   display: flex;
-  width: 337px;
-  background: #fff0e8;
+  width: 390px;
+  background: #FFF0E8;
   border-radius: 50px;
   padding: 4px;
   margin: 0 auto 40px;
@@ -91,8 +91,8 @@
 }
 
 .home-tab-seg__btn--active {
-  background: #fff;
-  color: #2a2018;
+  background: #ff8c66;
+  color: #fff;
   font-weight: 500;
   box-shadow: 0 0 2px rgba(255, 140, 102, 0.2);
 }
@@ -883,7 +883,10 @@
 }
 
 .hbanchan-card__hd {
-  margin: 10px 0 30px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin: 0 20px 30px 0;
 }
 
 .hbanchan-card__title {

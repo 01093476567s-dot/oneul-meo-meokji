@@ -16,7 +16,7 @@ export default function Header({ type = 'main', title = '', onHamburger }) {
           />
         </button>
         <button className="app-header__hamburger" onClick={onHamburger}>
-          <img src="/assets/icons/hamburger_icon.svg" width="28" height="17" alt="메뉴" />
+          <img src="/assets/icons/common/ic-menu.svg" width="28" alt="메뉴" />
         </button>
       </header>
     )

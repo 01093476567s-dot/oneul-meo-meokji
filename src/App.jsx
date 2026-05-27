@@ -15,7 +15,7 @@ import ManualInput from './pages/ManualInput'
 import Favorites from './pages/Favorites'
 import Subscription from './pages/Subscription'
 import LunchRecord from './pages/LunchRecord'
-import DishCombo from './pages/DishCombo'
+import MenuDetail from './pages/MenuDetail'
 import IngredientSelect from './pages/IngredientSelect'
 import LunchRecords from './pages/LunchRecords'
 import LunchRecordDetail from './pages/LunchRecordDetail'
@@ -25,6 +25,9 @@ import RiceStatus from './pages/RiceStatus'
 import RiceRegister from './pages/RiceRegister'
 import Chatbot from './pages/Chatbot'
 import ChatDetail from './pages/ChatDetail'
+import ChatNew from './pages/ChatNew'
+import LunchboxPack from './pages/LunchboxPack'
+import LunchboxConfirm from './pages/LunchboxConfirm'
 
 const NAV_ROUTES = ['/', '/fridge', '/chatbot', '/mypage']
 
@@ -48,7 +51,7 @@ function AppShell() {
           <Route path="/scan-complete"  element={<ScanComplete />} />
           <Route path="/subscription"   element={<Subscription />} />
           <Route path="/lunch-record"       element={<LunchRecord />} />
-          <Route path="/dish-combo"         element={<DishCombo />} />
+          <Route path="/menu-detail"        element={<MenuDetail />} />
           <Route path="/ingredient-select"  element={<IngredientSelect />} />
           <Route path="/lunch-records"        element={<LunchRecords />} />
           <Route path="/lunch-record-detail" element={<LunchRecordDetail />} />
@@ -58,6 +61,9 @@ function AppShell() {
           <Route path="/rice-register"       element={<RiceRegister />} />
           <Route path="/chatbot"             element={<Chatbot />} />
           <Route path="/chat-detail"         element={<ChatDetail />} />
+          <Route path="/chat-new"            element={<ChatNew />} />
+          <Route path="/lunchbox-pack"       element={<LunchboxPack />} />
+          <Route path="/lunchbox-confirm"    element={<LunchboxConfirm />} />
           <Route path="*"              element={<Navigate to="/" replace />} />
         </Routes>
       </div>

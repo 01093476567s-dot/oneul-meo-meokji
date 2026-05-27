@@ -1,186 +1,173 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import { useNavigate } from 'react-router-dom'
-import { useFridge } from '../context/FridgeContext'
 
-const RECIPE = {
-  title: '영양만점\n소불고기\n도시락레시피',
-  name: '소불고기',
-  badge: '메인요리',
-  image: '/images/소불고기.jpg',
-  mascot: '/images/Img_Cooking_Hamster.png',
-  kcal: 485,
-  score: 98,
-  nutrition: [
-    { label: '순탄수', amount: '56.5g', percent: 30, color: '#382719' },
-    { label: '단백질', amount: '64g', percent: 34, color: '#ff876d' },
-    { label: '지방', amount: '28.9g', percent: 35, color: '#394c7c' },
-  ],
-  ingredients: [
-    { name: '소고기 150g', icon: '/assets/icons/Recipe_page/Img_Item.svg' },
-    { name: '양파 1/4개', icon: '/assets/icons/Recipe_page/Img_Item-1.svg' },
-    { name: '대파 조금', icon: '/assets/icons/Recipe_page/Img_Item-2.svg' },
-    { name: '감자 반개', icon: '/assets/icons/Recipe_page/Img_Item-3.svg' },
-    { name: '된장 조금', icon: '/assets/icons/Recipe_page/Img_Item-4.svg' },
-  ],
-  steps: [
-    { title: '재료 준비', desc: '재료 : 소불고기 150g , 양파 1/4개, 대파 조금\n양념 : 간장 2큰술, 설탕1/2큰술, 다진마늘 1/2큰술,\n참기름 1/2큰술, 물1.5큰술 후추소금 조금' },
-    { title: '재료 손질', desc: '양파 채썰고 대파는 어슷 썰기로 준비해줍니다.\n고기는 뭉친거 풀어줍니다' },
-    { title: '양념에 재우기', desc: '고기와 양파 채소를 전부 넣고 섞어줍니다.\n10 ~ 15분 양념에 재료를 재워줍니다.' },
-    { title: '볶기 (5~6분)', desc: '고기와 양념 채소를 전부 넣고 섞어줍니다.\n10 ~ 15분 양념에 재료를 재워줍니다.' },
-    { title: '마무리', desc: '국물 자작해지면 불을 끄고 부족한간은 간장을 조금 추가\n해서 맞춰주세요. 마지막에 참기름 살짝 추가 해주면\n더 맛있답니다.' },
-  ],
-}
+const STEPS = [
+  {
+    id: 1,
+    label: 'Step 1',
+    title: '재료 손질',
+    img: '/assets/images/recipe-step1.jpg',
+    desc: ['양파 채썰고 대파는 어슷 썰기로 준비해줍니다.', '고기는 뭉친거 풀어줍니다'],
+  },
+  {
+    id: 2,
+    label: 'Step 2',
+    title: '양념에 재우기',
+    img: '/assets/images/recipe-step2.jpg',
+    desc: ['고기와 양념 채소를 전부 넣고 섞어줍니다.', '10 ~ 15분 양념에 재료를 재워줍니다.'],
+  },
+  {
+    id: 3,
+    label: 'Step 3',
+    title: '볶기 (5~6분)',
+    img: '/assets/images/recipe-step3.jpg',
+    desc: [
+      '국물 자작해지면 불을 끄고 부족한간은 간장을 조금 추가해서 맞춰주세요. 마지막에 참기름 살짝 추가 해주면 더 맛있답니다.',
+    ],
+    tip: [
+      '고기를 너무 오래 볶으면 질겨져요.',
+      '양념이 타기 전에 불을 줄이고, 한 번에 너무 많이 넣으면 볶음이 아닌 찜이 될 수 있어요.',
+    ],
+  },
+  {
+    id: 4,
+    label: 'Step 4',
+    title: '마무리',
+    img: '/assets/images/recipe-step4.jpg',
+    desc: ['도시락통에 이쁘게 담으면 영양만점 소불고기 도시락 완성!'],
+  },
+]
 
-function IngredientPopup({ onClose }) {
+function StepContent({ step }) {
   return (
-    <div className="ingredient-popup open" id="ingredient-popup">
-      <button className="ingredient-popup__dim" onClick={onClose} aria-label="팝업 닫기" />
-      <section className="ingredient-popup__panel">
-        <div className="ingredient-popup__handle" />
-        <div className="ingredient-popup__header">
-          <div>
-            <p>오늘 만들 도시락</p>
-            <h2>필요한 식재료</h2>
+    <>
+      <img className="rcp-step__img" src={step.img} alt={step.title} />
+      <p className="rcp-step__label">
+        <span className="rcp-step__accent">{step.label}</span>
+        {` ${step.title}`}
+      </p>
+      <div className="rcp-step__desc-wrap">
+        {step.desc.map((line, i) => (
+          <p key={i} className="rcp-step__desc">{line}</p>
+        ))}
+      </div>
+      {step.tip && (
+        <div className="rcp-tip-wrap">
+          <img className="rcp-tip__sticker" src="/assets/images/mmg-tip.png" alt="" />
+          <div className="rcp-tip">
+            <p className="rcp-tip__title">Tip</p>
+            <div className="rcp-tip__desc-wrap">
+              {step.tip.map((line, i) => (
+                <p key={i} className="rcp-tip__desc">{line}</p>
+              ))}
+            </div>
           </div>
-          <button className="ingredient-popup__close" onClick={onClose}>×</button>
         </div>
-        <div className="ingredient-popup__hero">
-          <img src={RECIPE.image} alt={RECIPE.name} />
-          <div>
-            <strong>{RECIPE.name}</strong>
-            <span>{RECIPE.ingredients.length}가지 재료를 준비해주세요</span>
-          </div>
-        </div>
-        <div className="ingredient-popup__grid">
-          {RECIPE.ingredients.map((item) => (
-            <article key={item.name} className="ingredient-popup__item">
-              <img src={item.icon} alt="" />
-              <span>{item.name}</span>
-            </article>
-          ))}
-        </div>
-        <button className="ingredient-popup__submit" onClick={onClose}>확인했어요</button>
-      </section>
-    </div>
+      )}
+    </>
   )
 }
 
 export default function Recipe() {
   const navigate = useNavigate()
-  const { addRecord } = useFridge()
-  const [showPopup, setShowPopup] = useState(false)
+  const [saved, setSaved] = useState(false)
+  const [swipeMode, setSwipeMode] = useState(false)
+  const [currentStep, setCurrentStep] = useState(0)
+  const touchStartX = useRef(null)
 
-  function markRecipeDone() {
-    const today = new Date()
-    const dateStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`
-    addRecord({ date: dateStr, name: RECIPE.name, savedAmount: 8000 })
-    alert('오늘의 도시락 기록에 저장했어요!')
+  function toggleSwipeMode() {
+    setSwipeMode(v => !v)
+    setCurrentStep(0)
+  }
+
+  function handleTouchStart(e) {
+    touchStartX.current = e.touches[0].clientX
+  }
+
+  function handleTouchEnd(e) {
+    if (touchStartX.current === null) return
+    const dx = e.changedTouches[0].clientX - touchStartX.current
+    if (dx < -50 && currentStep < STEPS.length - 1) setCurrentStep(s => s + 1)
+    if (dx > 50 && currentStep > 0) setCurrentStep(s => s - 1)
+    touchStartX.current = null
   }
 
   return (
-    <main className="recipe-page">
-      <section className="recipe-hero" aria-label={`${RECIPE.name} 레시피`}>
-        <img className="recipe-hero__image" src={RECIPE.image} alt={RECIPE.name} />
-        <div className="recipe-status" aria-hidden="true">
-          <span>9:41</span>
-          <span className="recipe-status__icons">▴ ))) ▰</span>
-        </div>
-        <button className="recipe-hero__back" onClick={() => navigate(-1)} aria-label="이전 화면">
-          <img src="/assets/icons/back_icon.svg" alt="" width="10" height="18" />
+    <div className="rcp-page">
+      {/* ── 헤더 ── */}
+      <div className="rcp-header">
+        <button className="rcp-header__btn" onClick={() => navigate(-1)}>
+          <img src="/assets/icons/action/ic-chevron-left.svg" width="10" height="17" alt="뒤로" />
         </button>
-        <div className="recipe-hero__shade" />
-        <h1 className="recipe-hero__title">
-          {RECIPE.title.split('\n').map((line, i) => (
-            <span key={i}>{line}<br /></span>
-          ))}
-        </h1>
-      </section>
+        <h1 className="rcp-header__title">레시피</h1>
+        <div className="rcp-header__btn" />
+      </div>
 
-      <section className="nutrition-card">
-        <div className="recipe-section-head">
-          <div>
-            <h2>도시락 영양 점수</h2>
-            <p>칼로리와 영양표를 확인해봐요</p>
+      {/* ── 탑바: 스와이프 아이콘 + 저장 버튼 ── */}
+      <div className="rcp-topbar">
+        <button className={`rcp-swipe-btn${swipeMode ? ' rcp-swipe-btn--active' : ''}`} onClick={toggleSwipeMode}>
+          <img src="/assets/icons/action/ic-swipe.svg" className="rcp-topbar__icon" alt="스와이프" />
+        </button>
+        <button className="rcp-save-btn" onClick={() => setSaved(v => !v)}>
+          <svg width="19" height="18" viewBox="0 0 23 22" fill="none">
+            <path d="M4.21638 20.9552C4.39056 18.6865 5.03103 17.1043 5.51339 15.4845C5.81352 14.4735 5.60986 13.8085 4.69606 13.2373C3.2195 12.3147 1.82333 11.2635 0.612075 10.0058C-0.40892 8.9465 -0.138263 7.96231 1.31686 7.73437C2.98368 7.47156 4.68266 7.37234 6.3736 7.31334C7.32492 7.27848 7.79656 6.92985 8.09937 6.01807C8.63265 4.41172 9.30528 2.85364 9.94038 1.28215C10.1976 0.643901 10.5648 0.0136972 11.3339 0.000288556C12.1137 -0.0158018 12.4835 0.643901 12.7434 1.25802C13.3651 2.73564 13.9949 4.21863 14.4853 5.74185C14.7881 6.68582 15.1847 7.11221 16.2593 7.09076C17.9476 7.05857 19.6412 7.22752 21.3294 7.35356C21.9485 7.39915 22.6291 7.50642 22.9105 8.17149C23.216 8.89019 22.6774 9.34876 22.2272 9.77248C21.0909 10.8398 19.9467 11.9018 18.7649 12.9208C18.0199 13.5617 17.8645 14.267 18.1593 15.1842C18.6684 16.753 19.0945 18.3486 19.3464 19.9845C19.4429 20.6173 19.459 21.2663 18.9042 21.7115C18.2879 22.2022 17.6823 21.8241 17.1785 21.4916C15.7635 20.561 14.3701 19.5983 13.0087 18.59C12.2209 18.0054 11.5724 18.1341 10.8327 18.6651C9.34815 19.727 7.98146 20.974 6.30124 21.7383C4.95064 22.3497 4.16814 21.808 4.21638 20.9552Z"
+              fill={saved ? '#FFC700' : '#C8C2BC'} />
+          </svg>
+          <span>레시피 저장</span>
+        </button>
+      </div>
+
+      {/* ── 콘텐츠: 스와이프 모드 ↔ 세로 스크롤 모드 ── */}
+      {swipeMode ? (
+        <div
+          className="rcp-carousel"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+          <div
+            className="rcp-carousel__track"
+            style={{ transform: `translateX(-${currentStep * 100}%)` }}
+          >
+            {STEPS.map(step => (
+              <div key={step.id} className="rcp-carousel__slide">
+                <StepContent step={step} />
+              </div>
+            ))}
           </div>
-          <button type="button">자세히 보기 <span>›</span></button>
         </div>
-        <div className="nutrition-bars" aria-label="영양 비율">
-          {RECIPE.nutrition.map((item) => (
-            <div
-              key={item.label}
-              className="nutrition-bars__item"
-              style={{ '--bar-color': item.color, '--bar-width': `${item.percent}%` }}
-            >
-              <strong>{item.percent}%</strong>
+      ) : (
+        <div className="rcp-steps">
+          {STEPS.map((step, idx) => (
+            <div key={step.id} className={`rcp-step${idx < STEPS.length - 1 ? ' rcp-step--border' : ''}`}>
+              <StepContent step={step} />
             </div>
           ))}
         </div>
-        <div className="nutrition-legend">
-          {RECIPE.nutrition.map((item) => (
-            <span key={item.label}>
-              <i style={{ background: item.color }} />{item.label} {item.amount}
-            </span>
-          ))}
-          <span><i />총{RECIPE.kcal}kcal</span>
-        </div>
-        <p className="nutrition-summary">단단지가 고루 분배된 영양만점 도시락 입니다.</p>
-        <strong className="nutrition-score">영양점수 {RECIPE.score}점</strong>
-      </section>
+      )}
 
-      <div className="recipe-mascot">
-        <img className="recipe-mascot__char" src={RECIPE.mascot} alt="요리하는 캐릭터"
-          onError={(e) => { e.currentTarget.style.display = 'none' }} />
-        <div className="recipe-mascot__bubble">
-          <img className="recipe-mascot__bubble-img" src="/images/Img_Speech_Bubble.png" alt="" aria-hidden="true"
-            onError={(e) => { e.currentTarget.style.display = 'none' }} />
-          <span className="recipe-mascot__bubble-text">같이 만들어봐요</span>
-        </div>
-      </div>
-
-      <section className="ingredient-card">
-        <div className="recipe-section-head">
-          <div>
-            <h2>이런 식재료가 들어가요!</h2>
-            <p>요리 시작 전, 식재료를 미리 준비해주세요.</p>
+      {/* ── 진행바 (스와이프 모드 전용) ── */}
+      {swipeMode && (
+        <div className="rcp-progress-wrap">
+          <div className="rcp-progress-bar">
+            <div
+              className="rcp-progress-fill"
+              style={{ width: `${((currentStep + 1) / STEPS.length) * 100}%` }}
+            />
           </div>
-          <button type="button" onClick={() => setShowPopup(true)}>한눈에 보기 <span>›</span></button>
+          <span className="rcp-progress-label">{currentStep + 1} / {STEPS.length}</span>
         </div>
-        <div className="ingredient-list">
-          {RECIPE.ingredients.map((item) => (
-            <article key={item.name} className="ingredient-item">
-              <img src={item.icon} alt="" />
-              <strong>{item.name}</strong>
-              <span aria-hidden="true">×</span>
-            </article>
-          ))}
-        </div>
-      </section>
+      )}
 
-      <section className="recipe-steps-card">
-        <div className="recipe-steps-card__title">
-          <h2>{RECIPE.name}</h2>
-          <span>{RECIPE.badge}</span>
-          <button type="button" aria-label="찜하기">♥</button>
-        </div>
-        <ol className="recipe-step-list">
-          {RECIPE.steps.map((step, index) => (
-            <li key={index}>
-              <h3><span>{index + 1}</span> {step.title}</h3>
-              <p>{step.desc.split('\n').map((line, i) => (<span key={i}>{line}<br /></span>))}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      <div className="recipe-dots" aria-hidden="true">
-        <span className="active" /><span /><span />
-      </div>
-
-      <div className="recipe-cta-wrap">
-        <button className="recipe-cta" onClick={markRecipeDone}>오늘 만들었어요 !</button>
-      </div>
-
-      {showPopup && <IngredientPopup onClose={() => setShowPopup(false)} />}
-    </main>
+      {/* ── 챗봇 마스코트 (#app 기준 고정) ── */}
+      {createPortal(
+        <div className="rcp-bottom">
+          <button className="rcp-mascot-btn">
+            <img src="/assets/images/mmg-chat.gif" width="68" alt="레시피 문의" />
+          </button>
+        </div>,
+        document.getElementById('app')
+      )}
+    </div>
   )
 }

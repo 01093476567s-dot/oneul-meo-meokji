@@ -17,7 +17,7 @@
 .lrec-header__right {
   display: flex;
   align-items: center;
-  gap: 0;
+  gap: 10px;
 }
 
 /* 활성 상태 아이콘 (검색창 열렸을 때) */

@@ -1,0 +1,335 @@
+/* ══════════════════════════════
+   메뉴 상세 — MenuDetail
+   Figma 312:1265
+══════════════════════════════ */
+
+.mdc-page {
+  display: flex;
+  flex-direction: column;
+  background: #fffaf5;
+  min-height: 100%;
+}
+
+/* ── 히어로 이미지 ── */
+.mdc-hero {
+  position: relative;
+  height: 420px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.mdc-hero__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mdc-hero__gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.5) 0%,
+    rgba(0, 0, 0, 0) 10.1%,
+    rgba(0, 0, 0, 0.15) 41.8%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
+}
+
+/* ── 헤더 ── */
+.mdc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background: #fffaf5;
+  flex-shrink: 0;
+}
+
+.mdc-header__btn {
+  width: 27px;
+  height: 27px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  flex-shrink: 0;
+}
+
+.mdc-header__title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2a2018;
+  margin: 0;
+  font-family: 'Pretendard', sans-serif;
+  letter-spacing: -0.36px;
+}
+
+/* ── 히어로 텍스트 콘텐츠 ── */
+.mdc-hero__content {
+  position: absolute;
+  bottom: 12px;
+  left: 20px;
+  right: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.mdc-hero__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 7px;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  width: fit-content;
+}
+
+.mdc-hero__badge-text {
+  font-size: 10px;
+  color: #fff;
+  letter-spacing: -0.2px;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 300;
+}
+
+.mdc-hero__title {
+  font-size: 34px;
+  color: #fff;
+  letter-spacing: -0.68px;
+  line-height: 1.15;
+  margin: 0;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 300;
+}
+
+.mdc-hero__desc {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.4);
+  letter-spacing: -0.24px;
+  margin: 0;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 500;
+}
+
+/* ── 정보 바 (Figma 317:2583) — py-14px px-114px ── */
+.mdc-infobar {
+  background: #fff0e8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 114px;
+  flex-shrink: 0;
+}
+
+.mdc-infobar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 202px;
+}
+
+.mdc-infobar__item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.mdc-infobar__text {
+  font-size: 12px;
+  color: #2a2018;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 400;
+}
+
+/* ── 본문 ── */
+.mdc-content {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: center;
+  padding: 20px 20px 24px;
+}
+
+/* ── 섹션 제목 ── */
+.mdc-section-header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.mdc-section-header__title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2a2018;
+  font-family: 'Pretendard', sans-serif;
+  margin: 0;
+}
+
+.mdc-section-header__accent {
+  color: #ff8c66;
+}
+
+.mdc-section-header__sub {
+  font-size: 14px;
+  color: rgba(42, 32, 24, 0.7);
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 500;
+  margin: 0;
+  line-height: 21px;
+}
+
+/* ── 카드 ── */
+.mdc-card {
+  width: 100%;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.05);
+  padding: 26px 20px 33px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  box-sizing: border-box;
+}
+
+.mdc-card__title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2a2018;
+  font-family: 'Pretendard', sans-serif;
+  margin: 0;
+}
+
+/* ── 재료 섹션 ── */
+.mdc-ingredient-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mdc-ingredient-list {
+  display: flex;
+  gap: 4px;
+  align-items: flex-start;
+}
+
+.mdc-ingredient-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.mdc-ingredient-item__img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.mdc-ingredient-item__img--none {
+  filter: brightness(0.45);
+}
+
+.mdc-ingredient-item__name {
+  font-size: 12px;
+  color: #2a2018;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 500;
+  text-align: center;
+  height: 23px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.mdc-ingredient-item__status {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.mdc-ingredient-item__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #F9CDC2;
+  flex-shrink: 0;
+}
+
+.mdc-ingredient-item__dot--none {
+  background: #FF5555;
+}
+
+.mdc-ingredient-item__status-text {
+  font-size: 8px;
+  color: #2a2018;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 500;
+}
+
+/* ── 양념장 섹션 ── */
+.mdc-sauce-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mdc-sauce-pills {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mdc-sauce-row {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.mdc-sauce-pill {
+  background: #fff0e8;
+  border-radius: 50px;
+  padding: 0 10px;
+  font-size: 12px;
+  color: #2a2018;
+  font-family: 'Pretendard', sans-serif;
+  line-height: 21px;
+  white-space: nowrap;
+}
+
+/* ── CTA 버튼 ── */
+.mdc-cta-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 10px;
+}
+
+.mdc-cta-btn {
+  flex: 1;
+  height: 48px;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  font-family: 'Pretendard', sans-serif;
+}
+
+.mdc-cta-btn--recipe {
+  background: #3a4d7a;
+}
+
+.mdc-cta-btn--lunchbox {
+  background: #ff8c66;
+}

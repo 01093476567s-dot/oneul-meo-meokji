@@ -201,6 +201,34 @@
   cursor: pointer;
 }
 
+/* ── 추천 칩 (Figma 307:1385) ── */
+.cd-chip-row {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 10px 8px -5px;
+}
+
+.cd-chip {
+  height: 37px;
+  border-radius: 18.5px;
+  border: 1px solid #ff8c66;
+  background: #fff0e8;
+  color: #000;
+  font-size: 12px;
+  font-family: 'Pretendard', sans-serif;
+  padding: 0 15px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.cd-chip:active {
+  background: #ff8c66;
+  color: #fff;
+}
+
 /* ── 레시피 링크 (Figma 308:1545) ── */
 .cd-link {
   display: flex;
@@ -245,7 +273,7 @@
 .cd-input-bar__plus {
   width: 30px;
   height: 30px;
-  background: none;
+  background: #FFF0E8;
   border: none;
   cursor: pointer;
   display: flex;
@@ -253,6 +281,7 @@
   justify-content: center;
   flex-shrink: 0;
   padding: 0;
+  border-radius: 50%;
 }
 
 /* 입력 필드 (Figma: h-33px, bg-#fff0e8, rounded-full) */
@@ -267,19 +296,29 @@
   padding: 0 10px;
 }
 
-.cd-input-bar__placeholder {
+.cd-input-bar__input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
   font-size: 14px;
   font-family: 'Pretendard', sans-serif;
-  color: rgba(255, 140, 102, 0.4);
+  color: #2a2018;
   font-weight: 500;
 }
 
-.cd-input-bar__mic {
+.cd-input-bar__input::placeholder {
+  color: rgba(255, 140, 102, 0.4);
+}
+
+.cd-input-bar__mic,
+.cd-input-bar__send {
   background: none;
   border: none;
-  padding: 0;
+  padding: 0 10px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }

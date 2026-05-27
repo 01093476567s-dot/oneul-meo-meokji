@@ -54,9 +54,9 @@ function SegBar({ total, filled }) {
 }
 
 const BANCHAN_LIST = [
-  { name: '장조림',   bg: '#d4f0b1', img: '/assets/images/장조림.png',   progress: 70, date: '2026.05.06 ~' },
-  { name: '우엉조림', bg: '#bce2f9', img: '/assets/images/우엉조림.png', progress: 50, date: '2026.05.12 ~' },
-  { name: '연근조림', bg: '#dfcffa', img: '/assets/images/연근.png',     progress: 80, date: '2026.05.14 ~' },
+  { name: '장조림',   bg: '#d4f0b1', img: '/assets/images/side-dish1.png', progress: 70, date: '2026.05.06 ~' },
+  { name: '우엉조림', bg: '#bce2f9', img: '/assets/images/side-dish2.png', progress: 50, date: '2026.05.12 ~' },
+  { name: '연근조림', bg: '#dfcffa', img: '/assets/images/side-dish3.png', progress: 80, date: '2026.05.14 ~' },
 ]
 
 const DISHES = [
@@ -96,7 +96,7 @@ function MenuRecommendTab() {
           <div
             key={card.id}
             className="hmc"
-            onClick={() => navigate('/dish-combo', { state: { menuItem: card } })}
+            onClick={() => navigate('/menu-detail', { state: { menuItem: card } })}
           >
             <img className="hmc__img" src={card.image} alt={card.title.join(' ')}
               onError={e => { e.currentTarget.style.opacity = '0' }} />
@@ -343,8 +343,14 @@ export default function Home() {
       {/* 공통: 밑반찬 현황 */}
       <div className="hbanchan-card">
         <div className="hbanchan-card__hd">
-          <p className="hbanchan-card__title">밑반찬 현황</p>
-          <p className="hbanchan-card__sub">만들어둔 밑반찬을 확인해보세요!</p>
+          <div>
+            <p className="hbanchan-card__title">밑반찬 현황</p>
+            <p className="hbanchan-card__sub">만들어둔 밑반찬을 확인해보세요!</p>
+          </div>
+          <button className="hrice-more-btn" onClick={() => navigate('/banchan-list')}>
+            더보기
+            <img src="/assets/icons/action/ic-chevron-right.svg" width="4" height="10" alt="" />
+          </button>
         </div>
         <div className="hbanchan-list">
           {BANCHAN_LIST.map((dish) => {

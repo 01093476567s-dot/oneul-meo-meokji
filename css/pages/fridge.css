@@ -67,7 +67,7 @@
 /* ── FAB 컨테이너 — #app(position:relative) 기준 우하단 고정 ── */
 .fab-container {
   position: absolute;
-  bottom: calc(var(--nav-height, 84px) + 20px);
+  bottom: calc(var(--nav-height, 46px) + 30px);
   right: 16px;
   z-index: 100;
   display: flex;
@@ -282,7 +282,7 @@
 /* ── 카테고리·검색·힌트 고정 영역 ── */
 .fridge-sticky-top {
   position: sticky;
-  top: 0;
+  top: var(--header-height, 56px); /* .app-header 높이만큼 아래에 고정 */
   z-index: 20;
   background: #fffaf5;
 }
@@ -410,9 +410,12 @@
   max-width: 800px;
   display: flex;
   align-items: center;
+  gap: 2px;
   padding: 8px 3px;
   overflow-x: auto;
   scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
   transition: max-width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
               opacity   0.2s ease;
 }
@@ -473,7 +476,6 @@
   align-items: center;
   justify-content: space-between;
   padding-right: 20px;
-  margin-bottom: 20px;
   margin-top: 3px;
 }
 
@@ -495,12 +497,42 @@
   flex-shrink: 0;
 }
 
+/* ── 식재료 그리드 스와이프 래퍼 ── */
+.fridge-grid-viewport {
+  overflow: hidden;
+  flex: 1;
+  position: relative;
+}
+
+.fridge-grid-track {
+  touch-action: pan-y;
+  will-change: transform;
+}
+
+@keyframes fridge-slide-in-left {
+  from { opacity: 0.4; transform: translateX(55%); }
+  to   { opacity: 1;   transform: translateX(0); }
+}
+@keyframes fridge-slide-in-right {
+  from { opacity: 0.4; transform: translateX(-55%); }
+  to   { opacity: 1;   transform: translateX(0); }
+}
+
+.fridge-grid-track--left {
+  animation: fridge-slide-in-left 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+.fridge-grid-track--right {
+  animation: fridge-slide-in-right 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
 /* ── 식재료 그리드 5열 (Figma: Ingredient_Grid) ── */
 .ingredient-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 7px;
   padding: 0 20px;
+  margin-top: 10px;
+  user-select: none;
 }
 
 /* ── 식재료 셀 (Figma: Selected_Item — position relative) ── */
@@ -536,8 +568,8 @@
 
 /* Figma: Item_Area — h-65px, w-66px */
 .ing-cell__item-area {
-  width: 66px;
-  height: 65px;
+  width: 50px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -597,8 +629,8 @@
 
 /* ── 수량 뱃지 (Figma: Badge — 23×23px) ── */
 .ing-badge {
-  min-width: 23px;
-  height: 23px;
+  min-width: 20px;
+  height: 20px;
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -722,6 +754,7 @@
   background: rgba(0, 0, 0, 0);
   pointer-events: none;
   transition: background 0.3s ease;
+  overflow: hidden; /* 닫힌 드로어(translateX 110%)가 #app 밖으로 넘치지 않도록 */
 }
 
 .fridge-drawer-root--open {
@@ -740,7 +773,7 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  transform: translateX(100%);
+  transform: translateX(110%);
   transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 

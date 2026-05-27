@@ -1,0 +1,437 @@
+/* ══════════════════════════════
+   도시락 담기 전 확인 — LunchboxConfirm
+   Figma 315:2267
+══════════════════════════════ */
+
+.lbc-page {
+  display: flex;
+  flex-direction: column;
+  background: #fffaf5;
+  min-height: 100%;
+}
+
+/* ── 헤더 ── */
+.lbc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background: #fffaf5;
+  flex-shrink: 0;
+}
+
+.lbc-header__btn {
+  width: 27px;
+  height: 27px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  flex-shrink: 0;
+}
+
+.lbc-header__title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2a2018;
+  margin: 0;
+  font-family: 'Pretendard', sans-serif;
+  letter-spacing: -0.36px;
+}
+
+/* ── 스크롤 본문 ── */
+.lbc-content {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── 타이틀 ── */
+.lbc-title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 20px 20px 18px;
+}
+
+.lbc-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2a2018;
+  font-family: 'Pretendard', sans-serif;
+  margin: 0;
+}
+
+.lbc-title-sub {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(42, 32, 24, 0.7);
+  font-family: 'Pretendard', sans-serif;
+  line-height: 21px;
+  margin: 0;
+}
+
+/* ── 구분선 ── */
+.lbc-divider {
+  height: 1px;
+  background: rgba(42, 32, 24, 0.1);
+  margin: 0 0 0 0;
+  flex-shrink: 0;
+}
+
+/* ── 공통 행 ── */
+.lbc-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  border-bottom: 1px solid rgba(42, 32, 24, 0.1);
+}
+
+/* ── 메인 메뉴 행 ── */
+.lbc-row--menu {
+  min-height: 121px;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  align-items: flex-start;
+  margin-top: 20px;
+
+}
+
+.lbc-menu-left {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.lbc-menu-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #2a2018;
+  font-family: 'Pretendard', sans-serif;
+  letter-spacing: -0.28px;
+  margin: 0;
+}
+
+.lbc-ingredient-list {
+  display: flex;
+  gap: 20px;
+}
+
+.lbc-ingredient-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.lbc-ingredient-img {
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.lbc-ingredient-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(42, 32, 24, 0.5);
+  font-family: 'Pretendard', sans-serif;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* ── 아이템 행 (밥/반찬) ── */
+.lbc-row--item {
+  height: 70px;
+}
+
+.lbc-item-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.lbc-rice-icon {
+  width: 46px;
+  height: 39px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.lbc-dish-thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 2px;
+  box-sizing: border-box;
+}
+
+.lbc-dish-thumb__img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.lbc-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.lbc-item-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #2a2018;
+  font-family: 'Pretendard', sans-serif;
+  letter-spacing: -0.28px;
+}
+
+.lbc-item-sub {
+  font-size: 10px;
+  color: rgba(42, 32, 24, 0.5);
+  font-family: 'Pretendard', sans-serif;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
+}
+
+/* ── 차감 라벨 ── */
+.lbc-deduct-label {
+  font-size: 10px;
+  font-weight: 500;
+  color: #2a2018;
+  font-family: 'Pretendard', sans-serif;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin: auto 0;
+}
+
+.lbc-deduct-pct {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.lbc-deduct-pct__val {
+  font-size: 10px;
+  font-weight: 500;
+  color: #2a2018;
+  font-family: 'Pretendard', sans-serif;
+  letter-spacing: -0.2px;
+  border-bottom: 0.5px dashed #2a2018;
+}
+
+.lbc-deduct-pct__input {
+  width: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #2a2018;
+  font-family: 'Pretendard', sans-serif;
+  letter-spacing: -0.2px;
+  border: none;
+  border-bottom: 0.5px dashed #2a2018;
+  background: transparent;
+  padding: 0;
+  text-align: center;
+  outline: none;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.lbc-deduct-pct__input::-webkit-outer-spin-button,
+.lbc-deduct-pct__input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* ── 도시락 팁 ── */
+.lbc-tip-wrap {
+  position: relative;
+  margin-top: 100px;
+  padding: 0 20px;
+
+}
+
+.lbc-tip-mascot {
+  position: absolute;
+  top: -59px;
+  left: 15px;
+  width: 114px;
+  height: 66px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.lbc-tip {
+  background: #fff0e8;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.lbc-tip-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.lbc-tip-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: #ff8c66;
+  font-family: 'Pretendard', sans-serif;
+}
+
+.lbc-tip-desc {
+  font-size: 12px;
+  color: #2a2018;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 400;
+  line-height: normal;
+  margin: 0;
+}
+
+.lbc-tip-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+  border-bottom: 0.5px dashed #2a2018;
+  width: fit-content;
+}
+
+.lbc-tip-link__text {
+  font-size: 12px;
+  color: #2a2018;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+/* ── 완성 팝업 ── */
+.lbc-popup-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.lbc-popup {
+  position: relative;
+  background: #fffaf5;
+  border-radius: 12px;
+  padding: 40px 24px 33px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  width: calc(100% - 40px);
+  max-width: 360px;
+  animation: lbc-popup-enter 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  overflow: visible;
+}
+
+@keyframes lbc-popup-enter {
+  from { opacity: 0; transform: scale(0.8); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+
+.lbc-popup-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 13px;
+  width: 100%;
+}
+
+.lbc-popup-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  text-align: center;
+}
+
+.lbc-popup-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2a2018;
+  font-family: 'Pretendard', sans-serif;
+  line-height: 24px;
+  margin: 0;
+}
+
+.lbc-popup-sub {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(42, 32, 24, 0.7);
+  font-family: 'Pretendard', sans-serif;
+  line-height: 21px;
+  margin: 0;
+}
+
+.lbc-popup-img {
+  width: 100%;
+  max-width: 264px;
+  object-fit: contain;
+  display: block;
+}
+
+.lbc-popup-note {
+  font-size: 10px;
+  color: rgba(0, 0, 0, 0.7);
+  font-family: 'Pretendard', sans-serif;
+  letter-spacing: -0.2px;
+  text-align: center;
+  margin: 0;
+}
+
+.lbc-popup-btn {
+  width: 100%;
+  padding: 18px 0;
+  background: #ff8c66;
+  border: none;
+  border-radius: 17px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #fff;
+  font-family: 'Pretendard', sans-serif;
+  letter-spacing: -0.36px;
+  cursor: pointer;
+}
+
+/* ── CTA ── */
+.lbc-cta {
+  padding: 16px 20px 20px;
+  flex-shrink: 0;
+}
+
+.lbc-cta-btn {
+  width: 100%;
+  padding: 18px 0;
+  background: #ff8c66;
+  border: none;
+  border-radius: 17px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #fff;
+  font-family: 'Pretendard', sans-serif;
+  letter-spacing: -0.36px;
+  cursor: pointer;
+}

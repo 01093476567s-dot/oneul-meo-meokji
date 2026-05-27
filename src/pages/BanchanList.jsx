@@ -2,9 +2,9 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const DISHES = [
-  { id: 1, name: '장조림',   date: '5월 6일',  img: '/assets/images/장조림.png',   progress: 70 },
-  { id: 2, name: '우엉조림', date: '5월 12일', img: '/assets/images/우엉조림.png', progress: 50 },
-  { id: 3, name: '연근조림', date: '5월 14일', img: '/assets/images/연근.png',     progress: 70 },
+  { id: 1, name: '장조림',   date: '5월 6일',  img: '/assets/images/side-dish1.png', progress: 70 },
+  { id: 2, name: '우엉조림', date: '5월 12일', img: '/assets/images/side-dish2.png', progress: 50 },
+  { id: 3, name: '연근조림', date: '5월 14일', img: '/assets/images/side-dish3.png', progress: 70 },
 ]
 
 export default function BanchanList() {

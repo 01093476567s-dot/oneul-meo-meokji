@@ -114,24 +114,24 @@
    ────────────────────────────── */
 .bottom-nav {
   background: var(--bg-base);
-  height: 60px;
   flex-shrink: 0;
   width: 100%;
   border-top: 1px solid var(--border-warm);
+  box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 100;
 }
 
-/* Figma: justify-between px-[20px] */
+/* Figma 274:1623 — h-46px, justify-between, px-20px */
 .bottom-nav__inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
+  padding: 0 40px;
   width: 100%;
-  height: 55px;
+  height: 46px;
 }
 
 /* Figma: flex-col gap-5px items-center justify-end */
@@ -165,11 +165,11 @@
   flex-shrink: 0;
 }
 
-/* Figma 아이콘 크기 — 홈: 30×27, 냉장고: 20×27, 챗봇: 25×25, 마이페이지: 25×25 */
-.bottom-nav__item--home    .bottom-nav__icon { width: 30px; height: 27px; }
-.bottom-nav__item--fridge  .bottom-nav__icon { width: 20px; height: 27px; }
-.bottom-nav__item--chat    .bottom-nav__icon { width: 25px; height: 25px; }
-.bottom-nav__item--mypage  .bottom-nav__icon { width: 25px; height: 25px; }
+/* Figma 274:1623 아이콘 크기 — 홈: 20×18, 냉장고: 13×17, 챗봇: 19×19, 마이페이지: 19×19 */
+.bottom-nav__item--home    .bottom-nav__icon { width: 20px; height: 18px; }
+.bottom-nav__item--fridge  .bottom-nav__icon { width: 13px; height: 17px; }
+.bottom-nav__item--chat    .bottom-nav__icon { width: 19px; height: 19px; }
+.bottom-nav__item--mypage  .bottom-nav__icon { width: 19px; height: 19px; }
 
 /* 아이콘 이미지/SVG 크기 맞춤 */
 .bottom-nav__icon img,

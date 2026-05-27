@@ -1,10 +1,39 @@
+import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const TAIL_L = '/assets/icons/common/tail-left.svg'
 const TAIL_R = '/assets/icons/common/tail-right.svg'
 
+function getNow() {
+  const d = new Date()
+  const h = d.getHours()
+  const m = d.getMinutes().toString().padStart(2, '0')
+  return `${h < 12 ? '오전' : '오후'} ${h % 12 || 12}:${m}`
+}
+
 export default function ChatDetail() {
   const navigate = useNavigate()
+  const [input, setInput] = useState('')
+  const [newMessages, setNewMessages] = useState([])
+  const bottomRef = useRef(null)
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [newMessages])
+
+  function sendMessage() {
+    const text = input.trim()
+    if (!text) return
+    setNewMessages(prev => [...prev, { text, time: getNow() }])
+    setInput('')
+  }
+
+  function handleKeyDown(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault()
+      sendMessage()
+    }
+  }
 
   return (
     <div className="cd-page">
@@ -22,7 +51,7 @@ export default function ChatDetail() {
       {/* ─── 메시지 영역 ─── */}
       <div className="cd-messages">
 
-        {/* ── Bot 1: 오잉 (question) — 단일 말풍선 → [tail][bubble][time] ── */}
+        {/* ── Bot 1: 오잉 (question) ── */}
         <div className="cd-msg cd-msg--bot">
           <img className="cd-msg__icon" src="/assets/images/mmg-question.png" alt="" />
           <div className="cd-msg__bubbles">
@@ -37,16 +66,13 @@ export default function ChatDetail() {
         {/* ── User 1: 3개 말풍선 ── */}
         <div className="cd-msg cd-msg--user">
           <div className="cd-msg__bubbles">
-            {/* 첫 번째: tail 오른쪽 */}
             <div className="cd-brow cd-brow--user">
               <div className="cd-msg__bubble">안녕, 혹시 지금</div>
               <img className="cd-msg__tail" src={TAIL_R} alt="" />
             </div>
-            {/* 중간 */}
             <div className="cd-brow cd-brow--user cd-brow--notail">
               <div className="cd-msg__bubble">냉장고에 있는 식재료로 간단하게 만들 수 있는 레시피 찾아줘</div>
             </div>
-            {/* 마지막: time 왼쪽 */}
             <div className="cd-brow cd-brow--user cd-brow--notail">
               <span className="cd-msg__time">오전 7:43</span>
               <div className="cd-msg__bubble">빨리 빨리...!!!</div>
@@ -54,16 +80,14 @@ export default function ChatDetail() {
           </div>
         </div>
 
-        {/* ── Bot 2: 생각중 (thinking) — 3개 말풍선 ── */}
+        {/* ── Bot 2: 생각중 (thinking) ── */}
         <div className="cd-msg cd-msg--bot">
           <img className="cd-msg__icon" src="/assets/images/mmg-thinking.png" alt="" />
           <div className="cd-msg__bubbles">
-            {/* 첫 번째: tail 왼쪽 */}
             <div className="cd-brow">
               <img className="cd-msg__tail" src={TAIL_L} alt="" />
               <div className="cd-msg__bubble">냉장고를 살펴볼께요!</div>
             </div>
-            {/* 재료 목록 */}
             <div className="cd-brow cd-brow--notail">
               <div className="cd-msg__bubble cd-msg__bubble--list">
                 <p>앱 내부 재료 분석 :</p>
@@ -76,7 +100,6 @@ export default function ChatDetail() {
                 <p>이런 재료가 있어요!</p>
               </div>
             </div>
-            {/* 마지막: time 오른쪽 */}
             <div className="cd-brow cd-brow--notail">
               <div className="cd-msg__bubble cd-msg__bubble--options">
                 <p className="cd-opt"><span className="cd-keyword">김치볶음밥</span>이 가능해요!</p>
@@ -100,7 +123,7 @@ export default function ChatDetail() {
           </div>
         </div>
 
-        {/* ── Bot 3: 스마일 (smile) — 3개 말풍선 ── */}
+        {/* ── Bot 3: 스마일 (smile) ── */}
         <div className="cd-msg cd-msg--bot">
           <img className="cd-msg__icon" src="/assets/images/mmg-smile.png" alt="" />
           <div className="cd-msg__bubbles">
@@ -134,7 +157,7 @@ export default function ChatDetail() {
           </div>
         </div>
 
-        {/* ── Bot 4: 감동 (moved) — 단일 말풍선 ── */}
+        {/* ── Bot 4: 감동 (moved) ── */}
         <div className="cd-msg cd-msg--bot">
           <img className="cd-msg__icon cd-msg__icon--lg" src="/assets/images/mmg-moved.png" alt="" />
           <div className="cd-msg__bubbles">
@@ -149,6 +172,20 @@ export default function ChatDetail() {
           </div>
         </div>
 
+        {/* ── 새로 전송된 메시지 ── */}
+        {newMessages.map((msg, i) => (
+          <div key={i} className="cd-msg cd-msg--user">
+            <div className="cd-msg__bubbles">
+              <div className="cd-brow cd-brow--user">
+                <span className="cd-msg__time">{msg.time}</span>
+                <div className="cd-msg__bubble">{msg.text}</div>
+                <img className="cd-msg__tail" src={TAIL_R} alt="" />
+              </div>
+            </div>
+          </div>
+        ))}
+
+        <div ref={bottomRef} />
       </div>
 
       {/* ─── 입력 바 (Figma: h-69px) ─── */}
@@ -157,10 +194,23 @@ export default function ChatDetail() {
           <img src="/assets/icons/action/ic-plus.svg" width="13" height="13" alt="추가" />
         </button>
         <div className="cd-input-bar__field">
-          <span className="cd-input-bar__placeholder">무엇이 궁금하세요?</span>
-          <button className="cd-input-bar__mic">
-            <img src="/assets/icons/action/ic-mike.svg" width="13" height="20" alt="마이크" />
-          </button>
+          <input
+            className="cd-input-bar__input"
+            type="text"
+            placeholder="무엇이 궁금하세요?"
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+          />
+          {input.trim() ? (
+            <button className="cd-input-bar__send" onClick={sendMessage}>
+              <img src="/assets/icons/action/ic-airplane.svg" width="18" height="18" alt="전송" />
+            </button>
+          ) : (
+            <button className="cd-input-bar__mic">
+              <img src="/assets/icons/action/ic-mike.svg" width="13" height="20" alt="마이크" />
+            </button>
+          )}
         </div>
       </div>
     </div>

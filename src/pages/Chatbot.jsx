@@ -4,19 +4,19 @@ import { useNavigate } from 'react-router-dom'
 const CHAT_ITEMS = [
   {
     id: 1,
-    thumb: '/assets/images/chatbot/chat-thumb-1.png',
+    thumb: '/assets/images/mmg-moved.png',
     thumbBg: '#fff0e8',
     thumbBorder: '1px solid #ff8c66',
-    thumbCover: true,
+    thumbContain: true,
     title: '식재료 기반 메뉴 추천',
     preview: '먹찌 감동이에요 ㅠㅠ 다음에도 언제든지 먹찌가 도와...',
     date: '어제',
   },
   {
     id: 2,
-    thumb: '/assets/images/chatbot/chat-thumb-2.png',
+    thumb: '/assets/images/recipe.png',
     thumbBg: '#fff5db',
-    thumbCover: true,
+    thumbContain: true,
     title: '양념장 만들기',
     preview: '고추장 큰술로 두번 더 넣어줘',
     date: '5월 20일',
@@ -66,11 +66,7 @@ export default function Chatbot() {
             </svg>
           </button>
           <button className="chatbot-header__icon-btn" aria-label="메뉴">
-            <svg width="28" height="17" viewBox="0 0 28 17" fill="none">
-              <rect width="28" height="2.5" rx="1.25" fill="#FF8C66"/>
-              <rect y="7.25" width="28" height="2.5" rx="1.25" fill="#FF8C66"/>
-              <rect y="14.5" width="28" height="2.5" rx="1.25" fill="#FF8C66"/>
-            </svg>
+            <img src="/assets/icons/common/ic-menu.svg" width="28" alt="메뉴" />
           </button>
         </div>
       </div>
@@ -134,8 +130,14 @@ export default function Chatbot() {
         ))}
       </div>
 
-      {/* 플로팅 마스코트 */}
-      <img src="/assets/images/mmg-chat.gif" className="chatbot-mascot" alt="" />
+      {/* 플로팅 마스코트 — 클릭 시 새 채팅 */}
+      <img
+        src="/assets/images/mmg-chat.gif"
+        className="chatbot-mascot"
+        alt="새 채팅"
+        onClick={() => navigate('/chat-new')}
+        style={{ pointerEvents: 'auto', cursor: 'pointer' }}
+      />
     </div>
   )
 }

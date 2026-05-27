@@ -68,7 +68,7 @@
   /* Layout */
   --max-width:      430px;
   --header-height:  56px;
-  --nav-height:     84px;   /* Figma 실측: 하단 탭바 84px */
+  --nav-height:     46px;   /* Figma 274:1623 실측: 하단 탭바 46px */
   --screen-px:      16px;
 }
 
@@ -77,6 +77,8 @@
 
 html, body, #root {
   height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
 }
 
 body {
