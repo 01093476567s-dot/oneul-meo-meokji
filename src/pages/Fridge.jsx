@@ -168,9 +168,9 @@ function IngredientDetail({ item, onClose }) {
 const DRAWER_MENUS = [
   { icon: '/assets/icons/common/ic-rice.svg',           label: '밥',            route: '/rice-status',  iconH: 21 },
   { icon: '/assets/icons/common/ic-storage-box.svg',  label: '밑반찬',        route: '/banchan-list' },
-  { icon: '/assets/icons/common/ic-ingredient.svg',   label: '식재료 추가 기록', route: '/direct-input' },
-  { icon: '/assets/icons/common/ic-checklist.svg',    label: '구독 식재료 현황', route: '/subscription' },
-  { icon: '/assets/icons/common/ic-cart.svg',         label: '식재료 구매하기', route: '/cart' },
+  { icon: '/assets/icons/common/ic-ingredient.svg',   label: '식재료 추가 기록', route: '/direct-input', disabled: true },
+  { icon: '/assets/icons/common/ic-checklist.svg',    label: '구독 식재료 현황', route: '/subscription', disabled: true },
+  { icon: '/assets/icons/common/ic-cart.svg',         label: '식재료 구매하기', route: '/cart',          disabled: true },
 ]
 
 function FridgeDrawer({ open, onClose, userName }) {
@@ -197,11 +197,12 @@ function FridgeDrawer({ open, onClose, userName }) {
 
         {/* 메뉴 목록 */}
         <div className="fridge-drawer__menu">
-          {DRAWER_MENUS.map(({ icon, label, route, iconH }) => (
+          {DRAWER_MENUS.map(({ icon, label, route, iconH, disabled }) => (
             <button
               key={label}
               className="fridge-drawer__menu-item"
-              onClick={() => { onClose(); navigate(route) }}
+              style={disabled ? { opacity: 0.4, cursor: 'default' } : undefined}
+              onClick={() => { if (!disabled) { onClose(); navigate(route) } }}
             >
               <img src={icon} width="34" height={iconH ?? 24} alt="" className="fridge-drawer__menu-icon"
                 onError={e => { e.currentTarget.style.opacity = '0' }} />

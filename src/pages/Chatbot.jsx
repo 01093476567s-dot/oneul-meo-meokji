@@ -20,6 +20,7 @@ const CHAT_ITEMS = [
     title: '양념장 만들기',
     preview: '고추장 큰술로 두번 더 넣어줘',
     date: '5월 20일',
+    disabled: true,
   },
   {
     id: 3,
@@ -29,6 +30,7 @@ const CHAT_ITEMS = [
     title: '칼로리 계산',
     previewLines: ['첨부한 사진을 분석합니다.', '칼로리 총 352kal로 나옵니다. 탄수화물 30%, 단백...'],
     date: '5월 12일',
+    disabled: true,
   },
   {
     id: 4,
@@ -90,7 +92,12 @@ export default function Chatbot() {
       {/* 채팅 목록 — flex-col gap-21px (Figma 308:1473) */}
       <div className="chatbot-list">
         {CHAT_ITEMS.map(item => (
-          <div key={item.id} className="chatbot-item" onClick={() => navigate('/chat-detail')}>
+          <div
+            key={item.id}
+            className="chatbot-item"
+            style={item.disabled ? { opacity: 0.45, cursor: 'default' } : undefined}
+            onClick={() => { if (!item.disabled) navigate('/chat-detail') }}
+          >
             {/* 썸네일 49×49, border-radius 15px */}
             <div
               className={`chatbot-item__thumb${item.thumbContain ? ' chatbot-item__thumb--contain' : ''}`}
