@@ -96,7 +96,7 @@ function MenuRecommendTab() {
           <div
             key={card.id}
             className="hmc"
-            style={card.id !== 1 ? { opacity: 0.55, cursor: 'default' } : undefined}
+            style={card.id !== 1 ? { cursor: 'default' } : undefined}
             onClick={() => { if (card.id === 1) navigate('/menu-detail', { state: { menuItem: card } }) }}
           >
             <img className="hmc__img" src={card.image} alt={card.title.join(' ')}

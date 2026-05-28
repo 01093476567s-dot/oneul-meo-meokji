@@ -95,7 +95,7 @@ export default function Chatbot() {
           <div
             key={item.id}
             className="chatbot-item"
-            style={item.disabled ? { opacity: 0.45, cursor: 'default' } : undefined}
+            style={item.disabled ? { cursor: 'default' } : undefined}
             onClick={() => { if (!item.disabled) navigate('/chat-detail') }}
           >
             {/* 썸네일 49×49, border-radius 15px */}

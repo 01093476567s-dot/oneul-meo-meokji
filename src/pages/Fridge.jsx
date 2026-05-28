@@ -201,7 +201,7 @@ function FridgeDrawer({ open, onClose, userName }) {
             <button
               key={label}
               className="fridge-drawer__menu-item"
-              style={disabled ? { opacity: 0.4, cursor: 'default' } : undefined}
+              style={disabled ? { cursor: 'default' } : undefined}
               onClick={() => { if (!disabled) { onClose(); navigate(route) } }}
             >
               <img src={icon} width="34" height={iconH ?? 24} alt="" className="fridge-drawer__menu-icon"
