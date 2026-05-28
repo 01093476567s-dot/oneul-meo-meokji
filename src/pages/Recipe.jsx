@@ -69,9 +69,18 @@ function StepContent({ step }) {
   )
 }
 
+const QUICK_CHIPS = [
+  ['어슷 썰기 방법', '양파 채 써는 방법', '고기 손질'],
+  ['남은 채소 보관', '고기 보관'],
+]
+
+const NOW_TIME = '오전 7:43'
+
 export default function Recipe() {
   const navigate = useNavigate()
   const [saved, setSaved] = useState(false)
+  const [chatOpen, setChatOpen] = useState(false)
+  const [chatInput, setChatInput] = useState('')
   const [swipeMode, setSwipeMode] = useState(false)
   const [currentStep, setCurrentStep] = useState(0)
   const touchStartX = useRef(null)
@@ -159,13 +168,83 @@ export default function Recipe() {
         </div>
       )}
 
-      {/* ── 챗봇 마스코트 (#app 기준 고정) ── */}
+      {/* ── 챗봇 마스코트 + 바텀시트 ── */}
       {createPortal(
-        <div className="rcp-bottom">
-          <button className="rcp-mascot-btn">
-            <img src="/assets/images/mmg-chat.gif" width="68" alt="레시피 문의" />
-          </button>
-        </div>,
+        <>
+          <div className="rcp-bottom">
+            <button className="rcp-mascot-btn" onClick={() => setChatOpen(true)}>
+              <img src="/assets/images/mmg-chat.gif" width="68" alt="레시피 문의" />
+            </button>
+          </div>
+
+          {chatOpen && (
+            <>
+              <div className="rcp-chat-overlay" onClick={() => setChatOpen(false)} />
+              <div className="rcp-chat-sheet">
+                {/* 핸들바 */}
+                <div className="rcp-chat-sheet__handle" />
+
+                {/* 헤더 */}
+                <div className="rcp-chat-sheet__header">
+                  <img src="/assets/images/mmg-smile.png" className="rcp-chat-sheet__mascot" alt="" />
+                  <div className="rcp-chat-sheet__header-text">
+                    <p className="rcp-chat-sheet__title">먹찌 여기 있어요.</p>
+                    <p className="rcp-chat-sheet__subtitle">· 무엇이든 물어보세요</p>
+                  </div>
+                </div>
+
+                <div className="rcp-chat-sheet__divider" />
+
+                {/* 채팅 영역 */}
+                <div className="rcp-chat-messages">
+                  <div className="rcp-chat-msg">
+                    <img src="/assets/images/mmg-moved.png" className="rcp-chat-msg__avatar" alt="" />
+                    <div className="rcp-chat-msg__right">
+                      <div className="rcp-chat-msg__bubble">
+                        <p>소불고기를 만드는 중이군요!</p>
+                        <p>먹찌 여기 있으니 언제든지 궁금한거 물어보세요!</p>
+                      </div>
+                      <span className="rcp-chat-msg__time">{NOW_TIME}</span>
+                      {/* 빠른 질문 칩 */}
+                      {QUICK_CHIPS.map((row, ri) => (
+                        <div key={ri} className="rcp-chat-chips">
+                          {row.map(chip => (
+                            <button key={chip} className="rcp-chat-chip">{chip}</button>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* 입력창 */}
+                <div className="rcp-chat-input-bar">
+                  <button className="rcp-chat-input-bar__plus">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path d="M8 2V14M2 8H14" stroke="#ff8c66" strokeWidth="1.8" strokeLinecap="round" />
+                    </svg>
+                  </button>
+                  <div className="rcp-chat-input-pill">
+                    <input
+                      className="rcp-chat-input-pill__input"
+                      placeholder="무엇이 궁금하세요?"
+                      value={chatInput}
+                      onChange={e => setChatInput(e.target.value)}
+                    />
+                    <button className="rcp-chat-input-pill__mic">
+                      <svg width="13" height="20" viewBox="0 0 13 20" fill="none">
+                        <rect x="3.5" y="0.5" width="6" height="11" rx="3" stroke="#ff8c66" strokeWidth="1.2" />
+                        <path d="M1 9.5C1 12.81 3.69 15.5 7 15.5C10.31 15.5 13 12.81 13 9.5" stroke="#ff8c66" strokeWidth="1.2" strokeLinecap="round" />
+                        <line x1="7" y1="15.5" x2="7" y2="19.5" stroke="#ff8c66" strokeWidth="1.2" strokeLinecap="round" />
+                        <line x1="4.5" y1="19.5" x2="9.5" y2="19.5" stroke="#ff8c66" strokeWidth="1.2" strokeLinecap="round" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+        </>,
         document.getElementById('app')
       )}
     </div>

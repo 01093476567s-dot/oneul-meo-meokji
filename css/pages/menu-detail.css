@@ -7,21 +7,33 @@
   display: flex;
   flex-direction: column;
   background: #fffaf5;
-  min-height: 100%;
+  height: 100%;
+}
+
+/* 스크롤 영역 */
+.mdc-scrollable {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* ── 히어로 이미지 ── */
 .mdc-hero {
   position: relative;
-  height: 420px;
+  height: 468px;
   flex-shrink: 0;
   overflow: hidden;
 }
 
 .mdc-hero__img {
   width: 100%;
-  height: 100%;
+  height: 135%;
   object-fit: cover;
+  object-position: center center;
+  position: absolute;
+  top: -25%;
+  left: 0;
 }
 
 .mdc-hero__gradient {
@@ -73,7 +85,7 @@
   position: absolute;
   bottom: 12px;
   left: 20px;
-  right: 180px;
+  right: 200px;
   display: flex;
   flex-direction: column;
   gap: 11px;
@@ -101,20 +113,28 @@
   font-size: 34px;
   color: #fff;
   letter-spacing: -0.68px;
-  line-height: 1.15;
+  line-height: normal;
   margin: 0;
   font-family: 'Pretendard', sans-serif;
+  font-weight: 100;
+}
+
+.mdc-hero__title--thin {
+  font-weight: 100;
+}
+
+.mdc-hero__title--light {
   font-weight: 300;
 }
 
 .mdc-hero__desc {
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.7);
-  text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.4);
+  color: rgba(255, 255, 255, 0.85);
   letter-spacing: -0.24px;
-  margin: 0;
+  line-height: 16px;
+  margin-bottom: 10px;
   font-family: 'Pretendard', sans-serif;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 /* ── 정보 바 (Figma 317:2583) — py-14px px-114px ── */
@@ -151,9 +171,8 @@
 .mdc-content {
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  align-items: center;
-  padding: 20px 20px 24px;
+  gap: 0;
+  padding: 0 0 24px;
 }
 
 /* ── 섹션 제목 ── */
@@ -162,6 +181,8 @@
   display: flex;
   flex-direction: column;
   gap: 5px;
+  padding: 20px 20px 0;
+  box-sizing: border-box;
 }
 
 .mdc-section-header__title {
@@ -185,17 +206,12 @@
   line-height: 21px;
 }
 
-/* ── 카드 ── */
-.mdc-card {
-  width: 100%;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.05);
-  padding: 26px 20px 33px;
+/* ── 재료+양념장 래퍼 (카드 없음) ── */
+.mdc-ingredient-wrap {
   display: flex;
   flex-direction: column;
-  gap: 30px;
-  box-sizing: border-box;
+  gap: 0;
+  width: 100%;
 }
 
 .mdc-card__title {
@@ -210,20 +226,45 @@
 .mdc-ingredient-section {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
+  padding: 10px 20px 0;
+}
+
+.mdc-ingredient-section__hd {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.mdc-edit-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 12px;
+  font-weight: 400;
+  font-family: 'Pretendard', sans-serif;
+  color: #2a2018;
+  cursor: pointer;
+  letter-spacing: -0.24px;
+}
+
+.mdc-edit-btn:active {
+  opacity: 0.6;
 }
 
 .mdc-ingredient-list {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   gap: 4px;
-  align-items: flex-start;
+  justify-items: center;
 }
 
 .mdc-ingredient-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex: 1;
+  width: 67px;
+  margin-bottom: 10px;
 }
 
 .mdc-ingredient-item__img {
@@ -247,6 +288,8 @@
   align-items: center;
   justify-content: center;
   white-space: nowrap;
+  width: 100%;
+  overflow: hidden;
 }
 
 .mdc-ingredient-item__status {
@@ -274,11 +317,17 @@
   font-weight: 500;
 }
 
+.mdc-ingredient-item__qty {
+  font-size: 12px;
+  font-weight: 400;
+  color: #000000;
+  font-family: 'Pretendard', sans-serif;
+  margin-left: 1px;
+}
+
 /* ── 양념장 섹션 ── */
 .mdc-sauce-section {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  padding: 30px 20px 0;
 }
 
 .mdc-sauce-pills {
@@ -305,13 +354,17 @@
   white-space: nowrap;
 }
 
-/* ── CTA 버튼 ── */
+/* ── CTA 버튼 (하단 고정) ── */
 .mdc-cta-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
   gap: 10px;
+  padding: 16px 20px;
+  background: #fffaf5;
+  flex-shrink: 0;
+  box-sizing: border-box;
 }
 
 .mdc-cta-btn {
@@ -332,4 +385,162 @@
 
 .mdc-cta-btn--lunchbox {
   background: #ff8c66;
+}
+
+/* ── 편집 바텀시트 ── */
+.mdc-edit-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 200;
+}
+
+.mdc-edit-sheet {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-radius: 25px 25px 0 0;
+  z-index: 201;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  padding: 15px 0 27px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+  animation: mdc-sheet-up 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@keyframes mdc-sheet-up {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+.mdc-edit-sheet__handle {
+  width: 35px;
+  height: 4px;
+  background: #d9d9d9;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.mdc-edit-sheet__header {
+  width: 100%;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  box-sizing: border-box;
+}
+
+.mdc-edit-sheet__title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mdc-edit-sheet__title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2a2018;
+  font-family: var(--font-family);
+  margin: 0;
+}
+
+.mdc-edit-sheet__reset {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(42, 32, 24, 0.5);
+  font-family: var(--font-family);
+  cursor: pointer;
+  padding: 4px 0;
+  letter-spacing: -0.24px;
+}
+
+.mdc-edit-sheet__reset:active {
+  opacity: 0.6;
+}
+
+.mdc-edit-sheet__accent {
+  color: #ff8c66;
+}
+
+.mdc-edit-sheet__sub {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(42, 32, 24, 0.7);
+  font-family: var(--font-family);
+  margin: 0;
+  line-height: 21px;
+}
+
+/* 편집 그리드 */
+.mdc-edit-sheet__grid {
+  width: 100%;
+  padding: 0 20px;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  column-gap: 4px;
+  row-gap: 20px;
+  justify-items: center;
+}
+
+.mdc-edit-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 67px;
+  position: relative;
+}
+
+.mdc-edit-item__remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.5;
+}
+
+.mdc-edit-item__remove:active {
+  opacity: 0.3;
+}
+
+/* + 추가 버튼 */
+.mdc-edit-add {
+  width: 60px;
+  height: 60px;
+  border: 1.5px dashed rgba(255, 140, 102, 0.6);
+  border-radius: 8px;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+/* 확인 버튼 */
+.mdc-edit-sheet__confirm {
+  width: 390px;
+  padding: 18px 0;
+  background: #ff8c66;
+  border: none;
+  border-radius: 17px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #fff;
+  font-family: var(--font-family);
+  letter-spacing: -0.36px;
+  cursor: pointer;
 }

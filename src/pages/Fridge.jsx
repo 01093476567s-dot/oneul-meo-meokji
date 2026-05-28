@@ -343,7 +343,9 @@ export default function Fridge() {
 
   return (
     <>
-      <Header type="fridge" onHamburger={() => setDrawerOpen(true)} />
+      <div className="fridge-header-sticky">
+        <Header type="fridge" onHamburger={() => setDrawerOpen(true)} />
+      </div>
       <FridgeDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} userName={user?.name || '가나다님'} />
       <div className="page-content fridge-page-content">
         {isEmpty && (

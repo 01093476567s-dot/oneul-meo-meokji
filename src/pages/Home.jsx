@@ -106,9 +106,6 @@ function MenuRecommendTab() {
               {card.title.map((line, i) => <p key={i}>{line}</p>)}
             </div>
             <span className="hmc__badge">{card.badge}</span>
-            <div className="hmc__desc">
-              {card.desc.map((line, i) => <p key={i}>{line}</p>)}
-            </div>
           </div>
         ))}
       </div>
@@ -118,8 +115,17 @@ function MenuRecommendTab() {
   )
 }
 
-// 데모용 도시락 기록 날짜 (5월 평일 5개)
-const DEMO_RECORD_DATES = ['2026-05-04', '2026-05-08', '2026-05-14', '2026-05-20', '2026-05-27']
+// 클릭 가능한 날짜 → 상세 기록 ID 맵 (실제 데이터 있는 날짜만)
+const RECORD_DETAIL_MAP = {
+  '2026-05-12': 1,
+}
+
+// 점 표시용 날짜 목록
+const DEMO_RECORD_DATES = [
+  '2026-03-18', '2026-03-20', '2026-03-23', '2026-03-25', '2026-03-27', '2026-03-30',
+  '2026-04-06', '2026-04-21',
+  '2026-05-04', '2026-05-05', '2026-05-06', '2026-05-12',
+]
 
 /* ── 도시락 기록 탭 (캘린더만) ── */
 function CalendarTab() {
@@ -215,10 +221,16 @@ function CalendarTab() {
                       <div
                         key={col}
                         className={`cal-cell${!isDim ? ' cal-cell--cur' : ''}`}
+                        style={(() => {
+                          if (isDim) return { cursor: 'default' }
+                          const d = `${year}-${String(month + 1).padStart(2, '0')}-${String(cell.d).padStart(2, '0')}`
+                          return RECORD_DETAIL_MAP[d] ? { cursor: 'pointer' } : { cursor: 'default' }
+                        })()}
                         onClick={() => {
                           if (isDim) return
                           const d = `${year}-${String(month + 1).padStart(2, '0')}-${String(cell.d).padStart(2, '0')}`
-                          navigate('/lunch-record', { state: { date: d } })
+                          const recordId = RECORD_DETAIL_MAP[d]
+                          if (recordId) navigate('/lunch-record-detail', { state: { id: recordId, date: d } })
                         }}
                       >
                         <span className="cal-cell__num-wrap">

@@ -27,6 +27,14 @@ export default function ManualInput() {
   const [expiry, setExpiry] = useState('')
   const [expiryFocused, setExpiryFocused] = useState(false)
   const [qty, setQty] = useState('')
+
+  function adjustQty(dir) {
+    const isGram = qty.toLowerCase().includes('g')
+    const step = isGram ? 10 : 0.5
+    const num = parseFloat(qty) || 0
+    const next = Math.max(step, parseFloat((num + dir * step).toFixed(1)))
+    setQty(isGram ? `${next}g` : String(next))
+  }
   const [category, setCategory] = useState('')
   const [icon, setIcon] = useState('')
   const [starred, setStarred] = useState(false)
@@ -186,14 +194,18 @@ export default function ManualInput() {
             </div>
             <div className="mi-input-row">
               <span className="mi-input-label">수량</span>
-              <input
-                className="mi-input-field"
-                type="text"
-                inputMode="text"
-                placeholder="수량을 설정해주세요."
-                value={qty}
-                onChange={(e) => setQty(e.target.value)}
-              />
+              <div className="mi-qty-stepper">
+                <button className="mi-qty-btn" onClick={() => adjustQty(-1)}>−</button>
+                <input
+                  className="mi-qty-input"
+                  type="text"
+                  inputMode="decimal"
+                  placeholder="수량"
+                  value={qty}
+                  onChange={(e) => setQty(e.target.value)}
+                />
+                <button className="mi-qty-btn" onClick={() => adjustQty(1)}>+</button>
+              </div>
             </div>
           </div>
 

@@ -28,8 +28,9 @@ export default function LunchboxConfirm() {
   const location   = useLocation()
   const [showPopup, setShowPopup] = useState(false)
 
-  const rice   = location.state?.selectedRice   ?? FALLBACK_RICE
-  const dishes = location.state?.selectedDishes ?? FALLBACK_DISHES
+  const rice        = location.state?.selectedRice     ?? FALLBACK_RICE
+  const dishes      = location.state?.selectedDishes   ?? FALLBACK_DISHES
+  const ingredients = location.state?.menuIngredients  ?? INGREDIENTS
 
   const [deducts, setDeducts] = useState(() => dishes.map(() => 15))
 
@@ -60,10 +61,17 @@ export default function LunchboxConfirm() {
           <div className="lbc-menu-left">
             <p className="lbc-menu-name">영양만점 소불고기 도시락</p>
             <div className="lbc-ingredient-list">
-              {INGREDIENTS.map(item => (
+              {ingredients.map(item => (
                 <div key={item.name} className="lbc-ingredient-item">
                   <img className="lbc-ingredient-img" src={item.icon} alt={item.name} />
-                  <span className="lbc-ingredient-name">{item.name}</span>
+                  <span className="lbc-ingredient-name">
+                    {item.name}
+                    {item.usedQty != null && (
+                      <span className="lbc-ingredient-qty">
+                        {item.isGram ? ` ${item.usedQty}g` : ` ${item.usedQty}`}
+                      </span>
+                    )}
+                  </span>
                 </div>
               ))}
             </div>
@@ -112,6 +120,12 @@ export default function LunchboxConfirm() {
           </div>
         ))}
 
+        {/* 안내 메시지 */}
+        <div className="lbc-notice">
+          <p>· 도시락에 담은 후 완료하면 추천 메뉴 식재료는 자동 차감됩니다.</p>
+          <p>· 양념장은 자동 차감이 안됩니다.</p>
+        </div>
+
         {/* 도시락 팁 */}
         <div className="lbc-tip-wrap">
           <img className="lbc-tip-mascot" src="/assets/images/mmg-idea.png" alt="" />
@@ -159,7 +173,11 @@ export default function LunchboxConfirm() {
 
             <p className="lbc-popup-note">· 남은 밥, 반찬은 냉장고 탭에서 확인 가능합니다.</p>
 
-            <button className="lbc-popup-btn" onClick={() => navigate('/')}>홈으로</button>
+            <div className="lbc-popup-btns">
+              <button className="lbc-popup-btn" onClick={() => navigate('/')}>홈으로</button>
+              <button className="lbc-popup-btn lbc-popup-btn--navy" onClick={() => navigate('/lunch-record', { state: { date: new Date().toISOString().slice(0, 10) } })}>도시락 기록 하러 가기</button>
+              <button className="lbc-popup-undo" onClick={() => setShowPopup(false)}>되돌리기</button>
+            </div>
           </div>
         </div>,
         document.getElementById('app')

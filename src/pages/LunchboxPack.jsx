@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 const RICE_OPTIONS = [
   { id: 0, name: '흰쌀밥',  icon: '/assets/icons/Ingradient/흰쌀밥.svg',  sub: '200g · 소분 2026.05.08 ~', current: 1, total: 4 },
@@ -15,6 +15,7 @@ const SIDE_DISHES = [
 
 export default function LunchboxPack() {
   const navigate = useNavigate()
+  const { state } = useLocation()
   const [selectedRice, setSelectedRice]   = useState(null)
   const [selectedDishes, setSelectedDishes] = useState([])
 
@@ -105,7 +106,7 @@ export default function LunchboxPack() {
               )
             })}
             {/* 추가 카드 */}
-            <div className="lbp-dish-add">
+            <div className="lbp-dish-add" onClick={() => navigate('/banchan-register')} style={{ cursor: 'pointer' }}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path d="M12 5V19M5 12H19" stroke="rgba(42,32,24,0.3)" strokeWidth="1.5" strokeLinecap="round"/>
               </svg>
@@ -123,6 +124,7 @@ export default function LunchboxPack() {
             state: {
               selectedRice:   RICE_OPTIONS.find(r => r.id === selectedRice),
               selectedDishes: SIDE_DISHES.filter(d => selectedDishes.includes(d.id)),
+              menuIngredients: state?.menuIngredients,
             }
           })}
         >

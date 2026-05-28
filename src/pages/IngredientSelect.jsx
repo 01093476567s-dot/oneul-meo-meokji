@@ -72,23 +72,29 @@ export default function IngredientSelect() {
     setCatFade(el.scrollLeft + el.clientWidth < el.scrollWidth - 4)
   }
 
+  function isGram(item) {
+    return String(item.quantity || '').toLowerCase().includes('g')
+  }
+
+  function getStep(item) {
+    return isGram(item) ? 10 : 0.5
+  }
+
   function toggleSelect(item) {
     setSelected(prev => {
       const exists = prev.find(s => s.id === item.id)
       if (exists) return prev.filter(s => s.id !== item.id)
-      return [...prev, { ...item, usedQty: 1, frozen: false }]
+      return [...prev, { ...item, usedQty: getStep(item), frozen: false }]
     })
   }
 
   function adjustQty(id, delta) {
     setSelected(prev =>
-      prev.map(s => s.id === id ? { ...s, usedQty: Math.max(1, s.usedQty + delta) } : s)
-    )
-  }
-
-  function toggleFrozen(id) {
-    setSelected(prev =>
-      prev.map(s => s.id === id ? { ...s, frozen: !s.frozen } : s)
+      prev.map(s => {
+        if (s.id !== id) return s
+        const step = isGram(s) ? 10 : 0.5
+        return { ...s, usedQty: Math.max(step, parseFloat((s.usedQty + delta * step).toFixed(1))) }
+      })
     )
   }
 
@@ -96,10 +102,8 @@ export default function IngredientSelect() {
     navigate(state?.from || '/lunch-record', {
       state: {
         ...(state?.currentFormState || {}),
-        selectedIngredients: selected.map(s => ({
-          ...s,
-          storageType: s.frozen ? '냉동' : '냉장',
-        })),
+        selectedIngredients: selected,
+        openEditSheet: state?.openEditSheet,
       },
       replace: true,
     })
@@ -155,7 +159,9 @@ export default function IngredientSelect() {
                       </svg>
                     </div>
                   )}
-                  <div className={`ing-badge ing-badge--${status}`}>{item.quantity}</div>
+                  <div className="ing-badge-row">
+                    <div className={`ing-badge ing-badge--${status}`}>{item.quantity}</div>
+                  </div>
                   <div className="ing-cell__content">
                     <div className="ing-cell__img-wrap">
                       <div className="ing-cell__item-area">
@@ -182,9 +188,9 @@ export default function IngredientSelect() {
         <div className="ing-select-panel">
           <div className="ing-select-panel__header">
             <p className="ing-select-panel__title">
-              사용한 재료 <span className="ing-select-panel__count">{selected.length}</span>
+              사용 할 재료 <span className="ing-select-panel__count">{selected.length}</span>
             </p>
-            <p className="ing-select-panel__subtitle">사용한 만큼 수량을 입력해주세요!</p>
+            <p className="ing-select-panel__subtitle">사용 할 만큼 수량을 입력해주세요!</p>
           </div>
 
           <div className="ing-select-panel__list">
@@ -212,24 +218,15 @@ export default function IngredientSelect() {
                     </div>
                   </div>
                 </div>
-                <button
-                  className={`ing-select-freeze-btn${item.frozen ? ' ing-select-freeze-btn--active' : ''}`}
-                  onClick={() => toggleFrozen(item.id)}
-                >
-                  <img
-                    src="/assets/icons/common/badge-frozen.svg"
-                    width="28" height="28"
-                    alt="냉동"
-                    style={{ filter: item.frozen ? 'none' : 'saturate(0) brightness(1.6)' }}
-                  />
-                </button>
                 <div className="ing-select-item__right">
                   <button className="ing-select-qty-btn" onClick={() => adjustQty(item.id, -1)}>
                     <svg width="12" height="2" viewBox="0 0 12 2" fill="none">
                       <path d="M1 1H11" stroke="#ff8c66" strokeWidth="1.5" strokeLinecap="round" />
                     </svg>
                   </button>
-                  <span className="ing-select-item__qty">{item.usedQty}</span>
+                  <span className="ing-select-item__qty">
+                    {isGram(item) ? `${item.usedQty}g` : item.usedQty}
+                  </span>
                   <button className="ing-select-qty-btn" onClick={() => adjustQty(item.id, 1)}>
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                       <path d="M6 1V11M1 6H11" stroke="#ff8c66" strokeWidth="1.5" strokeLinecap="round" />
@@ -241,7 +238,11 @@ export default function IngredientSelect() {
           </div>
 
           <div className="ing-select-panel__footer">
-            <button className="ing-select-panel__done" onClick={handleDone}>완료</button>
+            <button
+              className={`ing-select-panel__done${selected.length === 0 ? ' ing-select-panel__done--disabled' : ''}`}
+              onClick={handleDone}
+              disabled={selected.length === 0}
+            >식재료 담기</button>
           </div>
         </div>,
         document.getElementById('app')

@@ -140,6 +140,13 @@
   letter-spacing: -0.32px;
 }
 
+.ing-select-item__qty-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ff8c66;
+  margin-left: 2px;
+}
+
 .ing-select-item__expiry {
   display: flex;
   align-items: center;
@@ -227,4 +234,10 @@
 
 .ing-select-panel__done:active {
   opacity: 0.85;
+}
+
+.ing-select-panel__done--disabled {
+  background: #d9d9d9;
+  cursor: default;
+  pointer-events: none;
 }

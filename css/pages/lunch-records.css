@@ -2,7 +2,119 @@
    도시락 기록 모아보기 페이지 (280-2712)
    =========================== */
 
-/* ── 헤더 (Figma 280-2900): 뒤로 | 타이틀(절대중앙) | 검색+케밥 ── */
+/* ── 헤더 ── */
+.lrec-header2 {
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  gap: 8px;
+  background: #fffaf5;
+  flex-shrink: 0;
+}
+
+.lrec-h2__btn {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.lrec-h2__title {
+  flex: 1;
+  font-size: 17px;
+  font-weight: 600;
+  color: #2a2018;
+  font-family: var(--font-family);
+  letter-spacing: -0.34px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-left: 35px;
+}
+
+/* ── 검색 row (항상 렌더링, 케밥 항상 우측 끝) ── */
+.lrec-search-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 16px 8px;
+  justify-content: flex-end;
+}
+
+/* 케밥을 오른쪽 끝 고정 */
+.lrec-kebab-wrap--row {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+@keyframes lrec-pill-drop {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* pill */
+.lrec-search-bar-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff0e8;
+  border-radius: 9999px;
+  padding: 10px 16px;
+  flex: 1;
+  min-width: 0;
+}
+
+.lrec-search-pill__input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: var(--font-family);
+  color: #ff8c66;
+  outline: none;
+  letter-spacing: -0.28px;
+  min-width: 0;
+}
+
+.lrec-search-pill__input::placeholder {
+  color: rgba(255, 140, 102, 0.4);
+}
+
+.lrec-search-pill__clear,
+.lrec-search-pill__close {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.lrec-search-pill__close {
+  font-size: 12px;
+  color: rgba(42, 32, 24, 0.5);
+  font-family: var(--font-family);
+  margin-left: 2px;
+  white-space: nowrap;
+}
+
+/* 오른쪽 액션 버튼 그룹 */
+.lrec-h2__actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+
+/* 헤더 (Figma 280-2900): 뒤로 | 타이틀(절대중앙) | 검색+케밥 - 기존 유지 */
 .lrec-header {
   position: relative;
 }
@@ -17,7 +129,7 @@
 .lrec-header__right {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 20px;
 }
 
 /* 활성 상태 아이콘 (검색창 열렸을 때) */
@@ -134,7 +246,31 @@
 }
 
 .lrec-content {
-  padding-bottom: 40px;
+  padding-bottom: 90px;
+}
+
+/* ── 기록 추가 FAB ── */
+.lrec-fab {
+  position: absolute;
+  bottom: 24px;
+  right: 20px;
+  width: 59px;
+  height: 59px;
+  border-radius: 50%;
+  background: var(--primary);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0px 4px 2px rgba(0, 0, 0, 0.25));
+  box-shadow: 0px 25px 50px -12px rgba(119, 99, 0, 0.4);
+  transition: transform 0.1s ease;
+  z-index: 10;
+}
+
+.lrec-fab:active {
+  transform: scale(0.92);
 }
 
 /* ── 월 섹션 ── */
@@ -153,10 +289,10 @@
   letter-spacing: -0.28px;
 }
 
-/* 3열 그리드 (Figma: 3×122px, gap 12px, px 20px) */
+/* 3열 그리드 (gap 12px, px 20px) */
 .lrec-grid {
   display: grid;
-  grid-template-columns: repeat(3, 122px);
+  grid-template-columns: repeat(3, 1fr);
   gap: 12px;
   padding: 0 20px;
 }
@@ -169,10 +305,11 @@
   cursor: pointer;
 }
 
-/* 사진 영역 122×122px, rounded 12px */
+/* 사진 영역 — 셀 너비에 맞게 1:1 비율 */
 .lrec-card__photo {
-  width: 122px;
-  height: 122px;
+  width: 100%;
+  aspect-ratio: 1;
+  height: auto;
   border-radius: 12px;
   background: #d9d9d9;
   overflow: hidden;

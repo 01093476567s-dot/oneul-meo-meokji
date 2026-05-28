@@ -2,13 +2,34 @@
    도시락 기록 페이지
    =========================== */
 
+/* ── 페이지 래퍼: flex column, 화면 꽉 채움 ── */
+.lr-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .lr-content {
-  padding-bottom: 100px;
+  flex: 1;
+}
+
+/* ── CTA 버튼 고정 ── */
+.lr-cta {
+  padding: 12px 20px 34px;
+  background: #fffaf5;
+  flex-shrink: 0;
 }
 
 /* ── 사진 섹션 ── */
 .lr-photo-section {
   padding: 16px 20px 14px;
+  border-bottom: 1px solid rgba(255, 140, 102, 0.20);
+}
+
+.lr-photo-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .lr-photo-box {
@@ -23,6 +44,7 @@
   justify-content: center;
   gap: 6px;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .lr-photo-icon {
@@ -38,10 +60,105 @@
   font-family: var(--font-family);
 }
 
-/* ── 구분선 ── */
-.lr-divider {
+/* 업로드된 사진 썸네일 */
+.lr-photo-thumb {
+  position: relative;
+  width: 83px;
+  height: 82px;
+  border-radius: 5px;
+  overflow: visible;
+  flex-shrink: 0;
+}
+
+.lr-photo-thumb__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+  display: block;
+}
+
+.lr-photo-thumb__remove {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(42, 32, 24, 0.5);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  z-index: 1;
+}
+
+/* ── 사진 선택 바텀시트 ── */
+.lr-sheet-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 200;
+}
+
+.lr-sheet {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-radius: 20px 20px 0 0;
+  z-index: 201;
+  padding-bottom: 24px;
+  animation: lr-sheet-up 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@keyframes lr-sheet-up {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+.lr-sheet__handle {
+  width: 36px;
+  height: 4px;
+  background: rgba(42, 32, 24, 0.15);
+  border-radius: 2px;
+  margin: 12px auto 8px;
+}
+
+.lr-sheet__btn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 18px 24px;
+  background: none;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  color: #2a2018;
+  font-family: var(--font-family);
+  letter-spacing: -0.32px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.lr-sheet__btn:active {
+  background: rgba(42, 32, 24, 0.04);
+}
+
+.lr-sheet__btn--cancel {
+  color: rgba(42, 32, 24, 0.4);
+  justify-content: center;
+  font-size: 15px;
+}
+
+.lr-sheet__divider {
   height: 1px;
-  background: rgba(42, 32, 24, 0.08);
+  background: rgba(42, 32, 24, 0.07);
+  margin: 0 24px;
 }
 
 /* ── 행 (날짜 / 입력필드) ── */
@@ -50,12 +167,14 @@
   min-height: 50px;
   display: flex;
   align-items: center;
+  border-bottom: 1px solid rgba(255, 140, 102, 0.20);
 }
 
 .lr-row--tall {
   align-items: flex-start;
   padding-top: 14px;
   min-height: 200px;
+  border-bottom: none;
 }
 
 .lr-date {
@@ -68,15 +187,17 @@
   width: 100%;
   border: none;
   background: transparent;
-  font-size: 14px;
+  font-size: 18px;
+  font-weight: 500;
   font-family: var(--font-family);
   color: #2a2018;
   outline: none;
-  letter-spacing: -0.28px;
+  letter-spacing: -0.36px;
 }
 
 .lr-input::placeholder {
-  color: rgba(42, 32, 24, 0.2);
+  color: #ffc8b4;
+  font-weight: 500;
 }
 
 .lr-textarea {
@@ -94,7 +215,7 @@
 }
 
 .lr-textarea::placeholder {
-  color: rgba(42, 32, 24, 0.2);
+  color: #ffc8b4;
 }
 
 /* ── 태그 행 (칩 + 인라인 입력, Figma 280-2311) ── */
@@ -106,6 +227,7 @@
   padding: 10px 20px;
   min-height: 50px;
   cursor: text;
+  border-bottom: 1px solid rgba(255, 140, 102, 0.20);
 }
 
 /* 태그 칩: bg #fff0e8, rounded 50px, px 14px py 6px, 오렌지 텍스트 */
@@ -143,7 +265,7 @@
 }
 
 .lr-tag-input::placeholder {
-  color: rgba(42, 32, 24, 0.2);
+  color: #ffc8b4;
 }
 
 /* ── 식재료 섹션 ── */
@@ -240,14 +362,27 @@
   overflow-x: hidden;
 }
 
-/* 대표 사진 308×308, 가운데 정렬 */
-.lrd-photo {
-  width: 308px;
-  height: 308px;
-  border-radius: 12px;
+/* ── 사진 캐러셀 ── */
+.lrd-carousel {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
   background: #d9d9d9;
   overflow: hidden;
-  margin: 28px auto 0;
+  flex-shrink: 0;
+}
+
+.lrd-carousel__track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.lrd-carousel__slide {
+  width: 100%;
+  height: 100%;
+  flex-shrink: 0;
 }
 
 .lrd-photo__img {
@@ -257,24 +392,75 @@
   display: block;
 }
 
-/* 제목 */
+/* 우상단 숫자 카운터 (n/n) */
+.lrd-carousel__counter {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: var(--font-family);
+  padding: 4px 10px;
+  border-radius: 20px;
+  letter-spacing: -0.26px;
+}
+
+/* 하단 점 인디케이터 */
+.lrd-carousel__dots {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.lrd-carousel__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  transition: background 0.2s, transform 0.2s;
+}
+
+.lrd-carousel__dot--active {
+  background: #fff;
+  transform: scale(1.25);
+}
+
+/* 제목: 피치 배경 바 */
 .lrd-title {
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 500;
   color: #2a2018;
   text-align: center;
   letter-spacing: -0.36px;
-  margin: 20px 20px 0;
+  margin: 0;
+  background: #fff0e8;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
   line-height: normal;
 }
 
-/* 태그 행 (flex-wrap, 중앙 정렬) */
+/* 태그 섹션 */
 .lrd-tags {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 20px 20px 0;
+}
+
+.lrd-tags__row {
+  display: flex;
+  gap: 5px;
   justify-content: center;
-  gap: 8px;
-  padding: 16px 20px 0;
 }
 
 /* 메모 텍스트 */
@@ -284,7 +470,7 @@
   color: #2a2018;
   text-align: center;
   line-height: 1.7;
-  margin: 24px 40px 0;
+  margin: 20px 40px 0;
   white-space: pre-line;
 }
 

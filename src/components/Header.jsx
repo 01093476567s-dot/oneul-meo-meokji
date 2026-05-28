@@ -7,18 +7,12 @@ export default function Header({ type = 'main', title = '', onHamburger }) {
 
   if (type === 'fridge') {
     return (
-      <header className="app-header">
-        <button className="app-header__logo" onClick={() => navigate('/')}>
-          <img
-            src="/assets/images/brand/img-logo.svg"
-            height="36"
-            alt="오늘 머먹지?"
-          />
-        </button>
-        <button className="app-header__hamburger" onClick={onHamburger}>
+      <div className="chatbot-header">
+        <h1 className="chatbot-header__title">냉장고</h1>
+        <button className="chatbot-header__icon-btn" onClick={onHamburger}>
           <img src="/assets/icons/common/ic-menu.svg" width="28" alt="메뉴" />
         </button>
-      </header>
+      </div>
     )
   }
 

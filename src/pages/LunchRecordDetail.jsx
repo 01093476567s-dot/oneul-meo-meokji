@@ -1,35 +1,92 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 
 /* ── mock 상세 데이터 (실제 저장 데이터로 교체 예정) ── */
 const MOCK_DETAIL = {
   1:  {
-    title: '간단한 김치볶음밥',
+    title: '감태 뿌린 도시락',
     date: '2026-05-12',
-    img: '/images/소불고기.jpg',
-    tags: ['#완전 맛있는', '#다음에 또', '#돼지고기', '#간단', '#배추'],
-    content: '내가 직접 만든 소불고기 너무 맛있었다!!\n다음에 또 해먹어야지',
-    ingredients: [
-      { name: '소고기', icon: null },
-      { name: '깻잎', icon: null },
-      { name: '버섯', icon: null },
+    images: [
+      '/assets/images/lunch-records-1.jpg',
+      '/assets/images/lunch-records-1-1.jpg',
+      '/assets/images/lunch-records-1-2.jpg',
     ],
+    tags: ['#감태후레이크', '#진미채', '#시금치무침', '#계란말이', '#알록달록'],
+    content: '감태 솔솔 뿌리니까 진짜 밥도둑이었다!!\n감태가 몰랐는데 단백질이 엄청 듬뿍이라네\n새우 넣은 계란말이도 대 성공\n\n왕 만족 ^.^',
   },
-  2:  { title: '간단 요리 기록',    date: '2026-05-06', img: '/images/두부스테이크.jpg',      tags: ['#두부', '#건강식'], content: '두부로 만든 스테이크, 생각보다 맛있었다!', ingredients: [] },
-  3:  { title: '오늘의 밥상',       date: '2026-05-05', img: '/images/간장계란버터밥.jpg',    tags: ['#계란', '#간단'], content: '간장 계란 버터밥, 최고의 조합', ingredients: [] },
-  4:  { title: '단백질 챙기기',     date: '2026-05-04', img: '/assets/images/장조림.png',    tags: ['#장조림'], content: '', ingredients: [] },
-  5:  { title: '한입 행복',         date: '2026-04-21', img: '/assets/images/우엉조림.png',  tags: ['#우엉', '#건강'], content: '', ingredients: [] },
-  6:  { title: '냠냠 기록',         date: '2026-04-06', img: '/assets/images/연근.png',      tags: [], content: '', ingredients: [] },
-  7:  { title: '청양고추 킥🔥',    date: '2026-03-30', img: null, tags: ['#매운맛'], content: '오늘은 청양 고추 한가득!', ingredients: [] },
-  8:  { title: '계란 듬뿍 도시락', date: '2026-03-27', img: null, tags: ['#계란'], content: '', ingredients: [] },
-  9:  { title: '낙지 매콤 한 끼',   date: '2026-03-25', img: null, tags: ['#낙지', '#매운맛'], content: '', ingredients: [] },
-  10: { title: '참치 든든 도시락', date: '2026-03-23', img: null, tags: ['#참치'], content: '', ingredients: [] },
-  11: { title: '그냥 밑반찬만 싸간', date: '2026-03-20', img: null, tags: [], content: '', ingredients: [] },
-  12: { title: '오늘도 잘 먹었다', date: '2026-03-18', img: null, tags: [], content: '', ingredients: [] },
+  2:  { title: '간단 요리 기록',    date: '2026-05-06', images: ['/assets/images/lunch-records-2.jpg'], tags: ['#두부', '#건강식'], content: '두부로 만든 스테이크, 생각보다 맛있었다!' },
+  3:  { title: '오늘의 밥상',       date: '2026-05-05', images: ['/assets/images/lunch-records-3.jpg'], tags: ['#계란', '#간단'], content: '간장 계란 버터밥, 최고의 조합' },
+  4:  { title: '단백질 챙기기',     date: '2026-05-04', images: ['/assets/images/lunch-records-4.jpg'], tags: ['#장조림'], content: '' },
+  5:  { title: '한입 행복',         date: '2026-04-21', images: ['/assets/images/lunch-records-5.jpg'], tags: ['#우엉', '#건강'], content: '' },
+  6:  { title: '냠냠 기록',         date: '2026-04-06', images: ['/assets/images/lunch-records-6.jpg'], tags: [], content: '' },
+  7:  { title: '청양고추 킥🔥',    date: '2026-03-30', images: ['/assets/images/lunch-records-7.jpg'], tags: ['#매운맛'], content: '오늘은 청양 고추 한가득!' },
+  8:  { title: '가지 도시락',       date: '2026-03-27', images: ['/assets/images/lunch-records-8.jpg'], tags: ['#가지'], content: '' },
+  9:  { title: '우삼겹 + 상큼유자', date: '2026-03-25', images: ['/assets/images/lunch-records-9.jpg'], tags: ['#우삼겹'], content: '' },
+  10: { title: '미나리 초무침',     date: '2026-03-23', images: ['/assets/images/lunch-records-10.jpg'], tags: ['#미나리'], content: '' },
+  11: { title: '간단 돈까스',       date: '2026-03-20', images: ['/assets/images/lunch-records-11.jpg'], tags: [], content: '' },
+  12: { title: '오늘도 잘 먹었다',  date: '2026-03-18', images: ['/assets/images/lunch-records-12.jpg'], tags: [], content: '' },
 }
 
 function formatHeaderDate(dateStr) {
   return dateStr.replace(/-/g, '.')
+}
+
+function PhotoCarousel({ images }) {
+  const [idx, setIdx] = useState(0)
+  const touchStartX = useRef(null)
+
+  if (!images || images.length === 0) {
+    return <div className="lrd-photo" />
+  }
+
+  function onTouchStart(e) {
+    touchStartX.current = e.touches[0].clientX
+  }
+
+  function onTouchEnd(e) {
+    if (touchStartX.current === null) return
+    const dx = e.changedTouches[0].clientX - touchStartX.current
+    touchStartX.current = null
+    if (dx < -40 && idx < images.length - 1) setIdx(i => i + 1)
+    else if (dx > 40 && idx > 0) setIdx(i => i - 1)
+  }
+
+  return (
+    <div className="lrd-carousel" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+      <div
+        className="lrd-carousel__track"
+        style={{ transform: `translateX(${-idx * 100}%)` }}
+      >
+        {images.map((src, i) => (
+          <div key={i} className="lrd-carousel__slide">
+            <img
+              src={src}
+              alt=""
+              className="lrd-photo__img"
+              onError={e => { e.currentTarget.style.display = 'none' }}
+            />
+          </div>
+        ))}
+      </div>
+
+      {/* 우상단 카운터 */}
+      {images.length > 1 && (
+        <div className="lrd-carousel__counter">{idx + 1}/{images.length}</div>
+      )}
+
+      {/* 하단 점 인디케이터 */}
+      {images.length > 1 && (
+        <div className="lrd-carousel__dots">
+          {images.map((_, i) => (
+            <span
+              key={i}
+              className={`lrd-carousel__dot${i === idx ? ' lrd-carousel__dot--active' : ''}`}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  )
 }
 
 export default function LunchRecordDetail() {
@@ -73,7 +130,7 @@ export default function LunchRecordDetail() {
                 <button
                   className="lrec-kebab-item"
                   onClick={() => {
-                    navigate('/lunch-record', { state: { date: record.date, name: record.title, tags: record.tags, content: record.content } })
+                    navigate('/lunch-record', { state: { date: record.date, name: record.title, tags: record.tags, content: record.content, isEdit: true } })
                     setKebabOpen(false)
                   }}
                 >
@@ -93,17 +150,8 @@ export default function LunchRecordDetail() {
 
       {/* ── 본문 ── */}
       <div className="lrd-content">
-        {/* 대표 사진 */}
-        <div className="lrd-photo">
-          {record.img && (
-            <img
-              src={record.img}
-              alt={record.title}
-              className="lrd-photo__img"
-              onError={e => { e.currentTarget.style.display = 'none' }}
-            />
-          )}
-        </div>
+        {/* 사진 캐러셀 */}
+        <PhotoCarousel images={record.images} />
 
         {/* 제목 */}
         <h1 className="lrd-title">{record.title}</h1>
@@ -111,9 +159,18 @@ export default function LunchRecordDetail() {
         {/* 태그 */}
         {record.tags.length > 0 && (
           <div className="lrd-tags">
-            {record.tags.map((tag, i) => (
-              <span key={i} className="lr-tag-chip">{tag}</span>
-            ))}
+            <div className="lrd-tags__row">
+              {record.tags.slice(0, 3).map((tag, i) => (
+                <span key={i} className="lr-tag-chip">{tag}</span>
+              ))}
+            </div>
+            {record.tags.length > 3 && (
+              <div className="lrd-tags__row">
+                {record.tags.slice(3).map((tag, i) => (
+                  <span key={i} className="lr-tag-chip">{tag}</span>
+                ))}
+              </div>
+            )}
           </div>
         )}
 
@@ -121,30 +178,9 @@ export default function LunchRecordDetail() {
         {record.content && (
           <p className="lrd-memo">{record.content}</p>
         )}
-
-        {/* 구분선 */}
-        <div className="lrd-divider" />
-
-        {/* 사용한 식재료 */}
-        <div className="lrd-ingredients">
-          <p className="lrd-ingredients__label">사용한 식재료</p>
-          {record.ingredients.length > 0 ? (
-            <div className="lrd-ingredients__list">
-              {record.ingredients.map((ing, i) => (
-                <div key={i} className="lr-ingredient-card">
-                  {ing.icon && (
-                    <img src={ing.icon} alt={ing.name} className="lr-ingredient-card__img" />
-                  )}
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p className="lrd-ingredients__empty">기록된 식재료가 없어요</p>
-          )}
-        </div>
       </div>
 
-      {/* ── 삭제 확인 팝업 (Figma 274-1263) ── */}
+      {/* ── 삭제 확인 팝업 ── */}
       {deleteModalOpen && (
         <div className="lrd-modal-overlay" onClick={() => setDeleteModalOpen(false)}>
           <div className="lrd-modal" onClick={e => e.stopPropagation()}>

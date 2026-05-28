@@ -563,6 +563,19 @@
   text-align: center;
 }
 
+.di-sel-qty-input {
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  font-weight: 700;
+  color: #2a2018;
+  font-family: var(--font-family);
+  width: 40px;
+  text-align: center;
+  outline: none;
+  padding: 0;
+}
+
 .di-sel-star {
   cursor: pointer;
   background: none;
@@ -748,6 +761,53 @@
 .mi-input-field[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+/* ── 수량 스테퍼 ── */
+.mi-qty-stepper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.mi-qty-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1.5px solid #ff8c66;
+  background: none;
+  color: #ff8c66;
+  font-size: 18px;
+  font-weight: 400;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.mi-qty-btn:active {
+  background: rgba(255, 140, 102, 0.1);
+}
+
+.mi-qty-input {
+  width: 56px;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  color: #2a2018;
+  font-family: var(--font-family);
+  outline: none;
+  text-align: center;
+}
+
+.mi-qty-input::placeholder {
+  color: rgba(0, 0, 0, 0.2);
+  font-size: 11px;
 }
 
 /* ── 재료담기 CTA row ── */

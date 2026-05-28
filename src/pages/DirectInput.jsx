@@ -154,7 +154,7 @@ export default function DirectInput() {
       const idx = prev.findIndex((s) => s.name === item.name)
       if (idx >= 0) return prev.filter((_, i) => i !== idx)
       if (!selectedOpen) setSelectedOpen(true)
-      return [...prev, { ...item, qty: 1, starred: isFavorite(item.name), frozen: false }]
+      return [...prev, { ...item, qty: isGramUnit(item) ? 10 : 1, starred: isFavorite(item.name), frozen: false }]
     })
   }
 
@@ -164,9 +164,24 @@ export default function DirectInput() {
     )
   }
 
+  function isGramUnit(item) {
+    return String(item.quantity || item.name || '').toLowerCase().includes('g')
+  }
+
   function adjustQty(i, delta) {
     setSelectedItems((prev) =>
-      prev.map((item, idx) => idx === i ? { ...item, qty: Math.max(1, item.qty + delta) } : item)
+      prev.map((item, idx) => {
+        if (idx !== i) return item
+        const step = isGramUnit(item) ? 10 : 0.5
+        const next = Math.max(step, parseFloat((item.qty + delta * step).toFixed(1)))
+        return { ...item, qty: next }
+      })
+    )
+  }
+
+  function setQtyDirect(i, val) {
+    setSelectedItems((prev) =>
+      prev.map((item, idx) => idx === i ? { ...item, qty: val } : item)
     )
   }
 
@@ -328,7 +343,13 @@ export default function DirectInput() {
                     </button>
                     <div className="di-sel-item__qty">
                       <button className="di-sel-qty-btn" onClick={() => adjustQty(i, -1)}>−</button>
-                      <span className="di-sel-qty-val">{item.qty}</span>
+                      <input
+                        className="di-sel-qty-val di-sel-qty-input"
+                        type="text"
+                        inputMode="text"
+                        value={item.qty}
+                        onChange={e => setQtyDirect(i, e.target.value)}
+                      />
                       <button className="di-sel-qty-btn" onClick={() => adjustQty(i, 1)}>+</button>
                     </div>
                     <button className="di-sel-star" onClick={() => toggleStar(i)}>

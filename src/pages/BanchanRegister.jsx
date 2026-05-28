@@ -1,6 +1,13 @@
 import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 
+function resolveIconSrc(ing) {
+  if (!ing.icon) return `/assets/icons/Ingradient/${ing.name}.svg`
+  if (ing.icon.startsWith('data:') || ing.icon.startsWith('blob:') || ing.icon.startsWith('/')) return ing.icon
+  const name = ing.icon.endsWith('.svg') ? ing.icon : `${ing.icon}.svg`
+  return `/assets/icons/${ing.folder || 'Ingradient'}/${name}`
+}
+
 const DISH_COLORS = [
   '#D9EED4',
   '#D4E9F1',
@@ -40,12 +47,12 @@ export default function BanchanRegister() {
     setIngredients(prev => prev.filter((_, i) => i !== idx))
   }
 
+  const [showPopup, setShowPopup] = useState(false)
   const canSubmit = name.trim().length > 0
 
   function handleSubmit() {
     if (!canSubmit) return
-    // 실제 저장 로직은 추후 구현
-    navigate(-1)
+    setShowPopup(true)
   }
 
   return (
@@ -122,16 +129,14 @@ export default function BanchanRegister() {
           </div>
         </div>
 
-        {/* ── 사용한 식재료 ── */}
+        {/* ── 사용 할 식재료 ── */}
         <div className="lr-divider" />
-        <p className="br-ingredients-label">사용한 식재료를 선택해주세요.</p>
+        <p className="br-ingredients-label">사용 할 식재료를 선택해주세요.</p>
         <div className="br-ingredients-row">
           {ingredients.map((ing, i) => (
             <div key={i} className="lr-ingredient-card" style={{ position: 'relative' }}>
-              {ing.icon && (
-                <img src={ing.icon} alt={ing.name} className="lr-ingredient-card__img"
-                  onError={e => { e.currentTarget.style.display = 'none' }} />
-              )}
+              <img src={resolveIconSrc(ing)} alt={ing.name} className="lr-ingredient-card__img"
+                onError={e => { e.currentTarget.style.opacity = '0.2' }} />
               <button
                 className="lr-ingredient-card__remove"
                 onClick={() => removeIngredient(i)}
@@ -144,6 +149,7 @@ export default function BanchanRegister() {
           ))}
           <button className="lr-ingredient-add" onClick={handleAddIngredient}>+</button>
         </div>
+        <p className="br-ingredients-notice">· 입력한 식재료가 냉장고에서 자동 차감됩니다.</p>
       </div>
 
       {/* ── 반찬 등록 CTA ── */}
@@ -156,6 +162,32 @@ export default function BanchanRegister() {
           반찬 등록
         </button>
       </div>
+
+      {/* ── 완료 팝업 ── */}
+      {showPopup && (
+        <div className="br-popup-overlay">
+          <div className="br-popup">
+            <div className="br-popup__body">
+              <div className="br-popup__text">
+                <p className="br-popup__title">반찬을 만들었어요.</p>
+                <p className="br-popup__sub">입력한 식재료는 냉장고에서 자동으로 차감됩니다.</p>
+              </div>
+              <div className="br-popup__img-wrap">
+                {/* 파티클 */}
+                {[1,2,3,4,5,6,7,8].map(i => (
+                  <div key={i} className={`br-particle br-particle--${i}`} />
+                ))}
+                <img src="/assets/images/mmg-completion-2-1.png" alt="" className="br-popup__img-effect" />
+                <img src="/assets/images/mmg-completion-2.png" alt="" className="br-popup__img" />
+              </div>
+            </div>
+            <button className="br-popup__btn" onClick={() => navigate(-1)}>
+              도시락 계속 만들기
+            </button>
+            <button className="br-popup__undo" onClick={() => setShowPopup(false)}>되돌리기</button>
+          </div>
+        </div>
+      )}
     </>
   )
 }
