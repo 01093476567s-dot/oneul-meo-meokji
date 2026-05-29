@@ -221,6 +221,18 @@
   margin-bottom: 50px;
 }
 
+/* 피그마 349-1314 안내문구 */
+.cal-notice {
+  margin: 0;
+  padding: 0 20px 20px;
+  font-size: 10px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.7);
+  font-family: var(--font-family);
+  letter-spacing: -0.2px;
+  line-height: normal;
+}
+
 .cal-box {
   padding: 0 20px;
 }
@@ -525,55 +537,101 @@
 }
 
 /* ── 인사 섹션 ── */
-.home-greeting {
+/* ── 피그마 348-1313 상단 절감액 pill ── */
+.home-top-row {
   display: flex;
-  align-items: end;
-  justify-content: space-between;
-  padding: 0 20px;
-  background: #fffaf5;
-  margin-bottom: 30px;
+  justify-content: flex-end;
+  padding: 20px 20px 0;
 }
 
-.home-greeting__left {
+.home-savings-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff0e8;
+  border-radius: 12px;
+  width: 192px;
+  height: 39px;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.home-savings-pill__label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #2a2018;
+  font-family: var(--font-family);
+  letter-spacing: -0.28px;
+  white-space: nowrap;
+}
+
+.home-savings-pill__amount {
+  font-size: 12px;
+  font-weight: 500;
+  color: #2a2018;
+  font-family: var(--font-family);
+  letter-spacing: -0.24px;
+  white-space: nowrap;
+}
+
+/* ── 피그마 348-1313 중앙 인사 섹션 ── */
+.home-greeting-new {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  height: 316px;
 }
 
-.home-greeting__name-row {
+.home-greeting-new__char {
+  width: 129px;
+  height: 106px;
+  object-fit: cover;
+}
+
+.home-greeting-new__text {
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 8px;
 }
 
-.home-greeting__name {
+.home-greeting-new__name-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.home-greeting-new__name {
   font-size: 24px;
   font-weight: 700;
   color: #2a2018;
+  font-family: var(--font-family);
 }
 
-.home-greeting__badge {
+.home-greeting-new__badge {
   background: #ff8c66;
   color: #fff;
   font-size: 10px;
   font-weight: 500;
   border-radius: 11px;
   padding: 2px 7px;
-  text-align: center;
+  height: 16px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-family);
 }
 
-.home-greeting__sub {
+.home-greeting-new__sub {
   font-size: 20px;
   font-weight: 500;
-  color: #2A2018;
+  color: #2a2018;
+  font-family: var(--font-family);
+  text-align: center;
   margin: 0;
-}
-
-.home-greeting__char {
-  width: 140px;
-  height: 140px;
-  object-fit: contain;
-  flex-shrink: 0;
 }
 
 /* ── 홈 절감액 바 (탭 위) ── */

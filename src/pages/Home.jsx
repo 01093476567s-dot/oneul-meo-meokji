@@ -2,10 +2,6 @@ import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useFridge } from '../context/FridgeContext'
 
-// Figma 임시 에셋 (7일 후 만료 예정 - 로컬 파일로 교체 필요)
-const IMG_WELCOME      = 'https://www.figma.com/api/mcp/asset/14b1660e-38ea-4029-9fb5-2157971514f8'
-const IMG_SAVINGS_CHAR = 'https://www.figma.com/api/mcp/asset/33957a6d-dba7-4bba-a53e-d73c2afe97f7'
-const IMG_MMG_NOTE     = '/assets/images/mmg-note.png'
 
 const MENU_CARDS = [
   {
@@ -259,6 +255,22 @@ function CalendarTab() {
           })}
         </div>
       </div>
+
+      {/* 피그마 349-1314 안내문구 */}
+      <p className="cal-notice">· 색상으로 밑반찬을 확인 할 수 있어요.</p>
+
+      {/* 도시락 기록 모아보기 카드 */}
+      <div className="hrecords-wrap" onClick={() => navigate('/lunch-records')}>
+        <img className="hrecords-char" src="/assets/images/mmg-note.png" alt=""
+          onError={e => { e.currentTarget.style.display = 'none' }} />
+        <div className="hrecords-card">
+          <div className="hrecords-card__texts">
+            <p className="hrecords-card__title">도시락 기록 모아보기</p>
+            <p className="hrecords-card__sub">도시락 기록을 추가 할 수 있어요!</p>
+          </div>
+          <img src="/assets/icons/action/ic-chevron-right.svg" width="9" height="17" alt="" style={{ marginRight: 20, flexShrink: 0 }} />
+        </div>
+      </div>
     </div>
   )
 }
@@ -266,43 +278,32 @@ function CalendarTab() {
 /* ── 홈 메인 ── */
 export default function Home() {
   const navigate = useNavigate()
-  const { cart, records } = useFridge()
+  const { records } = useFridge()
   const [activeTab, setActiveTab] = useState('menu')
   const [expandedMap, setExpandedMap] = useState({})
   const totalSaved = records.reduce((sum, r) => sum + (r.savedAmount || 0), 0)
 
   return (
     <>
-      {/* 헤더 */}
-      <header className="home-header">
-        <button className="home-header__logo" onClick={() => navigate('/')}>
-          <img src="/assets/images/brand/img-logo.svg" height={36} alt="오늘 머먹지?" />
-        </button>
-        <button className="home-header__cart-btn" onClick={() => navigate('/cart')}>
-          <img src="/assets/icons/Ic_Cart.svg" width="35" height="30" alt="장바구니" className="home-header__cart-icon" />
-          {cart.length > 0 && <span className="home-header__badge">{cart.length}</span>}
-        </button>
-      </header>
-
-      {/* 인사 섹션 */}
-      <div className="home-greeting">
-        <div className="home-greeting__left">
-          <div className="home-greeting__name-row">
-            <span className="home-greeting__name">가나다님!</span>
-            <span className="home-greeting__badge">구독중</span>
-          </div>
-          <p className="home-greeting__sub">오늘도 든든한 하루</p>
+      {/* ── 피그마 348-1313: 상단 절감액 pill ── */}
+      <div className="home-top-row">
+        <div className="home-savings-pill">
+          <img src="/assets/images/coin.png" width="24" height="24" alt="" />
+          <span className="home-savings-pill__label">이번 달 절감</span>
+          <span className="home-savings-pill__amount">{totalSaved > 0 ? `${totalSaved.toLocaleString()}원` : '142,000원'}</span>
         </div>
-        <img className="home-greeting__char" src={IMG_WELCOME} alt=""
-          onError={e => { e.currentTarget.style.display = 'none' }} />
       </div>
 
-      {/* 절감액 바 */}
-      <div className="savings-bar home-savings-bar">
-        <img className="savings-bar__char" src={IMG_SAVINGS_CHAR} alt=""
-          onError={e => { e.currentTarget.style.opacity = '0' }} />
-        <span className="savings-bar__text">이번 달 절감액 {totalSaved.toLocaleString()}원</span>
-        <img src="/assets/icons/action/ic-chevron-down.svg" width="17" height="10" alt="" className="savings-bar__chevron" />
+      {/* ── 피그마 348-1313: 중앙 인사 섹션 ── */}
+      <div className="home-greeting-new">
+        <img src="/assets/images/mmg-home-1.png" className="home-greeting-new__char" alt="" />
+        <div className="home-greeting-new__text">
+          <div className="home-greeting-new__name-row">
+            <span className="home-greeting-new__name">가나다님!</span>
+            <span className="home-greeting-new__badge">구독중</span>
+          </div>
+          <p className="home-greeting-new__sub">오늘도 든든한 하루</p>
+        </div>
       </div>
 
       {/* 탭 */}
@@ -399,18 +400,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* 공통: 도시락 기록 모아보기 (햄스터가 카드 위로 넘어오는 구조) */}
-      <div className="hrecords-wrap" onClick={() => navigate('/lunch-records')}>
-        <img className="hrecords-char" src={IMG_MMG_NOTE} alt=""
-          onError={e => { e.currentTarget.style.display = 'none' }} />
-        <div className="hrecords-card">
-          <div className="hrecords-card__texts">
-            <p className="hrecords-card__title">도시락 기록 모아보기</p>
-            <p className="hrecords-card__sub">도시락 기록을 추가 할 수 있어요!</p>
-          </div>
-          <img src="/assets/icons/action/ic-chevron-right.svg" width="9" height="17" alt="" style={{ marginRight: 20, flexShrink: 0 }} />
-        </div>
-      </div>
 
     </>
   )
