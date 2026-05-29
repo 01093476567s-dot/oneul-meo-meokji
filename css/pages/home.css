@@ -2,65 +2,6 @@
    홈 화면
    =========================== */
 
-/* ── 헤더 — 피그마 274:1387 ── */
-.home-header {
-  background: #fffaf5;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 16px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.home-header__logo {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  display: flex;
-  align-items: center;
-}
-
-.home-header__logo img {
-  display: block;
-  width: 206px;
-  height: 41px;
-  object-fit: contain;
-}
-
-.home-header__cart-btn {
-  position: relative;
-  background: none;
-  border: none;
-  cursor: pointer;
-  width: 45px;
-  height: 33px;
-  flex-shrink: 0;
-}
-
-.home-header__cart-icon {
-  display: block;
-  margin-top: 3px;
-}
-
-.home-header__badge {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 18px;
-  height: 18px;
-  background: #ff8c66;
-  border-radius: 50%;
-  font-size: 12px;
-  font-weight: 300;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  letter-spacing: -0.24px;
-}
 
 /* ── 탭 세그먼트 — 피그마 274:1450 ── */
 .home-tab-seg {
@@ -69,7 +10,7 @@
   background: #FFF0E8;
   border-radius: 50px;
   padding: 4px;
-  margin: 0 auto 40px;
+  margin: 0 auto 20px;
   height: 45px;
   box-sizing: border-box;
   align-items: center;
@@ -98,13 +39,6 @@
 }
 
 /* ── 메뉴 카드 스크롤 ── */
-.home-menu-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  padding-bottom: 84px;
-  padding: 0 20px;
-}
 
 .home-card-scroll {
   display: flex;
@@ -121,96 +55,6 @@
   display: none;
 }
 
-/* ── 카드 ── */
-.home-menu-card {
-  flex-shrink: 0;
-  width: 390px;
-  height: 549px;
-  border-radius: 15px;
-  overflow: hidden;
-  scroll-snap-align: start;
-  cursor: pointer;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
-  transition: transform 0.1s ease;
-}
-
-.home-menu-card:active {
-  transform: scale(0.98);
-}
-
-.home-menu-card__photo-wrap {
-  height: 377px;
-  overflow: hidden;
-  background: #d4a88a;
-}
-
-.home-menu-card__photo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* 주황 정보 섹션 — 피그마 수치 그대로 */
-.home-menu-card__info {
-  background: #ff8c66;
-  height: 172px;
-  position: relative;
-  flex-shrink: 0;
-}
-
-.home-menu-card__sublabel {
-  position: absolute;
-  top: 6px;
-  left: 21px;
-  right: 21px;
-  font-size: 24px;
-  font-weight: 500;
-  color: #fff;
-  line-height: 60px;
-  letter-spacing: -0.48px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin: 0;
-}
-
-.home-menu-card__title {
-  position: absolute;
-  top: 40px;
-  left: 21px;
-  right: 21px;
-  font-size: 24px;
-  font-weight: 600;
-  color: #fff;
-  line-height: 60px;
-  letter-spacing: -0.48px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin: 0;
-}
-
-.home-menu-card__rule {
-  position: absolute;
-  top: 117px;
-  left: 21px;
-  right: 21px;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.5);
-  border: none;
-}
-
-.home-menu-card__cta {
-  position: absolute;
-  top: 134px;
-  left: 21px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #fff;
-  letter-spacing: -0.28px;
-  white-space: nowrap;
-  margin: 0;
-}
 
 
 /* ── 도시락 기록 탭 ── */
@@ -218,13 +62,30 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  margin-bottom: 50px;
+  margin-bottom: 10px;
+}
+
+/* ════════════════════
+   홈 애니메이션
+   ════════════════════ */
+
+/* 1. 코인 — gif 자체 애니메이션 사용 */
+
+/* 2. 금액 — JS 카운트업으로 처리 (CSS 제거) */
+
+/* 3. 마스코트 — 둥둥 부유 */
+@keyframes mascot-float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+
+.home-greeting-new__char {
+  animation: mascot-float 3s ease-in-out infinite;
 }
 
 /* 피그마 349-1314 안내문구 */
 .cal-notice {
-  margin: 0;
-  padding: 0 20px 20px;
+  padding: 0 20px 10px;
   font-size: 10px;
   font-weight: 400;
   color: rgba(0, 0, 0, 0.7);
@@ -369,172 +230,7 @@
 .cal-cell__num.sat { color: #3a4d7a; }
 .cal-cell__num.dim { color: rgba(42, 32, 24, 0.2); }
 
-/* ── 절감액 바 ── */
-.savings-bar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 0 20px;
-  padding: 0 16px;
-  height: 55px;
-  background: #fff0e8;
-  border-radius: 12px;
-  box-sizing: border-box;
-  cursor: pointer;
-}
 
-.savings-bar__char {
-  width: 69px;
-  object-fit: contain;
-  flex-shrink: 0;
-}
-
-.savings-bar__text {
-  flex: 1;
-  font-size: 16px;
-  font-weight: 500;
-  color: #2a2018;
-  letter-spacing: -0.28px;
-}
-
-.savings-bar__chevron {
-  flex-shrink: 0;
-}
-
-/* ── 밑반찬 현황 카드 ── */
-.banchan-card {
-  margin: 0 20px;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
-  padding: 16px;
-  box-sizing: border-box;
-  height: 172px;
-  overflow: visible;
-}
-
-.banchan-card__hd {
-  margin-bottom: 14px;
-}
-
-.banchan-card__title {
-  font-size: 16px;
-  font-weight: 600;
-  color: #2a2018;
-  margin: 0 0 2px;
-  letter-spacing: -0.32px;
-}
-
-.banchan-card__sub {
-  font-size: 12px;
-  font-weight: 400;
-  color: rgba(42, 32, 24, 0.5);
-  margin: 0;
-  letter-spacing: -0.24px;
-}
-
-.banchan-list {
-  display: flex;
-  gap: 10px;
-  align-items: flex-start;
-  overflow: visible;
-}
-
-.banchan-item {
-  flex-shrink: 0;
-  width: 80px;
-  height: 80px;
-  border-radius: 40px;
-  overflow: hidden;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 5px;
-  box-sizing: border-box;
-  transition: height 0.25s ease;
-}
-
-.banchan-item--expanded {
-  height: auto;
-  padding-bottom: 12px;
-}
-
-.banchan-item__img-wrap {
-  width: 70px;
-  height: 68px;
-  border-radius: 34px;
-  overflow: hidden;
-  position: relative;
-  flex-shrink: 0;
-}
-
-.banchan-item__img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.banchan-item__overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: inherit;
-}
-
-.banchan-item__pct {
-  font-size: 14px;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: -0.28px;
-}
-
-.banchan-item__meta {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  margin-top: 5px;
-  width: 60px;
-}
-
-.banchan-item__name {
-  font-size: 12px;
-  font-weight: 700;
-  color: #2a2018;
-  text-align: center;
-  margin: 0;
-  letter-spacing: -0.24px;
-  width: 100%;
-}
-
-.banchan-item__date {
-  font-size: 9px;
-  color: rgba(0, 0, 0, 0.5);
-  text-align: center;
-  margin: 0;
-  letter-spacing: -0.18px;
-  width: 100%;
-}
-
-.banchan-add {
-  flex-shrink: 0;
-  width: 80px;
-  height: 80px;
-  border-radius: 40px;
-  border: none;
-  background: rgba(255, 140, 102, 0.15);
-  font-size: 26px;
-  color: #ff8c66;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-family);
-}
 
 /* ── 인사 섹션 ── */
 /* ── 피그마 348-1313 상단 절감액 pill ── */
@@ -581,7 +277,7 @@
   align-items: center;
   justify-content: center;
   gap: 14px;
-  height: 316px;
+  height: 280px;
 }
 
 .home-greeting-new__char {
@@ -796,20 +492,19 @@
 
 /* ── 밥 현황 카드 ── */
 .hrice-card {
-  margin: 0 20px;
+  margin: 0 20px 10px;
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 0 2.5px rgba(0, 0, 0, 0.05);
   padding: 20px;
   box-sizing: border-box;
-  margin-bottom: 15px;
 }
 
 .hrice-card__hd {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  margin: 10px 0 30px;
+  margin-bottom: 30px;
 }
 
 .hrice-card__title {
@@ -935,7 +630,7 @@
 
 /* ── 밑반찬 카드 (메뉴추천 탭) ── */
 .hbanchan-card {
-  margin: 0 20px;
+  margin: 0 20px 30px;
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
@@ -1079,9 +774,7 @@
   position: relative;
   margin: 0 20px;
   padding-top: 40px;
-  padding-bottom: 50px;
   cursor: pointer;
-  margin-top: 20px;
 }
 
 .hrecords-char {
@@ -1133,36 +826,4 @@
   color: rgba(0, 0, 0, 0.7);
   margin: 0;
   letter-spacing: -0.28px;
-}
-
-/* ── 도시락 기록 카드 (캘린더 탭) ── */
-.home-records-card {
-  display: flex;
-  align-items: center;
-  margin: 0 20px;
-  padding: 16px 20px;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
-  cursor: pointer;
-}
-
-.home-records-card__texts {
-  flex: 1;
-}
-
-.home-records-card__title {
-  font-size: 16px;
-  font-weight: 600;
-  color: #2a2018;
-  margin: 0 0 2px;
-  letter-spacing: -0.32px;
-}
-
-.home-records-card__sub {
-  font-size: 12px;
-  font-weight: 400;
-  color: rgba(42, 32, 24, 0.5);
-  margin: 0;
-  letter-spacing: -0.24px;
 }

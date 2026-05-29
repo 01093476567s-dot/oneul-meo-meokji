@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useFridge } from '../context/FridgeContext'
 
@@ -282,27 +282,45 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState('menu')
   const [expandedMap, setExpandedMap] = useState({})
   const totalSaved = records.reduce((sum, r) => sum + (r.savedAmount || 0), 0)
+  const [mascotIdx] = useState(() => Math.floor(Math.random() * 7) + 1)
+  const ADJECTIVES = ['든든한','포근한','행복한','야무진','알찬','맛있는','뿌듯한','기분좋은','반짝이는','건강한','따뜻한','여유로운','활기찬','소중한','특별한','보람찬','설레는']
+  const [adjective] = useState(() => ADJECTIVES[Math.floor(Math.random() * ADJECTIVES.length)])
+  const TARGET = totalSaved > 0 ? totalSaved : 142000
+  const [displayAmount, setDisplayAmount] = useState(0)
+
+  useEffect(() => {
+    const duration = 1200
+    const start = performance.now()
+    function step(now) {
+      const elapsed = now - start
+      const progress = Math.min(elapsed / duration, 1)
+      const eased = 1 - Math.pow(1 - progress, 3)
+      setDisplayAmount(Math.round(TARGET * eased))
+      if (progress < 1) requestAnimationFrame(step)
+    }
+    requestAnimationFrame(step)
+  }, [TARGET])
 
   return (
     <>
       {/* ── 피그마 348-1313: 상단 절감액 pill ── */}
       <div className="home-top-row">
         <div className="home-savings-pill">
-          <img src="/assets/images/coin.png" width="24" height="24" alt="" />
+          <img src="/assets/images/coin.gif" width="15" height="15" alt="" />
           <span className="home-savings-pill__label">이번 달 절감</span>
-          <span className="home-savings-pill__amount">{totalSaved > 0 ? `${totalSaved.toLocaleString()}원` : '142,000원'}</span>
+          <span className="home-savings-pill__amount">{displayAmount.toLocaleString()}원</span>
         </div>
       </div>
 
       {/* ── 피그마 348-1313: 중앙 인사 섹션 ── */}
       <div className="home-greeting-new">
-        <img src="/assets/images/mmg-home-1.png" className="home-greeting-new__char" alt="" />
+        <img src={`/assets/images/mmg-home-${mascotIdx}.png`} className="home-greeting-new__char" alt="" />
         <div className="home-greeting-new__text">
           <div className="home-greeting-new__name-row">
             <span className="home-greeting-new__name">가나다님!</span>
             <span className="home-greeting-new__badge">구독중</span>
           </div>
-          <p className="home-greeting-new__sub">오늘도 든든한 하루</p>
+          <p className="home-greeting-new__sub">오늘도 {adjective} 하루</p>
         </div>
       </div>
 
