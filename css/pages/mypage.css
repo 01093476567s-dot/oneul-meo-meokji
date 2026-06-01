@@ -1,31 +1,32 @@
 /* ===========================
-   마이페이지 — Figma 254-806 기반
+   마이페이지 — Figma 377-1707
    =========================== */
 
-/* ── 전체 래퍼 ── */
 .mp-page {
   display: flex;
   flex-direction: column;
   min-height: 100%;
-  background: #FFFAF5;
+  background: #fffaf5;
 }
 
-/* ── 오렌지 헤더 ── */
+/* ── 오렌지 헤더 (Figma: h-378px, rounded-bl-12 rounded-br-12) ── */
 .mp-header {
   background: #ff8c66;
   border-radius: 0 0 12px 12px;
-  padding: 72px 20px 24px;   /* 상단 72px = 아이콘 영역 높이 확보 */
+  height: 378px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 24px;
   position: relative;
 }
 
-/* 알림·설정 버튼 — 절대 위치로 우상단 고정 */
+/* 알림·설정 47×47px, 우상단 */
 .mp-header__top-actions {
   position: absolute;
-  top: 12px;
+  top: 8px;
   right: 20px;
   display: flex;
   gap: 10px;
@@ -37,7 +38,7 @@
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.25);
   border: none;
-  cursor: pointer;
+  cursor: default;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -45,172 +46,163 @@
   flex-shrink: 0;
 }
 
-/* 캐릭터 프로필 영역 — 흰색 원 + 이미지 */
+/* 캐릭터 프로필 */
 .mp-header__character-area {
-  position: relative;
-  width: 143px;
-  height: 170px;      /* 캐릭터가 원 위로 튀어나오는 여백 포함 */
-  margin-bottom: 10px;
+  position: absolute;
+  top: 51px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 174px;
+  height: 203px;
 }
 
-/* 흰색 원 배경 — 하단에 배치 */
 .mp-header__circle-bg {
   position: absolute;
-  bottom: 0;
+  bottom: 33px;
   left: 50%;
   transform: translateX(-50%);
   width: 143px;
   height: 143px;
   border-radius: 50%;
   background: #fff;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 5px rgba(0,0,0,0.08);
 }
 
-/* 캐릭터 이미지 — 원 위에 올라오도록 */
 .mp-header__character {
   position: absolute;
-  width: 170px;
-  height: 170px;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 0;
-  z-index: 1;
+  bottom: 0;
+  left: 0;
+  width: 174px;
+  height: 203px;
   object-fit: contain;
   object-position: bottom;
+  z-index: 1;
 }
 
-/* 닉네임 행 */
+/* 닉네임 (Figma: top-247, SemiBold 24px white, center) */
 .mp-header__name-row {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
   margin-bottom: 16px;
 }
 
 .mp-header__name {
   font-size: 24px;
-  font-weight: 700;
+  font-weight: 600;
   color: #fff;
+  font-family: var(--font-family);
 }
 
-/* 포인트·구독현황 카드 그리드 */
+/* 포인트·구독 카드 그리드 (Figma: 190×61px, gap-10px, px-20px) */
 .mp-status-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
+  display: flex;
+  gap: 10px;
+  padding: 0 20px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .mp-status-card {
   background: #fff;
-  border-radius: 8px;
+  border-radius: 12px;
   height: 61px;
+  flex: 1;
   display: flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  padding: 0 14px;
-  gap: 2px;
+  justify-content: space-between;
+  padding: 0 30px;
+  box-sizing: border-box;
 }
 
 .mp-status-card__label-wrap {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
 }
 
+/* Figma: 10px Regular rgba(42,32,24,0.5) */
 .mp-status-card__label {
-  font-size: 12px;
-  font-weight: 500;
+  font-size: 10px;
+  font-weight: 400;
   color: rgba(42, 32, 24, 0.5);
+  font-family: var(--font-family);
 }
 
+/* Figma: 16px Bold #2a2018 */
 .mp-status-card__value {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   color: #2a2018;
-  margin-left: 5px;
+  font-family: var(--font-family);
 }
 
-/* ── 메뉴 영역 ── */
+/* ── 메뉴 래퍼 ── */
 .mp-menu-wrap {
   background: #fff;
-  margin-top: 20px;
-  border-radius: 12px;
-  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.05));
+  flex: 1;
 }
 
-/* 섹션 */
+/* Figma: 섹션별 px-20px, gap-15px, border-b #ddd */
 .mp-menu-section {
-  padding: 30px 20px;
+  padding: 20px 20px 20px;
+  gap: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.mp-menu-section--border {
   border-bottom: 1px solid #ddd;
 }
 
-.mp-menu-section:last-of-type {
-  border-bottom: none;
-}
-
+/* Figma: SemiBold 18px */
 .mp-menu-section__title {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
   color: #2a2018;
-  margin: 0 0 30px;
+  font-family: var(--font-family);
+  margin: 0;
 }
 
-/* 메뉴 목록 — Figma: gap-20px */
+/* Figma: gap-10px */
 .mp-menu-list {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
 }
 
-/* 메뉴 아이템 — Figma: flex, gap-5px, items-center */
+/* Figma: flex gap-10px items-center */
 .mp-menu-item {
-  display: inline-block;
+  display: flex;
   align-items: center;
-  gap: 5px;
-  cursor: pointer;
+  gap: 10px;
+  cursor: default;
 }
 
-.mp-menu-item:active {
-  opacity: 0.7;
-}
-
-/* 아이콘 — Figma: Ic_Wrapper w-33~34px h-18~20px */
-.mp-menu-item__icon {
-  width: 34px;
-  height: 20px;
-  object-fit: contain;
-  flex-shrink: 0;
-}
-
-/* 레이블 — Figma: 16px Regular #2a2018 */
+/* Figma: Regular 14px #2a2018 */
 .mp-menu-item__label {
-  flex: 1;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
   color: #2a2018;
+  font-family: var(--font-family);
 }
 
-/* 서브 텍스트 — Figma: 12px rgba(42,32,24,0.5) */
+/* Figma: Regular 10px rgba(42,32,24,0.5) */
 .mp-menu-item__sub {
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 400;
   color: rgba(42, 32, 24, 0.5);
-  flex-shrink: 0;
-  margin-left: 10px;
+  font-family: var(--font-family);
 }
 
-/* mp-divider는 mp-menu-section의 border-bottom으로 대체되어 숨김 */
-.mp-divider {
-  display: none;
-}
+.mp-divider { display: none; }
 
-/* ── 푸터 (mp-menu-wrap 바깥, mp-page 배경 위) ── */
+/* ── 푸터 ── */
 .mp-footer {
-  padding: 40px 20px;
+  padding: 20px 20px 40px;
   color: rgba(101, 101, 95, 0.6);
-  font-size: 14px;
+  font-size: 12px;
+  font-family: var(--font-family);
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -218,7 +210,7 @@
 
 .mp-footer p {
   margin: 0;
-  line-height: 25px;
+  line-height: 17px;
 }
 
 .mp-footer__links {
@@ -226,10 +218,11 @@
   align-items: center;
   gap: 9px;
   line-height: 16px;
+  margin-bottom: 4px;
 }
 
 .mp-footer__link-bold {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
   color: rgba(101, 101, 95, 0.6);
 }

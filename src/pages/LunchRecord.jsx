@@ -103,7 +103,9 @@ export default function LunchRecord() {
           <img src="/assets/icons/action/ic-chevron-left.svg" height="16" alt="뒤로" />
         </button>
         <span className="di-header__title">도시락 기록</span>
-        <div className="di-header__btn" />
+        <button className="di-header__btn" onClick={() => navigate('/')}>
+          <img src="/assets/icons/navigation/ic-home-fill.svg" width="22" height="22" alt="홈" style={{ filter: 'brightness(0) saturate(100%) invert(9%) sepia(28%) saturate(700%) hue-rotate(340deg)' }} />
+        </button>
       </header>
 
       <div className="lr-content">

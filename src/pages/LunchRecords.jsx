@@ -91,24 +91,54 @@ export default function LunchRecords() {
     <>
       {/* ── 헤더 ── */}
       <header className="lrec-header2">
-        <button className="lrec-h2__btn" onClick={() => navigate(-1)}>
+        {/* 뒤로 → 항상 홈으로 */}
+        <button className="lrec-h2__btn" onClick={() => navigate('/')}>
           <img src="/assets/icons/action/ic-chevron-left.svg" height="16" alt="뒤로" />
         </button>
         <span className="lrec-h2__title">도시락 기록 모아보기</span>
         <div className="lrec-h2__actions">
+          {/* 검색 */}
           <button className="lrec-h2__btn" onClick={handleSearchToggle}>
             <img src="/assets/icons/common/ic-search.svg" width="19" height="19" alt="검색" style={{ filter: ICON_FILTER }} />
           </button>
-          <button className="lrec-h2__btn" onClick={() => navigate('/')}>
-            <img src="/assets/icons/navigation/ic-home-fill.svg" width="20" height="20" alt="홈" style={{ filter: ICON_FILTER }} />
-          </button>
+          {/* 케밥 — 홈버튼 자리로 이동 */}
+          <div className="lrec-kebab-wrap">
+            <button
+              className={`lrec-h2__btn${kebabOpen ? ' lrec-btn--active' : ''}`}
+              onClick={() => setKebabOpen(v => !v)}
+            >
+              <img src="/assets/icons/common/ic-more-vertical.svg" width="4" alt="더보기" />
+            </button>
+            {kebabOpen && (
+              <>
+                <div className="lrec-kebab-overlay" onClick={() => setKebabOpen(false)} />
+                <div className="lrec-kebab-menu">
+                  <button className={`lrec-kebab-item${sortOrder === 'newest' ? ' lrec-kebab-item--active' : ''}`} onClick={() => { setSortOrder('newest'); setKebabOpen(false) }}>
+                    최신순{sortOrder === 'newest' && CHECK_SVG}
+                  </button>
+                  <button className={`lrec-kebab-item${sortOrder === 'oldest' ? ' lrec-kebab-item--active' : ''}`} onClick={() => { setSortOrder('oldest'); setKebabOpen(false) }}>
+                    오래된순{sortOrder === 'oldest' && CHECK_SVG}
+                  </button>
+                  <div className="lrec-kebab-divider" />
+                  <button className={`lrec-kebab-item${viewMode === 'large' ? ' lrec-kebab-item--active' : ''}`} onClick={() => { setViewMode('large'); setKebabOpen(false) }}>
+                    크게보기{viewMode === 'large' && CHECK_SVG}
+                  </button>
+                  <button className={`lrec-kebab-item${viewMode === 'medium' ? ' lrec-kebab-item--active' : ''}`} onClick={() => { setViewMode('medium'); setKebabOpen(false) }}>
+                    중간 보기{viewMode === 'medium' && CHECK_SVG}
+                  </button>
+                  <button className={`lrec-kebab-item${viewMode === 'list' ? ' lrec-kebab-item--active' : ''}`} onClick={() => { setViewMode('list'); setKebabOpen(false) }}>
+                    간단목록 보기{viewMode === 'list' && CHECK_SVG}
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </header>
 
-      {/* ── 검색창 + 케밥 row (항상 렌더링) ── */}
-      <div className="lrec-search-row">
-        {/* pill — 검색 열릴 때만 */}
-        {searchOpen && (
+      {/* ── 검색 pill (열릴 때만) ── */}
+      {searchOpen && (
+        <div className="lrec-search-row">
           <div className="lrec-search-bar-pill">
             <img src="/assets/icons/common/ic-search.svg" width="19" height="19" alt="" style={{ filter: ORANGE_FILTER, flexShrink: 0 }} />
             <input
@@ -127,41 +157,8 @@ export default function LunchRecords() {
               </button>
             )}
           </div>
-        )}
-
-        {/* 케밥 — 항상 보임, 오른쪽 끝 고정 */}
-        <div className="lrec-kebab-wrap lrec-kebab-wrap--row">
-          <button
-            className={`lrec-h2__btn${kebabOpen ? ' lrec-btn--active' : ''}`}
-            onClick={() => setKebabOpen(v => !v)}
-          >
-            <img src="/assets/icons/common/ic-more-vertical.svg" width="4" alt="더보기" />
-          </button>
-          {kebabOpen && (
-            <>
-              <div className="lrec-kebab-overlay" onClick={() => setKebabOpen(false)} />
-              <div className="lrec-kebab-menu">
-                <button className={`lrec-kebab-item${sortOrder === 'newest' ? ' lrec-kebab-item--active' : ''}`} onClick={() => { setSortOrder('newest'); setKebabOpen(false) }}>
-                  최신순{sortOrder === 'newest' && CHECK_SVG}
-                </button>
-                <button className={`lrec-kebab-item${sortOrder === 'oldest' ? ' lrec-kebab-item--active' : ''}`} onClick={() => { setSortOrder('oldest'); setKebabOpen(false) }}>
-                  오래된순{sortOrder === 'oldest' && CHECK_SVG}
-                </button>
-                <div className="lrec-kebab-divider" />
-                <button className={`lrec-kebab-item${viewMode === 'large' ? ' lrec-kebab-item--active' : ''}`} onClick={() => { setViewMode('large'); setKebabOpen(false) }}>
-                  크게보기{viewMode === 'large' && CHECK_SVG}
-                </button>
-                <button className={`lrec-kebab-item${viewMode === 'medium' ? ' lrec-kebab-item--active' : ''}`} onClick={() => { setViewMode('medium'); setKebabOpen(false) }}>
-                  중간 보기{viewMode === 'medium' && CHECK_SVG}
-                </button>
-                <button className={`lrec-kebab-item${viewMode === 'list' ? ' lrec-kebab-item--active' : ''}`} onClick={() => { setViewMode('list'); setKebabOpen(false) }}>
-                  간단목록 보기{viewMode === 'list' && CHECK_SVG}
-                </button>
-              </div>
-            </>
-          )}
         </div>
-      </div>
+      )}
 
 
       {/* ── 기록 본문 ── */}
