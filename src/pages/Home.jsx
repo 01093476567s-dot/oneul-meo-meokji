@@ -79,7 +79,7 @@ function MenuRecommendTab() {
     <div className="hmenu-section">
       <div className="hmenu-hd">
         <div className="hmenu-hd__left">
-          <span className="hmenu-hd__title">오늘의 도시락</span>
+          <span className="hmenu-hd__title">오늘 머먹찌?</span>
           <span className="hmenu-hd__date">{dateStr}</span>
         </div>
         <span className="hmenu-hd__indicator">
